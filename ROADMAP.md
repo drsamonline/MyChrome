@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 57 of 75 done (76%), 7 partial, 11 open.** Updated for 3.9.23.
+**Progress: 59 of 75 done (79%), 5 partial, 11 open.** Updated for 3.9.24.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -43,7 +43,7 @@ How to read the columns:
 | A6 | Cache Brave version 24 h (rate limits) | P1 | ✅ done | 3.9.7 |
 | A7 | Retry 5xx with backoff | P1 | ✅ done | 3.9.9 |
 | A8 | Handle HTTP 416 on resume | P2 | ✅ done | 3.9.11 |
-| A9 | Vendor hashes (log-only, not enforced) | P2 | 🟡 partial | 3.9.20 |
+| A9 | Vendor hashes — vendor manifest logged, self-update enforced | P2 | ✅ done | 3.9.24 |
 | B1 | Atomic swap of the browser folder | P0 | ✅ done | 3.9.6 |
 | B2 | Auto rollback if new build fails | P1 | ✅ done | 3.9.6 |
 | B3 | Profile folder never inside replaced dir | P1 | ✅ done | 3.9.6 |
@@ -69,7 +69,7 @@ How to read the columns:
 | E1 | First-run wizard | P1 | ✅ done | pre-existing |
 | E2 | DPI awareness | P1 | ✅ done | 3.9.3 |
 | E3 | Strings out of code into language files | P1 | ✅ done | 3.9.10 |
-| E4 | More languages (drop-in files) | P2 | 🟡 partial | 3.9.21 |
+| E4 | More languages — drop-in files + translation guide | P2 | ✅ done | 3.9.24 |
 | E5 | Error dialogs with copy details | P1 | ✅ done | 3.9.12 |
 | E6 | Installed vs latest side by side | P1 | ✅ done | pre-existing |
 | E7 | Remember window position | P1 | ✅ done | 3.9.9 |

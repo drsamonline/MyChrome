@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.23"
+Global Const $APPVERSION = "3.9.24"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -1333,10 +1333,14 @@ Func CHECKAPPUPDATE ( )
 				$MSG = MsgBox ( 68 , "MyBrowser" , StringFormat ( $LANGUPDATETIPS , "MyBrowser" , $APPVERSION , $LATESTAPPVER , $UPDATE ) )
 			EndIf
 			If $MSG = 6 Then
-				Local $SMIRROR = ""
+				Local $SMIRROR = "" , $SHASH = ""
+				Local $SHASHKEY = "sha256" & StringReplace ( $FLAG_URL , "url" , "" )
+				Local $AHASH = StringRegExp ( $UPDATEINFO , "(?ism)^\W*" & $SHASHKEY & "=([0-9a-fA-F]{64})$" , 1 )
+				If @error Then $AHASH = StringRegExp ( $UPDATEINFO , "(?ism)^\W*sha256=([0-9a-fA-F]{64})$" , 1 )
+				If Not @error Then $SHASH = $AHASH [ 0 ]
 				Local $AMIRROR = StringRegExp ( $UPDATEINFO , "(?ism)^\W*" & $FLAG_URL & "_mirror=(\N+)$" , 1 )
 				If Not @error Then $SMIRROR = $AMIRROR [ 0 ]
-				$UPDATED = UPDATEAPP ( @ScriptFullPath , $URL , $SMIRROR )
+				$UPDATED = UPDATEAPP ( @ScriptFullPath , $URL , $SMIRROR , $SHASH )
 				If $UPDATED = 1 Then
 					MsgBox ( 64 , "MyBrowser" , StringFormat ( $LANGUPDATED , "MyBrowser" , $LATESTAPPVER ) )
 				ElseIf $UPDATED = 0 Then
@@ -1350,7 +1354,7 @@ Func CHECKAPPUPDATE ( )
 	EndIf
 	Return $UPDATED
 EndFunc
-Func UPDATEAPP ( $EXE = @ScriptFullPath , $URL = "" , $MIRROR = "" )
+Func UPDATEAPP ( $EXE = @ScriptFullPath , $URL = "" , $MIRROR = "" , $SHA256 = "" )
 	Local $TEMP = @ScriptDir & "\MyBrowser_temp"
 	Local $FILE = $TEMP & "\MyBrowser.7z"
 	Local $IBYTESSIZE , $UPDATED = 0
@@ -1398,6 +1402,20 @@ Func UPDATEAPP ( $EXE = @ScriptFullPath , $URL = "" , $MIRROR = "" )
 					Sleep ( 250 )
 				Until InetGetInfo ( $HMIRROR , $INET_DOWNLOADCOMPLETE )
 				InetClose ( $HMIRROR )
+			EndIf
+		EndIf
+		; A9: the manifest can carry the package hash. Verify it before unpacking; a
+		; mismatch means the download is not what was published.
+		If $SHA256 <> "" Then
+			Local $SACTUALAPP = _SHA256FILE ( $FILE )
+			If $SACTUALAPP <> "" And $SACTUALAPP <> StringLower ( $SHA256 ) Then
+				_LOG ( "self-update hash mismatch: expected " & $SHA256 & ", got " & $SACTUALAPP )
+				FileDelete ( $FILE )
+				TrayItemDelete ( $ICANCEL )
+				TraySetState ( 2 )
+				DirRemove ( $TEMP , 1 )
+				_ShowError ( StringFormat ( LANG ( "AppUpdate" , "HashMismatch" , "下载的更新包校验失败，已取消更新。" ) , "MyBrowser" ) , 64 )
+				Return 0
 			EndIf
 		EndIf
 		RunWait ( $TEMP & "\7z.exe x """ & $FILE & """ -y" , $TEMP , @SW_HIDE )

@@ -26,6 +26,15 @@ $h7z32 = HashOf "MyBrowser_v$version.7z"
 $hzip64 = HashOf "MyBrowser_v$version`_x64.zip"
 $hzip32 = HashOf "MyBrowser_v$version.zip"
 
+# ---- update.txt: the self-updater verifies its own download against these
+$updPath = Join-Path $root 'update.txt'
+$upd = Get-Content $updPath -Raw
+$upd = $upd -replace '(?m)^sha256_x64=.*$', "sha256_x64=$h7z64"
+$upd = $upd -replace '(?m)^sha256=.*$', "sha256=$h7z32"
+if ($upd -notmatch 'sha256_x64=') { $upd = "sha256_x64=$h7z64`r`nsha256=$h7z32`r`n" + $upd }
+Set-Content $updPath $upd -NoNewline -Encoding utf8
+Write-Host "update.txt hashes -> $version"
+
 # ---- Scoop
 $scoop.version = $version
 $scoop.architecture.'64bit'.url = "$base/MyBrowser_v$version`_x64.7z"

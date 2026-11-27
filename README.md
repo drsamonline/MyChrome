@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.23_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.23.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.23_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.24_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.24.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.24_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -90,16 +90,17 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.23
+## What's new in 3.9.24
 
-- **The failure path is tested.** CI points every probe at an unreachable endpoint
-  (`SelfTestProxy=HTTP:127.0.0.1:9`) and requires the self-test to fail cleanly and within
-  a bounded time — not hang, not claim success.
-- **Verified on two Windows generations.** A second CI job runs the same build and checks
-  on `windows-2022` alongside `windows-2025`.
+- **Self-update verifies its own download.** `update.txt` now carries `sha256=` and
+  `sha256_x64=`; the launcher hashes the package with `certutil` before unpacking and
+  aborts with a clear message if it does not match. CI writes those hashes from the
+  published asset on every release, so they cannot go stale.
+- **`docs/TRANSLATING.md`** — every one of the 224 interface keys, by section, with the
+  rules for adding a language.
 
-Earlier: **3.9.22** added the non-blocking update notice and made package manifests update
-themselves on release.
+Earlier: **3.9.23** added proxy fault injection; **3.9.22** the silent update notice and
+self-updating package manifests.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases) ·
 [CHANGELOG.md](CHANGELOG.md)
@@ -145,6 +146,7 @@ update.txt               self-update manifest read by the app
 | [`licenses/`](licenses/) | terms for the bundled 7-Zip, MozLz4 and other binaries |
 | [`SUPPORT.md`](SUPPORT.md) | what to include in a report, and what is not supported |
 | [`CHANGELOG.md`](CHANGELOG.md) | every release since 3.9.0 |
+| [`docs/TRANSLATING.md`](docs/TRANSLATING.md) | how to add a language, with all 224 keys listed |
 
 ## Known limits
 
@@ -187,7 +189,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.23_source.7z`.
+`MyBrowser_v3.9.24_source.7z`.
 
 ## Lineage
 

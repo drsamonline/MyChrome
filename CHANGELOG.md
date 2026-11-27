@@ -5,6 +5,7 @@ Every release, newest first. Full notes and downloads on the
 
 | Version | Highlights |
 |---|---|
+| [3.9.24](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.24) | Self-update verifies its download; translation guide. |
 | [3.9.23](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.23) | Self-test can be pointed at a dead endpoint; verified on windows-2022. |
 | [3.9.22](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.22) | Optional non-blocking update notice; first-run behaviour tested. |
 | [3.9.21](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.21) | Any language can be added by dropping `Lang\<code>.ini` and setting `Language=<code>`; user files are never overwritten. |
@@ -29,6 +30,11 @@ Every release, newest first. Full notes and downloads on the
 | [3.9.2](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.2) | Disk-space guard, temp cleanup, apply pre-flight, portable launch flags, HTTPS-only mirrors. |
 | [3.9.1](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.1) | Firefox, Chromium and Brave download sources repaired. |
 | [3.9.0](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.0) | Rebuilt from recovered source; Chrome via Chrome for Testing. |
+
+## 3.9.24
+
+- `update.txt` carries `sha256` / `sha256_x64`; the self-updater verifies before unpacking.
+- `docs/TRANSLATING.md` lists all 224 interface keys.
 
 ## 3.9.23
 
