@@ -17,9 +17,9 @@ UpgradeBehavior: install
 Installers:
   - Architecture: x64
     InstallerUrl: https://github.com/drsamonline/MyChrome/releases/download/v3.9.18/MyBrowser_v3.9.18_x64.zip
-    InstallerSha256: PLACEHOLDER64
+    InstallerSha256: 046d9837ca0bb27c68a7533955893297347e1344210abecba8b2cdf0d39afc99
   - Architecture: x86
     InstallerUrl: https://github.com/drsamonline/MyChrome/releases/download/v3.9.18/MyBrowser_v3.9.18.zip
-    InstallerSha256: PLACEHOLDER32
+    InstallerSha256: 21c2564856cae50a07bb768bbf12bce8f9897f6b708ebe12d452427d7c4574a0
 ManifestType: installer
 ManifestVersion: 1.6.0
