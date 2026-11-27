@@ -98,7 +98,7 @@ How to read the columns:
 | I1 | Smoke test in CI | P0 | ✅ done | 3.9.6 |
 | I2 | --selftest flag | P1 | ✅ done | 3.9.6 |
 | I3 | Fault injection: unreachable endpoint | P2 | 🟡 partial | 3.9.23 |
-| I4 | OS x arch x browser matrix | P2 | 🟡 partial | 3.9.22 |
+| I4 | OS x arch x browser matrix | P2 | 🟡 partial | 3.9.24 — windows-2022 + 2025; 2019 retired |
 | I5 | Upgrade test 3.8.50 to current | P1 | ✅ done | 3.9.10 |
 | J1 | Enable GitHub Pages | P0 | ✅ done | 3.9.4 |
 | J2 | Mirror releases for mainland China | P1 | 🟡 partial | 3.9.15 |
@@ -255,7 +255,7 @@ How to read the columns:
 | I1 | Smoke test in CI on a Windows runner | Download one channel, launch it headless with `--version`, assert the version string. This is the single highest-value test | P0 | M | Medium |
 | I2 | `--selftest` flag that probes every source and prints pass/fail | Turns "is it broken?" into one command | P1 | S | Low |
 | I3 | Fault injection: proxy that drops mid-download | The resume path is the least tested code in the app | P2 | M | Low |
-| I4 | Matrix: Win10/Win11 × x64/x86 × each browser | Only Chrome and Chromium are verified end to end today | P2 | L | Low |
+| I4 | Matrix: Win10/Win11 × x64/x86 × each browser | Two Windows generations run every check; x64 and x86 both launch; 7 of 7 wired sources resolve. `windows-2019` is retired, so older generations cannot be covered | P2 | L | Low |
 | I5 | Upgrade test from 3.8.50 → current | Proves the in-app updater still works across the fork boundary | P1 | S | Low |
 
 ## J. Distribution
