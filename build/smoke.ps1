@@ -191,11 +191,16 @@ if ($Deep) {
         try {
             $exe = Join-Path $dir 'cent.exe'
             Invoke-WebRequest $url -OutFile $exe -UseBasicParsing
+            # The installer is an SFX holding chrome.7z; the launcher extracts twice.
             & $seven x $exe "-o$dir\out" -y | Out-Null
-            if (-not (Test-Path (Join-Path $dir 'out\Chrome-bin\safemode.bat'))) {
-                throw "Chrome-bin\safemode.bat missing; found: $((Get-ChildItem (Join-Path $dir 'out') -Name | Select-Object -First 5) -join ', ')"
+            if (-not (Test-Path (Join-Path $dir 'out\chrome.7z'))) {
+                throw "chrome.7z missing after the first pass; found: $((Get-ChildItem (Join-Path $dir 'out') -Name | Select-Object -First 5) -join ', ')"
             }
-            "Chrome-bin\safemode.bat present (Cent $ver)"
+            & $seven x (Join-Path $dir 'out\chrome.7z') "-o$dir\out" -y | Out-Null
+            if (-not (Test-Path (Join-Path $dir 'out\Chrome-bin\safemode.bat'))) {
+                throw "Chrome-bin\safemode.bat missing after the second pass; found: $((Get-ChildItem (Join-Path $dir 'out') -Name | Select-Object -First 5) -join ', ')"
+            }
+            "two-stage extract yields Chrome-bin\safemode.bat (Cent $ver)"
         } finally { Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue }
     }
 }
