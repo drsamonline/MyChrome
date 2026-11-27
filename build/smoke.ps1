@@ -84,8 +84,8 @@ Check 'Upgrade path from 3.8.50' {
     if ($latest -le $old) { throw "latest $latest is not newer than 3.8.50" }
     # The manifest on master may already point at the release this very run is building,
     # so only assets from an older version are expected to exist yet.
-    $built = (Get-ChildItem $dist -Filter 'MyBrowser_v*.7z' | Select-Object -First 1).Name
-    $builtVer = if ($built -match 'v([\d.]+)\.7z') { $Matches[1] } else { '' }
+    $au3 = Join-Path $root 'src\MyBrowser.au3'
+    $builtVer = if (Test-Path $au3) { ([regex]::Match((Get-Content $au3 -Raw), 'APPVERSION = "([\d.]+)"')).Groups[1].Value } else { '' }
     foreach ($m in [regex]::Matches($t, '^url(?:_x64)?=(\S+)$', 'Multiline')) {
         $u = $m.Groups[1].Value
         if ($builtVer -and $u -match [regex]::Escape("v$builtVer/")) { continue }
