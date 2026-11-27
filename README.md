@@ -58,13 +58,13 @@ from the vendor's own feed and installs the build itself.
 
 | Browser | Engine | Status | Source used |
 | --- | --- | --- | --- |
-| **Chrome** | Chromium | ✅ Wired — verified | Chrome for Testing (Stable / Beta / Dev / Canary) |
-| **Chromium** | Chromium | ✅ Wired — verified | `chromium-browser-snapshots` (`chrome-win.zip`) |
-| **Brave** | Chromium | ✅ Wired — verified | Official release ZIP, GitHub |
-| **Firefox** | Gecko | ✅ Wired — verified | Mozilla release feed (Release / ESR / Beta / Dev / Nightly) |
+| **Chrome** | Chromium | ✅ Lookup verified · install untested | Chrome for Testing (Stable / Beta / Dev / Canary) |
+| **Chromium** | Chromium | ✅ Lookup verified · install untested | `chromium-browser-snapshots` (`chrome-win.zip`) |
+| **Brave** | Chromium | ✅ Lookup verified · install untested | Official release ZIP, GitHub |
+| **Firefox** | Gecko | ✅ Lookup verified · install untested | Mozilla release feed (Release / ESR / Beta / Dev / Nightly) |
 | **Vivaldi** | Chromium | ✅ Wired — verified (3.9.5) | Sparkle appcast, x64 and x86 |
-| **Edge** | Chromium | ✅ Wired — proxy-aware, unverified install | Microsoft CDP API over WinHTTP |
-| **Cent Browser** | Chromium | ⚠️ Wired — unverified | Vendor download page |
+| **Edge** | Chromium | ✅ Lookup verified · install untested | Microsoft CDP API over WinHTTP |
+| **Cent Browser** | Chromium | ✅ Lookup verified · install untested | Vendor page → static.centbrowser.com |
 | **ungoogled-chromium** | Chromium | 🔜 Not wired — archive inspected | GitHub release ZIP, `chrome.exe` in one folder |
 | **Supermium** | Chromium (Win 7+) | 🔜 Not wired — archive inspected | GitHub release ZIP, flat `chrome.exe` |
 | **Thorium** | Chromium | 🔜 Not wired | GitHub releases, Windows ZIP |
