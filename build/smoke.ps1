@@ -134,6 +134,27 @@ Check 'x64 executable starts' {
     'stayed alive for 6s'
 }
 
+Check 'Firefox installer unpacks to the layout the launcher expects' {
+    # The app assumes firefox.exe lands at the archive root. Download the real
+    # installer and prove it, instead of trusting the assumption.
+    $seven = 'C:\Program Files\7-Zip\7z.exe'
+    if (-not (Test-Path $seven)) { throw '7-Zip is not available on this runner' }
+    $dir = Join-Path $env:TEMP ('ffcheck-' + [guid]::NewGuid().ToString('N'))
+    New-Item -ItemType Directory -Force -Path $dir | Out-Null
+    try {
+        $exe = Join-Path $dir 'ff.exe'
+        Invoke-WebRequest 'https://download.mozilla.org/?product=firefox-latest-ssl&os=win&lang=en-US' -OutFile $exe -UseBasicParsing
+        & $seven x $exe "-o$dir\out" -y | Out-Null
+        if (-not (Test-Path (Join-Path $dir 'out\firefox.exe'))) {
+            $top = (Get-ChildItem (Join-Path $dir 'out') -Name | Select-Object -First 5) -join ', '
+            throw "firefox.exe is not at the archive root; found: $top"
+        }
+        "firefox.exe at the archive root, as expected"
+    } finally {
+        Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue
+    }
+}
+
 Check 'First run writes its settings file' {
     $exe = Join-Path $dist 'MyBrowser.exe'
     $ini = Join-Path $dist 'MyBrowser.ini'
