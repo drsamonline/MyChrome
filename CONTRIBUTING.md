@@ -142,3 +142,20 @@ pull request; CI rewrites the hash lines on every tag but leaves the URLs alone.
 
 Checks the SHA256 against the published manifest and, when the GitHub CLI is installed,
 the build provenance attestation. Exit 0 means both passed.
+
+## Checking on a real desktop
+
+CI can prove that a browser downloads, unpacks and starts. It cannot see a dialog. When you
+have a Windows machine to hand, run:
+
+```powershell
+./build/desktop-check.ps1
+```
+
+It walks through every wired browser — writing a clean `MyBrowser.ini`, starting the
+launcher, waiting for the browser process to appear — and then asks six yes/no questions
+about the parts that need eyes: clipped text, tab order, Enter and Esc, the tray menu,
+progress and ETA, and whether cancelling leaves a `~update` folder behind.
+
+It writes `desktop-check.txt` next to the executable and restores your original settings
+afterwards. Attach that file to an issue; it is the evidence the UI items need.

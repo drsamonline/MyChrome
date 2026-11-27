@@ -163,7 +163,7 @@ update.txt               self-update manifest read by the app
 | [`SUPPORT.md`](SUPPORT.md) | what to include in a report, and what is not supported |
 | [`CHANGELOG.md`](CHANGELOG.md) | every release since 3.9.0 |
 | [`docs/TRANSLATING.md`](docs/TRANSLATING.md) | how to add a language, with all 224 keys listed |
-| [`CONTRIBUTING.md`](CONTRIBUTING.md) | build, the gates, the version checklist, how a release is cut |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | build, the gates, the version checklist, how a release is cut, how to check on a desktop |
 
 ## Known limits
 
