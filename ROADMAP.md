@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 52 of 75 done (69%), 5 partial, 18 open.** Updated for 3.9.17.
+**Progress: 53 of 75 done (71%), 5 partial, 17 open.** Updated for 3.9.18.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -78,7 +78,7 @@ How to read the columns:
 | E10 | Progress in taskbar button | P3 | ⬜ open | — |
 | F1 | CLI mode | P1 | 🟡 partial | 3.9.6 |
 | F2 | Scoop manifest | P2 | ✅ done | 3.9.17 |
-| F3 | winget manifest | P2 | ⬜ open | — |
+| F3 | winget manifest | P2 | ✅ done | 3.9.18 |
 | F4 | ARM64 build | P2 | ⬜ open | — |
 | F5 | Fully portable settings | P2 | ✅ done | verified |
 | G1 | Real source for Edge (proxy-aware WinHTTP) | P0 | ✅ done | 3.9.8 |

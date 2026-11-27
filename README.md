@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.17_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.17.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.17_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.18_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.18.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.18_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -90,15 +90,14 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.17
+## What's new in 3.9.18
 
-- **Scoop manifest** in `bucket/mybrowser.json` — `scoop install` from a local bucket, with
-  `checkver`/`autoupdate` wired to the releases.
-- **Documentation consistency pass:** every version, filename and link in the README,
-  CHANGELOG, ROADMAP and landing page checked against the source.
+- **A `.zip` is published next to the `.7z`** — for people without 7-Zip, and because
+  winget cannot install a `.7z`.
+- **winget manifests** in `manifests/d/drsamonline/MyBrowser/`, ready to submit upstream.
 
-Earlier: **3.9.16** logs a missing architecture instead of failing silently. **3.9.15**
-added the mirror fallback.
+Earlier: **3.9.17** added the Scoop manifest and audited the docs. **3.9.16** made a
+missing architecture visible in the log.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases) ·
 [CHANGELOG.md](CHANGELOG.md)
@@ -185,7 +184,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.17_source.7z`.
+`MyBrowser_v3.9.18_source.7z`.
 
 ## Lineage
 

@@ -1,6 +1,6 @@
-latest=3.9.17
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.17/MyBrowser_v3.9.17.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.17/MyBrowser_v3.9.17_x64.7z
-update=1. 新增 Scoop 安裝清單；\n2. 文件一致性檢查；\n3. 3.9.17
-update_zh-TW=1. 新增 Scoop 安裝清單；\n2. 文件一致性檢查；\n3. 3.9.17
-update_en-US=1. Scoop manifest added;\n2. Documentation consistency pass;\n3. 3.9.17
+latest=3.9.18
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.18/MyBrowser_v3.9.18.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.18/MyBrowser_v3.9.18_x64.7z
+update=1. 發佈同時提供 .zip 檔；\n2. 新增 winget 清單；\n3. 3.9.18
+update_zh-TW=1. 發佈同時提供 .zip 檔；\n2. 新增 winget 清單；\n3. 3.9.18
+update_en-US=1. Releases now ship a .zip as well as a .7z;\n2. winget manifest added;\n3. 3.9.18

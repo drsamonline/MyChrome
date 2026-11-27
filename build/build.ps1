@@ -119,12 +119,18 @@ foreach ($pkg in @(
     $code = $LASTEXITCODE
     Pop-Location
     if ($code -ne 0) { throw "7z packaging failed for $($pkg.Archive)" }
+
+    # F3: a .zip alongside the .7z - winget cannot install a .7z, and not every
+    # user has 7-Zip.
+    $zip = [IO.Path]::ChangeExtension($pkg.Archive, '.zip')
+    Remove-Item $zip -Force -ErrorAction SilentlyContinue
+    Compress-Archive -Path (Join-Path $stage 'MyBrowser.exe') -DestinationPath $zip -CompressionLevel Optimal
 }
 
 # ---------------------------------------------------------------- checksums
 $sums = Join-Path $dist 'SHA256SUMS.txt'
 Remove-Item $sums -Force -ErrorAction SilentlyContinue
-Get-ChildItem $dist -Filter '*.7z' | ForEach-Object {
+Get-ChildItem (Join-Path $dist '*') -Include '*.7z','*.zip' -File | ForEach-Object {
     $hash = (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower()
     "$hash  $($_.Name)"
 } | Set-Content -Path $sums -Encoding ascii

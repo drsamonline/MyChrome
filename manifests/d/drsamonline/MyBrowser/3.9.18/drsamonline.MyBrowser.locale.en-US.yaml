@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.6.0.schema.json
+PackageIdentifier: drsamonline.MyBrowser
+PackageVersion: 3.9.18
+PackageLocale: en-US
+Publisher: Dr Sohil Momin
+PublisherUrl: https://github.com/drsamonline
+PublisherSupportUrl: https://github.com/drsamonline/MyChrome/issues
+PackageName: MyBrowser
+PackageUrl: https://github.com/drsamonline/MyChrome
+License: GPL-3.0-only
+LicenseUrl: https://github.com/drsamonline/MyChrome/blob/master/LICENSE
+Copyright: GPL-3.0. Derived from cnjackchen/my-chrome.
+ShortDescription: Portable browser launcher for Windows. Downloads Chrome, Chromium, Brave, Firefox, Vivaldi or Edge and runs it with its own profile.
+Description: A portable launcher that resolves the current build of a browser from the vendor's own feed, downloads it, unpacks it beside the executable and runs it with its own profile. No installer, no registry writes, no admin rights.
+Moniker: mybrowser
+Tags:
+  - browser
+  - portable
+  - chrome
+  - chromium
+  - firefox
+ReleaseNotesUrl: https://github.com/drsamonline/MyChrome/releases
+ManifestType: defaultLocale
+ManifestVersion: 1.6.0
