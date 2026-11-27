@@ -423,6 +423,16 @@ if ($Deep) {
         )
         Set-Content $ini ($lines -join "`r`n") -Encoding ASCII
 
+        # First establish that Chrome itself can run here; otherwise this check is
+        # measuring the runner, not the launcher.
+        $probe = Start-Process $chromeExe -ArgumentList '--headless','--disable-gpu','--dump-dom','about:blank' -PassThru -RedirectStandardOutput (Join-Path $dir 'chrome.out') -RedirectStandardError (Join-Path $dir 'chrome.err') -NoNewWindow
+        $probeOk = $probe.WaitForExit(30000)
+        if (-not $probeOk) { Stop-Process -Id $probe.Id -Force -ErrorAction SilentlyContinue }
+        $probeErr = if (Test-Path (Join-Path $dir 'chrome.err')) { (Get-Content (Join-Path $dir 'chrome.err') -Raw).Trim() } else { '' }
+        if (-not $probeOk -or $probe.ExitCode -ne 0) {
+            throw "Chrome itself cannot run in this runner (exit $($probe.ExitCode)): $probeErr"
+        }
+
         Get-Process chrome -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
         $app = Start-Process (Join-Path $dist 'MyBrowser.exe') -WorkingDirectory $dist -PassThru
         try {
