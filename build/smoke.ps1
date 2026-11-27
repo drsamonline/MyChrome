@@ -171,11 +171,13 @@ if ($Deep) {
         try {
             $zip = Join-Path $dir 'chrome.zip'
             Invoke-WebRequest $url -OutFile $zip -UseBasicParsing
-            & $seven x $zip "-o$dir\out" -y | Out-Null
-            if (-not (Test-Path (Join-Path $dir 'out\chrome-win64\chrome.exe'))) {
-                throw "chrome-win64\chrome.exe missing; found: $((Get-ChildItem (Join-Path $dir 'out') -Name | Select-Object -First 5) -join ', ')"
+            # Unpack into dist\App so the launch test can use the same browser.
+            Remove-Item (Join-Path $dist 'App') -Recurse -Force -ErrorAction SilentlyContinue
+            & $seven x $zip "-o$(Join-Path $dist 'App')" -y | Out-Null
+            if (-not (Test-Path (Join-Path $dist 'App\chrome-win64\chrome.exe'))) {
+                throw "chrome-win64\chrome.exe missing; found: $((Get-ChildItem (Join-Path $dist 'App') -Name | Select-Object -First 5) -join ', ')"
             }
-            "chrome-win64\chrome.exe present"
+            "chrome-win64\chrome.exe present, left in dist\App"
         } finally { Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue }
     }
 
@@ -394,6 +396,44 @@ Check 'Self-test fails cleanly behind a dead proxy' {
     if (-not $p.WaitForExit(120000)) { Stop-Process -Id $p.Id -Force; throw 'self-test hung with an unreachable proxy' }
     if ($p.ExitCode -eq 0) { throw 'self-test reported success with an unreachable proxy' }
     "failed cleanly after a bounded wait, exit $($p.ExitCode)"
+}
+
+Check 'Launcher starts a real browser from App\' {
+    # The end-to-end path: a configured ini, a browser on disk, and the launcher
+    # expected to start it. Nothing here is mocked.
+    $chromeExe = Join-Path $dist 'App\chrome-win64\chrome.exe'
+    if (-not (Test-Path $chromeExe)) { throw 'no Chrome in dist\App (deep Chrome check did not run)' }
+    $ini = Join-Path $dist 'MyBrowser.ini'
+    $profile = Join-Path $dist 'Profile'
+    @"
+[Settings]
+Platform=win
+BrowserType=Chrome
+Channel=Stable
+ChromePath=.\App\chrome-win64\chrome.exe
+UserDataDir=.\Profile
+UpdateInterval=-1
+AppUpdate=0
+"@ | Set-Content $ini -Encoding ASCII
+
+    Get-Process chrome -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+    $app = Start-Process (Join-Path $dist 'MyBrowser.exe') -PassThru
+    try {
+        $started = $false
+        for ($i = 0; $i -lt 40; $i++) {
+            Start-Sleep -Milliseconds 500
+            if (Get-Process chrome -ErrorAction SilentlyContinue) { $started = $true; break }
+        }
+        if (-not $started) { throw 'the launcher did not start the browser within 20s' }
+        "chrome.exe started by the launcher"
+    } finally {
+        Get-Process chrome -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+        if (-not $app.HasExited) { Stop-Process -Id $app.Id -Force -ErrorAction SilentlyContinue }
+        Start-Sleep -Milliseconds 500
+        Remove-Item (Join-Path $dist 'App') -Recurse -Force -ErrorAction SilentlyContinue
+        Remove-Item $profile -Recurse -Force -ErrorAction SilentlyContinue
+        Remove-Item $ini -Force -ErrorAction SilentlyContinue
+    }
 }
 
 if ($skip.Count -gt 0) {
