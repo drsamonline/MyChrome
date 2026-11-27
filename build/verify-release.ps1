@@ -41,11 +41,24 @@ Write-Host "Fetching $sumsUrl"
 $resp = Invoke-WebRequest $sumsUrl -UseBasicParsing
 $sums = if ($resp.Content -is [byte[]]) { [Text.Encoding]::UTF8.GetString($resp.Content) } else { [string]$resp.Content }
 
+$actual = (Get-FileHash $file.FullName -Algorithm SHA256).Hash.ToLower()
+
+# Match by name first; if the file was renamed, match by the hash it actually has and
+# say which published asset it is.
 $line = ($sums -split "`n" | Where-Object { $_ -match [regex]::Escape($name) } | Select-Object -First 1)
-if (-not $line) { throw "SHA256SUMS.txt for $Version does not list $name" }
+if (-not $line) {
+    $line = ($sums -split "`n" | Where-Object { $_ -match "^$actual" } | Select-Object -First 1)
+    if ($line) {
+        $published = ($line -split '\s+')[-1].Trim()
+        Write-Host "Note     : '$name' is not a published name; its hash matches '$published'"
+    }
+}
+if (-not $line) {
+    Write-Host "FAIL  SHA256SUMS.txt for $Version lists neither '$name' nor this file's hash" -ForegroundColor Red
+    exit 2
+}
 
 $expected = ([regex]::Match($line, '^([0-9a-fA-F]{64})')).Groups[1].Value.ToLower()
-$actual = (Get-FileHash $file.FullName -Algorithm SHA256).Hash.ToLower()
 
 if ($expected -ne $actual) {
     Write-Host "FAIL  checksum mismatch" -ForegroundColor Red
