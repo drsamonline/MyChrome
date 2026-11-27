@@ -324,7 +324,7 @@
     <div class="sec-head">
       <span class="num">02</span>
       <h2><span data-en>Browser support</span><span data-zh>瀏覽器支援</span></h2>
-      <p><span data-en>Three honest tiers. "Wired" means it resolves a version and installs the build itself.</span><span data-zh>三個等級。「已接線」表示可自動查版本並安裝。</span></p>
+      <p><span data-en>Three tiers. <b>Lookup ok</b> means CI proves the launcher resolves the current build and a usable download URL. The unpack-and-install step is not exercised on a real machine for any browser.</span><span data-zh>三個層級。<b>Lookup ok</b> 表示 CI 已驗證可解析目前版本與可用的下載連結；實際解壓安裝在任何瀏覽器上都尚未於真實機器驗證。</span></p>
     </div>
     <table class="matrix">
       <thead>
@@ -349,10 +349,7 @@
         <tr><td class="b">Naver Whale</td><td class="e">Chromium</td><td class="s"><span class="pill no">no portable build</span></td><td class="src">Installer only</td></tr>
       </tbody>
     </table>
-    <p class="chip-note"><span data-en><b>Lookup ok</b> means CI proves the launcher resolves the current build and a usable download URL. The unpack-and-install step is not exercised on a real machine for any browser.</span><span data-zh><b>Lookup ok</b> 表示 CI 已驗證可取得目前版本與可用的下載連結；實際解壓安裝在任何瀏覽器上都尚未於真實機器驗證。</span><br><br>
-      <span data-en><b>wired</b> — resolves a version from the vendor's own feed and installs it. <b>unverified</b> — wired, but the source could not be checked from the build environment. <b>planned</b> — the archive layout is confirmed; wiring is open work. <b>no portable build</b> — the vendor publishes an installer only, so there is nothing to unpack.</span>
-      <span data-zh><b>已接線</b> — 從廠商資料源取得版本並安裝。<b>未驗證</b> — 已接線，但建置環境無法確認來源。<b>規劃中</b> — 已確認封裝結構，接線待完成。<b>無可攜版</b> — 廠商僅提供安裝程式，沒有可解壓的版本。</span>
-    </p>
+    
   </section>
 
   <section class="block" id="new">
