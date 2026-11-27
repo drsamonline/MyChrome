@@ -226,10 +226,10 @@ if ($Deep) {
 
     Check 'Vivaldi package yields Vivaldi-bin with vivaldi.exe' {
         if (-not (Test-Path $seven)) { throw '7-Zip is not available on this runner' }
-        $xml = [xml](Invoke-WebRequest 'https://update.vivaldi.com/update/1.0/win/appcast.xml' -UseBasicParsing).Content
-        $item = $xml.rss.channel.item | Select-Object -First 1
-        $url = $item.enclosure.url
-        if (-not $url) { throw 'no enclosure in the Vivaldi appcast' }
+        # Same feed the launcher reads; deltas are .cab, the full installer is .exe.
+        $xml = [xml](Invoke-WebRequest 'https://update.vivaldi.com/update/1.0/public/appcast.x64.xml' -UseBasicParsing).Content
+        $url = ($xml.rss.channel.item.enclosure | Where-Object { $_.url -match '\.exe$' } | Select-Object -First 1).url
+        if (-not $url) { throw 'no .exe enclosure in the Vivaldi appcast' }
         $dir = Join-Path $env:TEMP ('vivaldi-' + [guid]::NewGuid().ToString('N'))
         New-Item -ItemType Directory -Force -Path $dir | Out-Null
         try {
