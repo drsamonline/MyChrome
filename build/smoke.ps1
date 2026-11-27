@@ -199,7 +199,11 @@ Check 'Self-test survives a proxy that drops the connection' {
     $exe = Join-Path $dist 'MyBrowser.exe'
     $ini = Join-Path $dist 'MyBrowser.ini'
     $text = Get-Content $ini -Raw
-    $text = $text -replace 'SelfTestProxy=[^\r\n]*', "SelfTestProxy=HTTP:127.0.0.1:$port"
+    if ($text -notmatch 'SelfTestProxy=') {
+        $text = $text -replace '\[Settings\]', "[Settings]`r`nSelfTestProxy=HTTP:127.0.0.1:$port"
+    } else {
+        $text = $text -replace 'SelfTestProxy=[^\r\n]*', "SelfTestProxy=HTTP:127.0.0.1:$port"
+    }
     Set-Content $ini $text -NoNewline
 
     try {
