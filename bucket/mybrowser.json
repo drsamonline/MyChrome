@@ -10,11 +10,11 @@
     "architecture": {
         "64bit": {
             "url": "https://github.com/drsamonline/MyChrome/releases/download/v3.9.17/MyBrowser_v3.9.17_x64.7z",
-            "hash": "PLACEHOLDER"
+            "hash": "bef0d75bd8c6a0725b9e204ce83804c5ac3be6b245b0b2cd324e636d59ae49eb"
         },
         "32bit": {
             "url": "https://github.com/drsamonline/MyChrome/releases/download/v3.9.17/MyBrowser_v3.9.17.7z",
-            "hash": "PLACEHOLDER"
+            "hash": "569b4f7dea997d323fb06163f33d6a83124cad5955aadb8ffb0d97d8364b8c71"
         }
     },
     "bin": "MyBrowser.exe",
