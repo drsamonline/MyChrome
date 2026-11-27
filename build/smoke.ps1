@@ -515,7 +515,7 @@ Check 'Launcher starts a real browser from App\' {
             Get-Process chrome -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
             if (-not $app.HasExited) { Stop-Process -Id $app.Id -Force -ErrorAction SilentlyContinue }
             Start-Sleep -Milliseconds 500
-            Remove-Item (Join-Path $dist 'App') -Recurse -Force -ErrorAction SilentlyContinue
+            Remove-Item (Join-Path $dist 'App\Profiles') -Recurse -Force -ErrorAction SilentlyContinue
             Remove-Item $profile -Recurse -Force -ErrorAction SilentlyContinue
             Remove-Item $ini -Force -ErrorAction SilentlyContinue
         }
@@ -524,7 +524,13 @@ Check 'Launcher starts a real browser from App\' {
 
 Check 'verify-release.ps1 accepts a real published asset' {
     # The tool users are told to trust must itself be exercised against a real release.
-    $ver = ([regex]::Match((Get-Content (Join-Path $root 'src\MyBrowser.au3') -Raw), 'APPVERSION = "([\d.]+)"')).Groups[1].Value
+    # Use the newest *published* release: on a tag run this version's assets are
+    # attached later, so they are not there yet.
+    $h = @{ 'User-Agent' = 'MyBrowser-ci' }
+    if ($env:GITHUB_TOKEN) { $h['Authorization'] = "Bearer $env:GITHUB_TOKEN" }
+    $rel = Invoke-RestMethod 'https://api.github.com/repos/drsamonline/MyChrome/releases/latest' -Headers $h
+    $ver = $rel.tag_name.TrimStart('v')
+    if (-not $ver) { throw 'could not read the latest published release' }
     $tmp = Join-Path $env:TEMP ('verify-' + [guid]::NewGuid().ToString('N') + '.7z')
     try {
         $url = "https://github.com/drsamonline/MyChrome/releases/download/v$ver/MyBrowser_v${ver}_x64.7z"
