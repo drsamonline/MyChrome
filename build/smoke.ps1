@@ -424,7 +424,7 @@ if ($Deep) {
         Set-Content $ini ($lines -join "`r`n") -Encoding ASCII
 
         Get-Process chrome -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
-        $app = Start-Process (Join-Path $dist 'MyBrowser.exe') -PassThru
+        $app = Start-Process (Join-Path $dist 'MyBrowser.exe') -WorkingDirectory $dist -PassThru
         try {
             $started = $false
             for ($i = 0; $i -lt 40; $i++) {
