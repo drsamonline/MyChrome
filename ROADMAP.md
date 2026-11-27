@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 57 of 75 done (76%), 5 partial, 13 open.** Updated for 3.9.22.
+**Progress: 57 of 75 done (76%), 6 partial, 12 open.** Updated for 3.9.22.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -98,7 +98,7 @@ How to read the columns:
 | I1 | Smoke test in CI | P0 | ✅ done | 3.9.6 |
 | I2 | --selftest flag | P1 | ✅ done | 3.9.6 |
 | I3 | Fault injection: proxy that drops mid-download | P2 | ⬜ open | — |
-| I4 | OS x arch x browser matrix | P2 | ⬜ open | — |
+| I4 | OS x arch x browser matrix | P2 | 🟡 partial | 3.9.22 |
 | I5 | Upgrade test 3.8.50 to current | P1 | ✅ done | 3.9.10 |
 | J1 | Enable GitHub Pages | P0 | ✅ done | 3.9.4 |
 | J2 | Mirror releases for mainland China | P1 | 🟡 partial | 3.9.15 |
