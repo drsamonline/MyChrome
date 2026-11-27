@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 60 of 75 done (80%), 4 partial, 11 open.** Updated for 3.9.25.
+**Progress: 61 of 75 done (81%), 4 partial, 10 open.** Updated for 3.9.26.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -76,7 +76,7 @@ How to read the columns:
 | E8 | Multiple profiles per browser | P2 | ⬜ open | — |
 | E9 | Keyboard nav and accessible names | P2 | ⬜ open | — |
 | E10 | Progress in taskbar button | P3 | ⬜ open | — |
-| F1 | CLI mode | P1 | 🟡 partial | 3.9.6 |
+| F1 | CLI mode — /selftest and /update | P1 | ✅ done | 3.9.26 |
 | F2 | Scoop manifest | P2 | ✅ done | 3.9.17 |
 | F3 | winget manifest | P2 | ✅ done | 3.9.18 |
 | F4 | ARM64 build | P2 | ⬜ open | — |

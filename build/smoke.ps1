@@ -281,6 +281,21 @@ Check 'First run writes its settings file' {
     "ini created, AppVersion=$ver"
 }
 
+Check '/update refuses to run without a complete configuration' {
+    # F1: no desktop, so an incomplete config must be an exit code, not a dialog.
+    $exe = Join-Path $dist 'MyBrowser.exe'
+    $ini = Join-Path $dist 'MyBrowser.ini'
+    if (Test-Path $ini) {
+        $text = Get-Content $ini -Raw
+        $text = $text -replace '(?m)^ChromePath=.*$', 'ChromePath='
+        Set-Content $ini $text -NoNewline
+    }
+    $p = Start-Process $exe -ArgumentList '/update' -WorkingDirectory $dist -PassThru
+    if (-not $p.WaitForExit(60000)) { Stop-Process -Id $p.Id -Force; throw '/update hung without a desktop' }
+    if ($p.ExitCode -ne 3) { throw "expected exit 3 for an incomplete configuration, got $($p.ExitCode)" }
+    "exited 3 without opening a dialog"
+}
+
 Check 'x86 executable starts' {
     $exe = Join-Path $dist 'MyBrowser_x86.exe'
     if (-not (Test-Path $exe)) { throw 'dist/MyBrowser_x86.exe missing' }

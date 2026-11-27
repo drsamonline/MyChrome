@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.25"
+Global Const $APPVERSION = "3.9.26"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -141,7 +141,7 @@ Global $FIRSTRUN = 0 , $CHROMEPATH , $CHROMEDIR , $CHROMEEXE , $USERDATADIR , $P
 Global $CACHEDIR , $CACHESIZE , $PORTABLEPARAM
 Global $CHROMESOURCE , $GET_LATEST_CHROME_VER = "get_latest_chrome_ver"
 Global $LASTCHECKUPDATE , $UPDATEINTERVAL , $CHANNEL , $ISUPDATING = 0 , $X86 = 0
-Global $APPUPDATE , $APPUPDATELASTCHECK
+Global $APPUPDATE , $APPUPDATELASTCHECK , $CLIMODE = 0
 Global $RUNINBACKGROUND , $EXAPP , $EXAPPAUTOEXIT , $EXAPP2 , $APPPID_BROWSER , $EXAPPPID
 Global $TASKBARDIR = @AppDataDir & "\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar"
 Global $TASKBARLASTCHANGE
@@ -304,6 +304,9 @@ $CHROMEPLUSPLUS = IniRead ( $INIFILE , "Settings" , "ChromePlusPlus" , "" )
 $CHROMEPLUSPLUSAUTO = IniRead ( $INIFILE , "Settings" , "ChromePlusPlusAuto" , "" )
 $LASTCHROMEPATH = IniRead ( $INIFILE , "Settings" , "LastChromePath" , "" )
 $LASTUSERDATADIR = IniRead ( $INIFILE , "Settings" , "LastUserDataDir" , "" )
+; F1: /update runs the update without a desktop and exits.
+If _HASPARAM ( "/update" ) Then $CLIMODE = 1
+
 If $APPVERSION <> IniRead ( $INIFILE , "Settings" , "AppVersion" , "" ) Then
 	$FIRSTRUN = 1
 	IniWrite ( $INIFILE , "Settings" , "AppVersion" , $APPVERSION )
@@ -311,12 +314,26 @@ EndIf
 Opt ( "ExpandEnvStrings" , 1 )
 EnvSet ( "APP" , @ScriptDir )
 If ( $CMDLINE [ 0 ] = 1 And $CMDLINE [ 1 ] = "-set" ) Or $FIRSTRUN Or Not FileExists ( $CHROMEPATH ) Or Not FileExists ( $USERDATADIR ) Then
+	If $CLIMODE Then
+		_LOG ( "/update: configuration incomplete, refusing to open a dialog" )
+		Exit ( 3 )
+	EndIf
 	CREATESETTINGSSHORTCUT ( @ScriptDir & "\" & $APPNAME & ".vbs" )
 	SETTINGS ( )
 EndIf
 $CHROMEPATH = FULLPATH ( $CHROMEPATH )
 SPLITPATH ( $CHROMEPATH , $CHROMEDIR , $CHROMEEXE )
 $USERDATADIR = FULLPATH ( $USERDATADIR )
+If $CLIMODE Then
+	; Nobody to click: every prompt answers itself, the outcome is the exit code.
+	Local $ICLIUPDATED = UPDATECHROME ( $CHROMEPATH , $CHANNEL )
+	_LOG ( "/update finished with " & $ICLIUPDATED )
+	If $ICLIUPDATED = 1 Then
+		Exit ( 0 )
+	Else
+		Exit ( 1 )
+	EndIf
+EndIf
 If IsAdmin ( ) And $CMDLINE [ 0 ] = 1 And $CMDLINE [ 1 ] = "-SetDefaultGlobal" Then
 	If StringInStr ( IniRead ( $INIFILE , "Settings" , "BrowserType" , "" ) , "Firefox" ) Then
 		FIREFOXCHECKDEFAULTBROWSER ( $CHROMEPATH )
@@ -3249,13 +3266,13 @@ Func GUI_EVENTCHROMESOURCE ( )
 			If FileExists ( $CHROMEDIR ) Then
 				$CHROMEDIR = RELATIVEPATH ( $CHROMEDIR )
 				If $CHROMEDIR = "." Then
-					$FUGAI = MsgBox ( 64 + 4 , "MyBrowser" , $CHROMEEXE & $AND & @ScriptName & StringFormat ( LANG ( "GUI" , "fugaigengxin1" , "设置在同一目录(不推荐)，将会覆盖更新，是否继续？" ) ) , 0 , $HSETTINGS )
+					$FUGAI = _PROMPT ( 64 + 4 , $CHROMEEXE & $AND & @ScriptName & StringFormat ( LANG ( "GUI" , "fugaigengxin1" , "设置在同一目录(不推荐)，将会覆盖更新，是否继续？" ) ) , 7 )
 					If $FUGAI <> 6 Then
 						ENDUPDATE ( )
 						Return
 					EndIf
 				Else
-					$FUGAI = MsgBox ( 64 + 3 , "MyBrowser" , StringFormat ( LANG ( "GUI" , "fugaigengxin2" , "是否覆盖更新？\n\n【是】:立即覆盖更新\n【否】:删除原程序目录后更新【危险：请注意备份重要文件】\n【取消】：取消本次操作" ) ) , 0 , $HSETTINGS )
+					$FUGAI = _PROMPT ( 64 + 3 , StringFormat ( LANG ( "GUI" , "fugaigengxin2" , "是否覆盖更新？\n\n【是】:立即覆盖更新\n【否】:删除原程序目录后更新【危险：请注意备份重要文件】\n【取消】：取消本次操作" ) ) , 6 )
 					If $FUGAI = 7 Or $FUGAI = 6 Then
 						If IniRead ( $INIFILE , "Settings" , "GreenChrome" , "" ) = 1 Then
 							GUICtrlSetData ( $SETGC , LANG ( "GUI" , "setgcon" , "注入GreenChrome" ) )
@@ -3265,7 +3282,7 @@ Func GUI_EVENTCHROMESOURCE ( )
 							IniWrite ( $INIFILE , "Settings" , "GreenChrome" , 0 )
 						EndIf
 						If ProcessExists ( $CHROMEEXE ) Then
-							$FUGAI2 = MsgBox ( 64 + 1 , "MyBrowser" , StringFormat ( LANG ( "GUI" , "fugaigengxin3" , "检测到浏览器正在运行，是否关闭浏览器后更新？\n\n【确定】:关闭浏览后更新\n【取消】：不更新" ) ) , 0 , $HSETTINGS )
+							$FUGAI2 = _PROMPT ( 64 + 1 , StringFormat ( LANG ( "GUI" , "fugaigengxin3" , "检测到浏览器正在运行，是否关闭浏览器后更新？\n\n【确定】:关闭浏览后更新\n【取消】：不更新" ) ) , 2 )
 							If $FUGAI2 = 1 Then
 								ProcessClose ( $CHROMEEXE )
 								Sleep ( 2000 )
@@ -3363,7 +3380,7 @@ Func UPDATECHROME ( $CHROMEPATH , $CHANNEL , $STRURL = "" )
 	SPLITPATH ( $CHROMEPATH , $CHROMEDIR , $CHROMEEXE )
 	If CHROMEISUPDATING ( $CHROMEDIR ) Then
 		If IsHWnd ( $HSETTINGS ) Then
-			MsgBox ( 64 , "MyBrowser" , LANG ( "Update" , "UpdateInProgress" , "浏览器上次更新仍在进行中！" ) , 0 , $HSETTINGS )
+			_PROMPT ( 64 , LANG ( "Update" , "UpdateInProgress" , "浏览器上次更新仍在进行中！" ) , 1 )
 		EndIf
 		ENDUPDATE ( )
 		Return
@@ -3464,7 +3481,7 @@ Func UPDATECHROME ( $CHROMEPATH , $CHANNEL , $STRURL = "" )
 	EndIf
 	$MSG = 6
 	If Not IsHWnd ( $HSETTINGS ) Then
-		$MSG = MsgBox ( 64 + 3 , "MyBrowser" , $INFO )
+		$MSG = _PROMPT ( 64 + 3 , $INFO , 6 )
 	EndIf
 	If $MSG = 7 Then
 		; Skip this release only. It used to write UpdateInterval=-1, which turned
@@ -3481,13 +3498,13 @@ Func UPDATECHROME ( $CHROMEPATH , $CHANNEL , $STRURL = "" )
 	If FileExists ( $CHROMEDIR ) Then
 		$CHROMEDIR = RELATIVEPATH ( $CHROMEDIR )
 		If $CHROMEDIR = "." Then
-			$FUGAI = MsgBox ( 64 + 4 , "MyBrowser" , $CHROMEEXE & $AND & @ScriptName & StringFormat ( LANG ( "GUI" , "fugaigengxin1" , "设置在同一目录(不推荐)，将会覆盖更新，是否继续？" ) ) , 0 , $HSETTINGS )
+			$FUGAI = _PROMPT ( 64 + 4 , $CHROMEEXE & $AND & @ScriptName & StringFormat ( LANG ( "GUI" , "fugaigengxin1" , "设置在同一目录(不推荐)，将会覆盖更新，是否继续？" ) ) , 7 )
 			If $FUGAI <> 6 Then
 				ENDUPDATE ( )
 				Return
 			EndIf
 		Else
-			$FUGAI = MsgBox ( 64 + 3 , "MyBrowser" , StringFormat ( LANG ( "GUI" , "fugaigengxin2" , "是否覆盖更新？\n\n【是】:立即覆盖更新\n【否】:删除原程序目录后更新【危险：请注意备份重要文件】\n【取消】：取消本次操作" ) ) , 0 , $HSETTINGS )
+			$FUGAI = _PROMPT ( 64 + 3 , StringFormat ( LANG ( "GUI" , "fugaigengxin2" , "是否覆盖更新？\n\n【是】:立即覆盖更新\n【否】:删除原程序目录后更新【危险：请注意备份重要文件】\n【取消】：取消本次操作" ) ) , 6 )
 			If $FUGAI = 7 Or $FUGAI = 6 Then
 				If IniRead ( $INIFILE , "Settings" , "GreenChrome" , "" ) = 1 Then
 					GUICtrlSetData ( $SETGC , LANG ( "GUI" , "setgcon" , "注入GreenChrome" ) )
@@ -3497,7 +3514,7 @@ Func UPDATECHROME ( $CHROMEPATH , $CHANNEL , $STRURL = "" )
 					IniWrite ( $INIFILE , "Settings" , "GreenChrome" , 0 )
 				EndIf
 				If ProcessExists ( $CHROMEEXE ) Then
-					$FUGAI2 = MsgBox ( 64 + 1 , "MyBrowser" , StringFormat ( LANG ( "GUI" , "fugaigengxin3" , "检测到浏览器正在运行，是否关闭浏览器后更新？\n\n【确定】:关闭浏览后更新\n【取消】：不更新" ) ) , 0 , $HSETTINGS )
+					$FUGAI2 = _PROMPT ( 64 + 1 , StringFormat ( LANG ( "GUI" , "fugaigengxin3" , "检测到浏览器正在运行，是否关闭浏览器后更新？\n\n【确定】:关闭浏览后更新\n【取消】：不更新" ) ) , 2 )
 					If $FUGAI2 = 1 Then
 						ProcessClose ( $CHROMEEXE )
 						Sleep ( 2000 )
@@ -3519,7 +3536,7 @@ Func UPDATECHROME ( $CHROMEPATH , $CHANNEL , $STRURL = "" )
 	; A Chrome update needs roughly 1.5 GB free while the old build is still there.
 	Local $SFREEMB = DriveSpaceFree ( $CHROMEDIR )
 	If $SFREEMB > 0 And $SFREEMB < 2048 Then
-		If MsgBox ( 64 + 4 , "MyBrowser" , LANG ( "Update" , "LowDiskSpace" , "可用磁盘空间不足 2GB，更新可能失败。是否继续？" ) , 0 , $HSETTINGS ) <> 6 Then
+		If _PROMPT ( 64 + 4 , LANG ( "Update" , "LowDiskSpace" , "可用磁盘空间不足 2GB，更新可能失败。是否继续？" ) , 7 ) <> 6 Then
 			ENDUPDATE ( )
 			Return
 		EndIf
@@ -3708,6 +3725,14 @@ Func _SHA256FILE ( $SFILE )
 	Local $AM2 = StringRegExp ( $SLINES , '(?m)^\s*([0-9a-fA-F]{2}(?:\s+[0-9a-fA-F]{2}){31})\s*$' , 1 )
 	If Not @error Then Return StringLower ( StringReplace ( $AM2 [ 0 ] , " " , "" ) )
 	Return ""
+EndFunc
+Func _PROMPT ( $IFLAGS , $SMSG , $ICLIANSWER )
+	; F1: with /update there is nobody to click, so the documented default applies.
+	If $CLIMODE Then
+		_LOG ( "cli prompt auto-answered " & $ICLIANSWER & ": " & StringLeft ( $SMSG , 120 ) )
+		Return $ICLIANSWER
+	EndIf
+	Return MsgBox ( $IFLAGS , "MyBrowser" , $SMSG )
 EndFunc
 Func _SHOWERROR ( $SMSG , $IFLAGS = 16 )
 	; E5: a failure dialog the user can paste straight into a bug report. The message and

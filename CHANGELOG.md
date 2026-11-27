@@ -5,6 +5,7 @@ Every release, newest first. Full notes and downloads on the
 
 | Version | Highlights |
 |---|---|
+| [3.9.26](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.26) | `/update` runs headless; exit codes report the outcome. |
 | [3.9.25](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.25) | Self-test report keeps full URLs. |
 | [3.9.24](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.24) | Self-update verifies its download; translation guide. |
 | [3.9.23](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.23) | Self-test can be pointed at a dead endpoint; verified on windows-2022. |
@@ -31,6 +32,11 @@ Every release, newest first. Full notes and downloads on the
 | [3.9.2](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.2) | Disk-space guard, temp cleanup, apply pre-flight, portable launch flags, HTTPS-only mirrors. |
 | [3.9.1](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.1) | Firefox, Chromium and Brave download sources repaired. |
 | [3.9.0](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.0) | Rebuilt from recovered source; Chrome via Chrome for Testing. |
+
+## 3.9.26
+
+- `MyBrowser.exe /update` updates without a desktop; exit 0 updated, 1 not updated, 3 configuration incomplete.
+- Every prompt in the update path answers itself in CLI mode.
 
 ## 3.9.25
 

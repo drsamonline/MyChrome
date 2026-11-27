@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.25_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.25.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.25_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.26_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.26.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.26_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -92,22 +92,19 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.25
+## What's new in 3.9.26
 
-- **The self-test report keeps the full download URL.** It was truncated at 90
-  characters, which cut the Edge delivery URL short enough that Microsoft answered
-  `403 unexpected URL format` — the report was hiding the thing it was meant to show.
+- **`MyBrowser.exe /update` updates without a desktop.** It reads `MyBrowser.ini`, runs the
+  same update the settings window runs, answers every prompt with its documented default
+  (proceed; do not overwrite in place; do not kill a running browser) and reports the
+  result in the exit code: `0` updated, `1` not updated, `3` configuration incomplete.
 
-### Testing, since 3.9.25
+  ```powershell
+  MyBrowser.exe /update
+  if ($LASTEXITCODE -eq 0) { "updated" }
+  ```
 
-CI now exercises the real thing rather than a description of it:
-
-| Check | What it does |
-|---|---|
-| Seven archives | downloads each browser package and unpacks it to the path the launcher expects |
-| End-to-end launch | writes a real `MyBrowser.ini`, unpacks Chrome into `App\`, starts the launcher, asserts `chrome.exe` runs |
-| Failure paths | a refused port and a listener that drops connections, both required to fail cleanly |
-| Self-update | hashes the published asset and compares it with the manifest |
+- **The self-test report keeps the full download URL** (from 3.9.25).
 
 Earlier: **3.9.24** made self-update verify its own download. **3.9.23** added proxy fault
 injection.
@@ -200,7 +197,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.25_source.7z`.
+`MyBrowser_v3.9.26_source.7z`.
 
 ## Lineage
 

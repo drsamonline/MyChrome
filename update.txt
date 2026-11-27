@@ -1,8 +1,8 @@
 sha256_x64=53f4a7d763335ffdf1cafd61c8531aa27bd029854a0634e6bc141480ac3cd6f1
 sha256=311a28a1421f3e534b1b3ba9d99428851e5a939dae1e01708f86f83e40daf34f
-latest=3.9.25
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.25/MyBrowser_v3.9.25.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.25/MyBrowser_v3.9.25_x64.7z
-update=1. 自我檢測報告保留完整下載連結；\n2. 3.9.25
-update_zh-TW=1. 自我檢測報告保留完整下載連結；\n2. 3.9.25
-update_en-US=1. The self-test report keeps the full download URL;\n2. 3.9.25
+latest=3.9.26
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.26/MyBrowser_v3.9.26.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.26/MyBrowser_v3.9.26_x64.7z
+update=1. 新增命令列 /update 無介面更新；\n2. 3.9.26
+update_zh-TW=1. 新增命令列 /update 無介面更新；\n2. 3.9.26
+update_en-US=1. /update runs an update without a desktop;\n2. 3.9.26
