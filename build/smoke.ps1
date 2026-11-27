@@ -482,6 +482,22 @@ if ($Deep -and $env:MYBROWSER_LAUNCH_TEST -eq '1') {
     }
 }
 
+Check 'verify-release.ps1 accepts a real published asset' {
+    # The tool users are told to trust must itself be exercised against a real release.
+    $ver = ([regex]::Match((Get-Content (Join-Path $root 'src\MyBrowser.au3') -Raw), 'APPVERSION = "([\d.]+)"')).Groups[1].Value
+    $tmp = Join-Path $env:TEMP ('verify-' + [guid]::NewGuid().ToString('N') + '.7z')
+    try {
+        $url = "https://github.com/drsamonline/MyChrome/releases/download/v$ver/MyBrowser_v${ver}_x64.7z"
+        Invoke-WebRequest $url -OutFile $tmp -UseBasicParsing
+        $out = & (Join-Path $PSScriptRoot 'verify-release.ps1') -Path $tmp 2>&1
+        if ($LASTEXITCODE -ne 0) { throw "verify-release.ps1 exited $LASTEXITCODE : $($out -join ' | ')" }
+        $joined = $out -join ' | '
+        if ($joined -notmatch 'PASS  checksum matches') { throw "no checksum pass line: $joined" }
+        if ($joined -match 'attestation verified') { 'checksum and attestation verified' }
+        else { 'checksum verified (attestation not checked here)' }
+    } finally { Remove-Item $tmp -Force -ErrorAction SilentlyContinue }
+}
+
 if ($skip.Count -gt 0) {
     Write-Host ("Skipped (external): " + ($skip -join ', '))
 }
