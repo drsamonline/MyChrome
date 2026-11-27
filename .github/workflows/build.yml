@@ -58,6 +58,18 @@ jobs:
         with:
           subject-path: 'dist/*.7z'
 
+      - name: Update package manifests
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: pwsh
+        run: |
+          ./build/update-manifests.ps1
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bucket manifests
+          if (git diff --cached --quiet) { Write-Host 'nothing to commit'; exit 0 }
+          git commit -m "chore: manifests for ${{ github.ref_name }} [skip ci]"
+          git push origin HEAD:master
+
       - name: Attach to release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
