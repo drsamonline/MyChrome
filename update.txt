@@ -1,6 +1,6 @@
-latest=3.9.14
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.14/MyBrowser_v3.9.14.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.14/MyBrowser_v3.9.14_x64.7z
-update=1. 取消更新後會等待下載執行緒結束再清理，避免殘留；\n2. 3.9.14
-update_zh-TW=1. 取消更新後會等待下載執行緒結束再清理，避免殘留；\n2. 3.9.14
-update_en-US=1. Cancelling an update now waits for the worker before cleaning up;\n2. 3.9.14
+latest=3.9.15
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.15/MyBrowser_v3.9.15.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.15/MyBrowser_v3.9.15_x64.7z
+update=1. 自我更新支援鏡像備援（url_mirror）；\n2. 3.9.15
+update_zh-TW=1. 自我更新支援鏡像備援（url_mirror）；\n2. 3.9.15
+update_en-US=1. Self-update supports a mirror fallback (url_mirror);\n2. 3.9.15

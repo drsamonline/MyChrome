@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.14_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.14.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.14_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.15_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.15.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.15_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -90,14 +90,16 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.14
+## What's new in 3.9.15
 
-- **Cancelling an update now finishes the job.** The worker process is waited for before
-  the temp folder is deleted; previously the delete could fail silently because the
-  worker still held the partial file open, leaving the download behind.
+- **Mirror support for the self-updater.** `update.txt` may now carry
+  `url_mirror=` / `url_x64_mirror=`; if the primary download is unusable (bad archive,
+  blocked host) the app retries from the mirror. The keys are inert until a mirror host
+  exists — GitHub is slow or blocked on some networks, which is much of this app's
+  audience.
 
-Earlier: **3.9.13** swept leftover temp folders at startup and made the build refuse a
-mismatched version. **3.9.12** made failure dialogs pasteable.
+Earlier: **3.9.14** made cancelling an update finish the cleanup. **3.9.13** swept
+leftover temp folders at startup.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases).
 
@@ -182,7 +184,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.14_source.7z`.
+`MyBrowser_v3.9.15_source.7z`.
 
 ## Lineage
 

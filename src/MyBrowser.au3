@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.14"
+Global Const $APPVERSION = "3.9.15"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -1322,7 +1322,10 @@ Func CHECKAPPUPDATE ( )
 				$MSG = MsgBox ( 68 , "MyBrowser" , StringFormat ( $LANGUPDATETIPS , "MyBrowser" , $APPVERSION , $LATESTAPPVER , $UPDATE ) )
 			EndIf
 			If $MSG = 6 Then
-				$UPDATED = UPDATEAPP ( @ScriptFullPath , $URL )
+				Local $SMIRROR = ""
+				Local $AMIRROR = StringRegExp ( $UPDATEINFO , "(?ism)^\W*" & $FLAG_URL & "_mirror=(\N+)$" , 1 )
+				If Not @error Then $SMIRROR = $AMIRROR [ 0 ]
+				$UPDATED = UPDATEAPP ( @ScriptFullPath , $URL , $SMIRROR )
 				If $UPDATED = 1 Then
 					MsgBox ( 64 , "MyBrowser" , StringFormat ( $LANGUPDATED , "MyBrowser" , $LATESTAPPVER ) )
 				ElseIf $UPDATED = 0 Then
@@ -1336,7 +1339,7 @@ Func CHECKAPPUPDATE ( )
 	EndIf
 	Return $UPDATED
 EndFunc
-Func UPDATEAPP ( $EXE = @ScriptFullPath , $URL = "" )
+Func UPDATEAPP ( $EXE = @ScriptFullPath , $URL = "" , $MIRROR = "" )
 	Local $TEMP = @ScriptDir & "\MyBrowser_temp"
 	Local $FILE = $TEMP & "\MyBrowser.7z"
 	Local $IBYTESSIZE , $UPDATED = 0
@@ -1373,6 +1376,19 @@ Func UPDATEAPP ( $EXE = @ScriptFullPath , $URL = "" )
 	If Not $CANCELAPPUPDATE Then
 		FileInstall ( "7z.exe" , $TEMP & "\7z.exe" , 1 )
 		FileInstall ( "7z.dll" , $TEMP & "\7z.dll" , 1 )
+		; J2: GitHub is slow or blocked in some networks. If update.txt names a mirror
+		; and the primary download is unusable, fetch it from the mirror instead.
+		If $MIRROR <> "" Then
+			If RunWait ( $TEMP & "\7z.exe t """ & $FILE & """ -y" , $TEMP , @SW_HIDE ) <> 0 Then
+				_LOG ( "self-update: primary download unusable, trying the mirror" )
+				FileDelete ( $FILE )
+				Local $HMIRROR = InetGet ( $MIRROR , $FILE , 19 , 1 )
+				Do
+					Sleep ( 250 )
+				Until InetGetInfo ( $HMIRROR , $INET_DOWNLOADCOMPLETE )
+				InetClose ( $HMIRROR )
+			EndIf
+		EndIf
 		RunWait ( $TEMP & "\7z.exe x """ & $FILE & """ -y" , $TEMP , @SW_HIDE )
 		If FileExists ( $TEMP & "\MyBrowser.exe" ) Then
 			If FileExists ( $EXE ) Then

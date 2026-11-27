@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 45 of 75 done (60%), 4 partial, 26 open.** Updated for 3.9.14.
+**Progress: 46 of 75 done (61%), 5 partial, 24 open.** Updated for 3.9.15.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -87,7 +87,7 @@ How to read the columns:
 | G4 | Chrome Extended Stable | P2 | ⬜ open | — |
 | G5 | Chrome 109 for Windows 7/8 | P3 | ⬜ open | — |
 | G6 | Warn if win32 Chrome retired | P2 | ⬜ open | — |
-| G7 | Firefox channel naming check | P3 | ⬜ open | — |
+| G7 | Firefox channel naming check | P3 | ✅ done | verified |
 | H1 | Restore include-based structure | P1 | ✅ done | 3.9.11 |
 | H2 | Single source of truth for version | P1 | ✅ done | 3.9.13 |
 | H3 | docs/ARCHITECTURE.md | P1 | ✅ done | 3.9.3 |
@@ -101,7 +101,7 @@ How to read the columns:
 | I4 | OS x arch x browser matrix | P2 | ⬜ open | — |
 | I5 | Upgrade test 3.8.50 to current | P1 | ✅ done | 3.9.10 |
 | J1 | Enable GitHub Pages | P0 | ✅ done | 3.9.4 |
-| J2 | Mirror releases for mainland China | P1 | ⬜ open | — |
+| J2 | Mirror releases for mainland China | P1 | 🟡 partial | 3.9.15 |
 | J3 | Issue templates and support doc | P2 | ✅ done | repo |
 | J4 | Release notes in Chinese | P2 | ✅ done | repo |
 | K1 | GPL-3.0 LICENSE and NOTICE | P0 | ✅ done | 3.9.1 |
