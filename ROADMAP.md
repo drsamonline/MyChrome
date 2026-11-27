@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 33 of 75 done (44%), 5 partial, 37 open.** Updated for 3.9.9.
+**Progress: 35 of 75 done (47%), 5 partial, 35 open.** Updated for 3.9.10.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -68,7 +68,7 @@ How to read the columns:
 | D4 | Keep previous build for rollback | P3 | ⬜ open | — |
 | E1 | First-run wizard | P1 | ⬜ open | — |
 | E2 | DPI awareness | P1 | ✅ done | 3.9.3 |
-| E3 | Strings out of code into language files | P1 | ⬜ open | — |
+| E3 | Strings out of code into language files | P1 | ✅ done | 3.9.10 |
 | E4 | More languages | P2 | ⬜ open | — |
 | E5 | Error dialogs with copy details | P1 | ⬜ open | — |
 | E6 | Installed vs latest side by side | P1 | ⬜ open | — |
@@ -99,7 +99,7 @@ How to read the columns:
 | I2 | --selftest flag | P1 | ⬜ open | — |
 | I3 | Fault injection on download | P2 | ⬜ open | — |
 | I4 | OS x arch x browser matrix | P2 | ⬜ open | — |
-| I5 | Upgrade test 3.8.50 to current | P1 | ⬜ open | — |
+| I5 | Upgrade test 3.8.50 to current | P1 | ✅ done | 3.9.10 |
 | J1 | Enable GitHub Pages | P0 | ✅ done | 3.9.4 |
 | J2 | Mirror releases for mainland China | P1 | ⬜ open | — |
 | J3 | Issue templates and support doc | P2 | ✅ done | repo |

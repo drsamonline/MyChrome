@@ -1,6 +1,6 @@
-latest=3.9.9
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.9/MyBrowser_v3.9.9.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.9/MyBrowser_v3.9.9_x64.7z
-update=1. 下載進度顯示剩餘時間；\n2. 查詢失敗重試之間加入退避；\n3. 設定視窗記住位置；\n4. 3.9.9
-update_zh-TW=1. 下載進度顯示剩餘時間；\n2. 查詢失敗重試之間加入退避；\n3. 設定視窗記住位置；\n4. 3.9.9
-update_en-US=1. Download progress shows time remaining;\n2. Retries back off instead of firing instantly;\n3. The settings window reopens where you left it;\n4. 3.9.9
+latest=3.9.10
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.10/MyBrowser_v3.9.10.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.10/MyBrowser_v3.9.10_x64.7z
+update=1. 補齊介面字串（可完整在地化）；\n2. 新增 3.8.50 升級路徑測試；\n3. 3.9.10
+update_zh-TW=1. 補齊介面字串（可完整在地化）；\n2. 新增 3.8.50 升級路徑測試；\n3. 3.9.10
+update_en-US=1. Every interface string now lives in the language files;\n2. CI tests the 3.8.50 upgrade path;\n3. 3.9.10

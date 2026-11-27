@@ -76,6 +76,19 @@ Check 'Update manifest is reachable' {
     "latest=$($Matches[1])"
 }
 
+Check 'Upgrade path from 3.8.50' {
+    # I5: an install of 3.8.50 must see a newer version and be able to fetch it.
+    $t = (Invoke-WebRequest 'https://raw.githubusercontent.com/drsamonline/MyChrome/master/update.txt' -UseBasicParsing).Content
+    $latest = [version](([regex]::Match($t, 'latest=([\d.]+)')).Groups[1].Value)
+    $old = [version]'3.8.50'
+    if ($latest -le $old) { throw "latest $latest is not newer than 3.8.50" }
+    foreach ($m in [regex]::Matches($t, '^url(?:_x64)?=(\S+)$', 'Multiline')) {
+        $r = Invoke-WebRequest $m.Groups[1].Value -Method Head -UseBasicParsing
+        if ($r.StatusCode -ne 200) { throw "asset not reachable: $($m.Groups[1].Value)" }
+    }
+    "3.8.50 -> $latest, assets reachable"
+}
+
 # ---------------------------------------------------------------- binaries
 Check 'App self-test (every wired source)' {
     $exe = Join-Path $dist 'MyBrowser.exe'

@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.9_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.9.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.9_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.10_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.10.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.10_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -90,18 +90,16 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.9
+## What's new in 3.9.10
 
-- **Download progress shows time remaining**, not just a percentage and a speed.
-- **Retries back off.** The five source lookups retried instantly, which usually hit the
-  same failure; they now wait 400 ms, then 800 ms.
-- **The settings window reopens where you left it.** Positions from a monitor that is no
-  longer attached are ignored rather than opening off-screen.
-- **Build cache.** CI caches the AutoIt SDK, and `.editorconfig` pins the file
-  conventions (CRLF and tabs for `.au3`, spaces elsewhere).
+- **Every interface string now lives in the language files.** 222 keys, all present in
+  both `en-US.ini` and `zh-TW.ini`; five were reachable only as inline defaults before,
+  so a translator could not see them.
+- **CI tests the upgrade path.** It asserts that an install of 3.8.50 sees a newer
+  version in `update.txt` and that both asset URLs answer.
 
-Earlier: **3.9.8** moved the Edge lookup to proxy-aware WinHTTP and fixed its plain-http
-download URL. **3.9.7** pointed the download pages at the vendors. **3.9.6** added the
+Earlier: **3.9.9** added the ETA, retry backoff and a remembered window, plus build
+provenance attestation. **3.9.8** moved Edge to proxy-aware WinHTTP. **3.9.6** added the
 atomic swap with rollback.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases).
@@ -186,7 +184,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.9_source.7z`.
+`MyBrowser_v3.9.10_source.7z`.
 
 ## Lineage
 
