@@ -1,40 +1,40 @@
 {
-    "version": "3.9.21",
-    "description": "Portable browser launcher for Windows: downloads a browser, unpacks it beside the executable and runs it with its own profile.",
-    "homepage": "https://github.com/drsamonline/MyChrome",
-    "license": "GPL-3.0-only",
-    "notes": [
-        "The executable is not code-signed, so Windows may warn on first run.",
-        "Verify the download against SHA256SUMS.txt on the release page."
-    ],
-    "architecture": {
-        "64bit": {
-            "url": "https://github.com/drsamonline/MyChrome/releases/download/v3.9.21/MyBrowser_v3.9.21_x64.7z",
-            "hash": "cb3408a0c657b4145cf6d1e7eded9e8594302276c2a32546d1a3a26f9946b3a4"
-        },
-        "32bit": {
-            "url": "https://github.com/drsamonline/MyChrome/releases/download/v3.9.21/MyBrowser_v3.9.21.7z",
-            "hash": "520b0aae06e02b4f444a190d021f34b2b4087eb71bb583c48e4c22949373a854"
-        }
+  "version": "3.9.22",
+  "description": "Portable browser launcher for Windows: downloads a browser, unpacks it beside the executable and runs it with its own profile.",
+  "homepage": "https://github.com/drsamonline/MyChrome",
+  "license": "GPL-3.0-only",
+  "notes": [
+    "The executable is not code-signed, so Windows may warn on first run.",
+    "Verify the download against SHA256SUMS.txt on the release page."
+  ],
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/drsamonline/MyChrome/releases/download/v3.9.22/MyBrowser_v3.9.22_x64.7z",
+      "hash": "45937154eb759516ef19c3b88a2cfda0e01ca23525adda064788bf28bb1fb3dd"
     },
-    "bin": "MyBrowser.exe",
-    "shortcuts": [
-        [
-            "MyBrowser.exe",
-            "MyBrowser"
-        ]
-    ],
-    "checkver": {
-        "github": "https://github.com/drsamonline/MyChrome"
-    },
-    "autoupdate": {
-        "architecture": {
-            "64bit": {
-                "url": "https://github.com/drsamonline/MyChrome/releases/download/v$version/MyBrowser_v$version_x64.7z"
-            },
-            "32bit": {
-                "url": "https://github.com/drsamonline/MyChrome/releases/download/v$version/MyBrowser_v$version.7z"
-            }
-        }
+    "32bit": {
+      "url": "https://github.com/drsamonline/MyChrome/releases/download/v3.9.22/MyBrowser_v3.9.22.7z",
+      "hash": "6223ef81f20e2a14c95ded999cb9df6fca626c2518e4269a641832237cc4bfb2"
     }
+  },
+  "bin": "MyBrowser.exe",
+  "shortcuts": [
+    [
+      "MyBrowser.exe",
+      "MyBrowser"
+    ]
+  ],
+  "checkver": {
+    "github": "https://github.com/drsamonline/MyChrome"
+  },
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://github.com/drsamonline/MyChrome/releases/download/v$version/MyBrowser_v$version_x64.7z"
+      },
+      "32bit": {
+        "url": "https://github.com/drsamonline/MyChrome/releases/download/v$version/MyBrowser_v$version.7z"
+      }
+    }
+  }
 }
