@@ -13,7 +13,7 @@ if ($scoop.version -eq $version) { Write-Host "manifests already at $version"; e
 
 $sums = (Invoke-WebRequest "$base/SHA256SUMS.txt" -UseBasicParsing).Content
 function HashOf([string]$name) {
-    $m = [regex]::Match($sums, "(?m)^([0-9a-fA-F]{64})\s+$([regex]::Escape($name))`$")
+    $m = [regex]::Match($sums, "(?m)^([0-9a-fA-F]{64})\s+" + [regex]::Escape($name) + "\s*`$")
     if (-not $m.Success) { throw "no checksum for $name in SHA256SUMS.txt" }
     $m.Groups[1].Value.ToLower()
 }
