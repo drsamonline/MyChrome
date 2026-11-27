@@ -58,13 +58,13 @@ from the vendor's own feed and installs the build itself.
 
 | Browser | Engine | Status | Source used |
 | --- | --- | --- | --- |
-| **Chrome** | Chromium | ✅ Lookup verified · install untested | Chrome for Testing (Stable / Beta / Dev / Canary) |
-| **Chromium** | Chromium | ✅ Lookup verified · install untested | `chromium-browser-snapshots` (`chrome-win.zip`) |
-| **Brave** | Chromium | ✅ Lookup verified · install untested | Official release ZIP, GitHub |
-| **Firefox** | Gecko | ✅ Lookup verified · install untested | Mozilla release feed (Release / ESR / Beta / Dev / Nightly) |
+| **Chrome** | Chromium | ✅ Lookup + unpack verified | Chrome for Testing (Stable / Beta / Dev / Canary) |
+| **Chromium** | Chromium | ✅ Lookup + unpack verified | `chromium-browser-snapshots` (`chrome-win.zip`) |
+| **Brave** | Chromium | ✅ Lookup + unpack verified | Official release ZIP, GitHub |
+| **Firefox** | Gecko | ✅ Lookup + unpack verified | Mozilla release feed (Release / ESR / Beta / Dev / Nightly) |
 | **Vivaldi** | Chromium | ✅ Wired — verified (3.9.5) | Sparkle appcast, x64 and x86 |
-| **Edge** | Chromium | ✅ Lookup verified · install untested | Microsoft CDP API over WinHTTP |
-| **Cent Browser** | Chromium | ✅ Lookup verified · install untested | Vendor page → static.centbrowser.com |
+| **Edge** | Chromium | ✅ Lookup + unpack verified | Microsoft CDP API over WinHTTP |
+| **Cent Browser** | Chromium | ✅ Lookup + unpack verified | Vendor page → static.centbrowser.com |
 | **ungoogled-chromium** | Chromium | 🔜 Not wired — archive inspected | GitHub release ZIP, `chrome.exe` in one folder |
 | **Supermium** | Chromium (Win 7+) | 🔜 Not wired — archive inspected | GitHub release ZIP, flat `chrome.exe` |
 | **Thorium** | Chromium | 🔜 Not wired | GitHub releases, Windows ZIP |
@@ -76,6 +76,8 @@ from the vendor's own feed and installs the build itself.
 | **Naver Whale** | Chromium | ❌ No portable build | Installer only |
 | **Pale Moon / Basilisk** | Goanna | ❌ Not supported | Own packaging, not Chromium or Firefox shaped |
 
+
+**Lookup + unpack verified** means CI resolves the current build, downloads the real package and unpacks it to the path the launcher expects. The folder swap and the browser launch on a real machine are not exercised.
 Legend: ✅ wired and checked against the live feed · ⚠️ wired, source could not be verified
 from the build environment · 🔜 archive layout confirmed, wiring is open work
 ([ROADMAP](ROADMAP.md) G2) · ❌ no portable artifact to download.
