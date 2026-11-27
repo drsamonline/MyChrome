@@ -176,6 +176,44 @@ Check 'App self-test (every wired source)' {
     "$(([regex]::Matches($txt,'(?m)^PASS')).Count) sources ok"
 }
 
+Check 'Self-test survives a proxy that drops the connection' {
+    # I3: accept the connection and close it immediately - the closest a CI step can
+    # get to a transfer that dies in flight.
+    $probe = [System.Net.Sockets.TcpListener]::new([System.Net.IPAddress]::Loopback, 0)
+    $probe.Start()
+    $port = $probe.LocalEndpoint.Port
+    $probe.Stop()
+
+    $dropper = Start-Job -ScriptBlock {
+        param($p)
+        $l = [System.Net.Sockets.TcpListener]::new([System.Net.IPAddress]::Loopback, $p)
+        $l.Start()
+        $end = (Get-Date).AddMinutes(4)
+        while ((Get-Date) -lt $end) {
+            if ($l.Pending()) { $c = $l.AcceptTcpClient(); $c.Close() } else { Start-Sleep -Milliseconds 50 }
+        }
+        $l.Stop()
+    } -ArgumentList $port
+    Start-Sleep -Milliseconds 500
+
+    $exe = Join-Path $dist 'MyBrowser.exe'
+    $ini = Join-Path $dist 'MyBrowser.ini'
+    $text = Get-Content $ini -Raw
+    $text = $text -replace 'SelfTestProxy=[^\r\n]*', "SelfTestProxy=HTTP:127.0.0.1:$port"
+    Set-Content $ini $text -NoNewline
+
+    try {
+        $p = Start-Process $exe -ArgumentList '/selftest' -PassThru
+        if (-not $p.WaitForExit(120000)) { Stop-Process -Id $p.Id -Force; throw 'self-test hung when the proxy dropped connections' }
+        if ($p.ExitCode -eq 0) { throw 'self-test reported success although every connection was dropped' }
+        "failed cleanly against a dropping proxy, exit $($p.ExitCode)"
+    } finally {
+        Stop-Job $dropper -ErrorAction SilentlyContinue
+        Remove-Job $dropper -Force -ErrorAction SilentlyContinue
+        Set-Content $ini ($text -replace 'SelfTestProxy=[^\r\n]*', '') -NoNewline
+    }
+}
+
 Check 'Self-test fails cleanly behind a dead proxy' {
     # I3: point every probe at an unreachable endpoint and require a clean, bounded failure.
     $exe = Join-Path $dist 'MyBrowser.exe'
