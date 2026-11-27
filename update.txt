@@ -1,6 +1,6 @@
-latest=3.9.7
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.7/MyBrowser_v3.9.7.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.7/MyBrowser_v3.9.7_x64.7z
-update=1. 下載頁面改為指向各廠商官網；\n2. Brave 版本查詢快取 24 小時；\n3. 介面標題與回報文字去除他人名稱；\n4. 3.9.7
-update_zh-TW=1. 下載頁面改為指向各廠商官網；\n2. Brave 版本查詢快取 24 小時；\n3. 介面標題與回報文字去除他人名稱；\n4. 3.9.7
-update_en-US=1. Download pages now point at the vendors themselves;\n2. Brave lookup cached for 24 hours;\n3. Neutral window title and report text;\n4. 3.9.7
+latest=3.9.8
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.8/MyBrowser_v3.9.8.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.8/MyBrowser_v3.9.8_x64.7z
+update=1. Edge 更新改用 WinHTTP，支援代理並具備逾時；\n2. 自我檢測涵蓋 Edge；\n3. 3.9.8
+update_zh-TW=1. Edge 更新改用 WinHTTP，支援代理並具備逾時；\n2. 自我檢測涵蓋 Edge；\n3. 3.9.8
+update_en-US=1. Edge updates now use WinHTTP: proxy-aware and with a timeout;\n2. Self-test covers Edge;\n3. 3.9.8

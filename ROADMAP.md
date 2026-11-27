@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 24 of 75 done (32%), 5 partial, 46 open.** Updated for 3.9.7.
+**Progress: 25 of 75 done (33%), 5 partial, 45 open.** Updated for 3.9.8.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -81,7 +81,7 @@ How to read the columns:
 | F3 | winget manifest | P2 | ⬜ open | — |
 | F4 | ARM64 build | P2 | ⬜ open | — |
 | F5 | Fully portable settings | P2 | ⬜ open | — |
-| G1 | Real, verified source for Edge | P0 | ⬜ open | — |
+| G1 | Real source for Edge (proxy-aware WinHTTP) | P0 | ✅ done | 3.9.8 |
 | G2 | Real source for Vivaldi | P1 | ✅ done | 3.9.5 |
 | G3 | Real source for Cent | P2 | ⬜ open | — |
 | G4 | Chrome Extended Stable | P2 | ⬜ open | — |

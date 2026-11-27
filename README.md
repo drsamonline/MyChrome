@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.7_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.7.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.7_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.8_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.8.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.8_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -63,7 +63,7 @@ from the vendor's own feed and installs the build itself.
 | **Brave** | Chromium | ✅ Wired — verified | Official release ZIP, GitHub |
 | **Firefox** | Gecko | ✅ Wired — verified | Mozilla release feed (Release / ESR / Beta / Dev / Nightly) |
 | **Vivaldi** | Chromium | ✅ Wired — verified (3.9.5) | Sparkle appcast, x64 and x86 |
-| **Edge** | Chromium | ⚠️ Wired — unverified | Microsoft CDP API |
+| **Edge** | Chromium | ✅ Wired — proxy-aware, unverified install | Microsoft CDP API over WinHTTP |
 | **Cent Browser** | Chromium | ⚠️ Wired — unverified | Vendor download page |
 | **ungoogled-chromium** | Chromium | 🔜 Not wired — archive inspected | GitHub release ZIP, `chrome.exe` in one folder |
 | **Supermium** | Chromium (Win 7+) | 🔜 Not wired — archive inspected | GitHub release ZIP, flat `chrome.exe` |
@@ -90,20 +90,18 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.7
+## What's new in 3.9.8
 
-- **Download pages point at the vendors.** Every "open download page" link in the app
-  went to a third party's site; they now go to Google, Microsoft, Brave, Mozilla,
-  Vivaldi and Cent directly.
-- **Neutral branding in the UI.** The window title and the update-failure prompt no
-  longer carry another person's name.
-- **Brave lookups are cached for 24 hours.** GitHub allows 60 unauthenticated requests
-  per hour per IP and a shared connection exhausts that; CI already hit it once.
-- Docs corrected: browser counts, lineage wording, badge that had a pinned Chrome version.
+- **Edge updates go through WinHTTP.** The Edge lookup used `MSXML2.XMLHTTP`, which
+  ignored the proxy configured in the app and had no timeout — it could block the update
+  check indefinitely. It now uses the same WinHTTP session as every other source, so it
+  respects the proxy and times out.
+- **Edge is back in `/selftest`**, reported as informational until the install path is
+  confirmed on a real machine.
 
-Earlier: **3.9.6** added the atomic folder swap with rollback and `/selftest`.
-**3.9.5** made Vivaldi download for real. **3.9.4** fixed "No" disabling updates
-permanently. **3.9.3** removed hardcoded Google API credentials.
+Earlier: **3.9.7** pointed the download pages at the vendors and cached Brave lookups.
+**3.9.6** added the atomic folder swap with rollback and `/selftest`. **3.9.5** made
+Vivaldi download for real. **3.9.3** removed hardcoded Google API credentials.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases).
 
@@ -186,7 +184,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.7_source.7z`.
+`MyBrowser_v3.9.8_source.7z`.
 
 ## Lineage
 

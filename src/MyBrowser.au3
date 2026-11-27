@@ -1558,7 +1558,7 @@ Func _STRINGENDSWITH ( $SINPUT , $SSEARCH , $FCASESENSITIVE = False )
 	Return False
 EndFunc
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.7"
+Global Const $APPVERSION = "3.9.8"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -5115,12 +5115,13 @@ EndFunc
 Func _SELFTEST ( )
 	; Probes each wired source in a child process, exactly as the updater does, and kills
 	; it after 20 s. An in-process probe can block forever; a child cannot.
-	Local $ABROWSER [ 5 ] [ 3 ] = [ _
+	Local $ABROWSER [ 6 ] [ 3 ] = [ _
 		[ "Chrome" , "Stable" , 1 ] , _
 		[ "Chromium" , "" , 1 ] , _
 		[ "Brave" , "Release" , 1 ] , _
 		[ "Firefox" , "Release" , 1 ] , _
-		[ "Vivaldi" , "" , 1 ] ]
+		[ "Vivaldi" , "" , 1 ] , _
+		[ "Edge" , "Stable" , 0 ] ]
 	Local $I , $SINFO , $AINFO , $SLINES = "" , $IFAIL = 0 , $IPID , $ITICKS
 	Local $HREP = FileOpen ( @ScriptDir & "\MyBrowser.selftest.txt" , 2 )
 	For $I = 0 To UBound ( $ABROWSER ) - 1
@@ -5249,6 +5250,18 @@ Func _BRAVE_GITHUB_LATEST ( $HHTTPOPEN , $NEED_X86 )
 	IniWrite ( $INIFILE , "Cache" , $SCACHEKEY , $SRESULT )
 	IniWrite ( $INIFILE , "Cache" , $SCACHEKEY & "_at" , _NOWCALC ( ) )
 	Return $SRESULT
+EndFunc
+Func _EDGE_POST ( $HHTTPOPEN , $SPATH , $SDATA )
+	; G1: the same request through WinHTTP instead of MSXML2, so it honours the proxy the
+	; user configured and inherits the session timeout. The MSXML2 call was synchronous
+	; with no timeout and could block the update check indefinitely.
+	Local $HCONNECT = _WINHTTPCONNECT ( $HHTTPOPEN , "msedge.api.cdp.microsoft.com" )
+	If @error Then Return ""
+	Local $SBODY = _WINHTTPSIMPLESSLREQUEST ( $HCONNECT , "POST" , $SPATH , Default , $SDATA , "User-Agent: Microsoft Edge Update/1.3.183.29;winhttp" & @CRLF & "Content-Type: application/json" )
+	Local $IERR = @error
+	_WINHTTPCLOSEHANDLE ( $HCONNECT )
+	If $IERR Then Return ""
+	Return $SBODY
 EndFunc
 Func _VIVALDI_LATEST ( $HHTTPOPEN , $NEED_X86 )
 	; Sparkle appcast: the newest enclosure is the full installer, deltas carry a .cab suffix.
@@ -5439,24 +5452,14 @@ Func GET_LATEST_CHROME_VER ( $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 = 0 , $I
 		EndSwitch
 		For $I = 1 To 3
 			$DATA = "{""targetingAttributes"":{""AppAp"":"""",""AppCohort"":"""",""AppLang"":""de-de"",""AppRollout"":""1.0"",""AppVersion"":"""",""IsMachine"":""0"",""OsArch"":""" & $OSARCH & """,""OsPlatform"":""win"",""OsVersion"":"""",""Updater"":""MicrosoftEdgeUpdate"",""UpdaterVersion"":""1.3.183.29""}}"
-			$OHTTP = ObjCreate ( "MSXML2.XMLHTTP.6.0" )
-			$OHTTP .open ( "POST" , "https://msedge.api.cdp.microsoft.com/api/v1.1/contents/Browser/namespaces/Default/names/" & $AP & "/versions/latest?action=select" , False )
-			$OHTTP .setRequestHeader ( "User-Agent" , "Microsoft Edge Update/1.3.183.29;winhttp" )
-			$OHTTP .setrequestheader ( "Content-Type" , "application/json" )
-			$OHTTP .send ( $DATA )
-			$ORECEIVED = $OHTTP .responsetext
+			$ORECEIVED = _EDGE_POST ( $HHTTPOPEN , "/api/v1.1/contents/Browser/namespaces/Default/names/" & $AP & "/versions/latest?action=select" , $DATA )
 			$POSITION = StringInStr ( $ORECEIVED , """Version"":""" )
 			$URLTMP = StringMid ( $ORECEIVED , $POSITION + 11 , StringLen ( $ORECEIVED ) - $POSITION - 11 )
 			$URL = StringSplit ( $URLTMP , """" )
 			$EDGEVERSION = $URL [ 1 ]
 			$VAR = $EDGEVERSION
 			$DATA = "{}"
-			$OHTTP = ObjCreate ( "MSXML2.XMLHTTP.6.0" )
-			$OHTTP .open ( "Post" , "https://msedge.api.cdp.microsoft.com/api/v1.1/internal/contents/Browser/namespaces/Default/names/" & $AP & "/versions/" & $EDGEVERSION & "/files?action=GenerateDownloadInfo&foregroundPriority=true" , False )
-			$OHTTP .setRequestHeader ( "User-Agent" , "Microsoft Edge Update/1.3.183.29;winhttp" )
-			$OHTTP .setrequestheader ( "Content-Type" , "application/json" )
-			$OHTTP .send ( $DATA )
-			$ORECEIVED = $OHTTP .responsetext
+			$ORECEIVED = _EDGE_POST ( $HHTTPOPEN , "/api/v1.1/internal/contents/Browser/namespaces/Default/names/" & $AP & "/versions/" & $EDGEVERSION & "/files?action=GenerateDownloadInfo&foregroundPriority=true" , $DATA )
 			If $OSARCH == "x86" Then
 				$POSITION = StringInStr ( $ORECEIVED , """Url"":""" )
 				$POSITION2 = StringInStr ( $ORECEIVED , """,""FileId""" )
@@ -5504,7 +5507,13 @@ Func GET_LATEST_CHROME_VER ( $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 = 0 , $I
 			EndIf
 			_SETVAR ( "DLInfo" , "|||||" & StringFormat ( $LANGGETCHROMECHANCES , "Edge" , $I ) )
 			$LATESTVER = $VAR
+			; Microsoft returns a plain-http delivery URL. Try https first and keep the
+			; http URL as a fallback, so the installer is never fetched in the clear if
+			; the CDN supports TLS.
 			$LATESTURLS = $URL4
+			If StringLeft ( StringLower ( $URL4 ) , 7 ) = "http://" Then
+				$LATESTURLS = "https://" & StringMid ( $URL4 , 8 ) & " " & $URL4
+			EndIf
 			_WINHTTPCLOSEHANDLE ( $HCONNECT )
 		Next
 		_WINHTTPCLOSEHANDLE ( $HHTTPOPEN )
