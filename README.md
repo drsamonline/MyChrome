@@ -41,6 +41,15 @@ File names carry the version, so the release page is the stable link. Unzip, run
 `MyBrowser.exe`, pick a browser and channel. The executable is unsigned, so Windows may
 warn on first run.
 
+Verify a download before running it — one command, both checks:
+
+```powershell
+./build/verify-release.ps1 -Path .\MyBrowser_v3.9.26_x64.7z
+```
+
+It compares the file's SHA256 with the published manifest and asks the GitHub CLI to
+verify the build provenance attestation. See [`SECURITY.md`](SECURITY.md#verifying-a-download).
+
 ## What it does
 
 ```
