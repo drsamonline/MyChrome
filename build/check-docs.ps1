@@ -46,8 +46,8 @@ else {
 $tags = @(git -C $root tag | Where-Object { $_ -match '^v\d' } | ForEach-Object { $_.Substring(1) })
 if ($tags.Count -eq 0) { Write-Host 'SKIP  no tags in this checkout (fetch-depth)' }
 else {
-    $log = Get-Content (Join-Path $root 'CHANGELOG.md') -Raw
-    $missing = @($tags | Where-Object { $log -notmatch "(?m)^## $([regex]::Escape($_))$" })
+    $logLines = Get-Content (Join-Path $root 'CHANGELOG.md')
+    $missing = @($tags | Where-Object { $logLines -notcontains "## $_" })
     if ($missing.Count -gt 0) { Bad "CHANGELOG missing: $($missing -join ', ')" }
     else { Ok "CHANGELOG covers $($tags.Count) tags" }
 }
