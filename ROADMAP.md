@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 59 of 75 done (79%), 5 partial, 11 open.** Updated for 3.9.24.
+**Progress: 60 of 75 done (80%), 4 partial, 11 open.** Updated for 3.9.24.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -97,7 +97,7 @@ How to read the columns:
 | H7 | .editorconfig + format pass | P1 | ✅ done | 3.9.9 |
 | I1 | Smoke test in CI | P0 | ✅ done | 3.9.6 |
 | I2 | --selftest flag | P1 | ✅ done | 3.9.6 |
-| I3 | Fault injection: unreachable endpoint | P2 | 🟡 partial | 3.9.23 |
+| I3 | Fault injection: refused and dropped connections | P2 | ✅ done | 3.9.24 |
 | I4 | OS x arch x browser matrix | P2 | 🟡 partial | 3.9.24 — windows-2022 + 2025; 2019 retired |
 | I5 | Upgrade test 3.8.50 to current | P1 | ✅ done | 3.9.10 |
 | J1 | Enable GitHub Pages | P0 | ✅ done | 3.9.4 |
@@ -254,7 +254,7 @@ How to read the columns:
 | --- | --- | --- | --- | --- | --- |
 | I1 | Smoke test in CI on a Windows runner | Download one channel, launch it headless with `--version`, assert the version string. This is the single highest-value test | P0 | M | Medium |
 | I2 | `--selftest` flag that probes every source and prints pass/fail | Turns "is it broken?" into one command | P1 | S | Low |
-| I3 | Fault injection: proxy that drops mid-download | The resume path is the least tested code in the app | P2 | M | Low |
+| I3 | Fault injection: proxy that drops mid-download | Two cases are now covered every run: a refused port and a listener that accepts then closes. The resume path itself (a body truncated mid-transfer) is still untested | P2 | M | Low |
 | I4 | Matrix: Win10/Win11 × x64/x86 × each browser | Two Windows generations run every check; x64 and x86 both launch; 7 of 7 wired sources resolve. `windows-2019` is retired, so older generations cannot be covered | P2 | L | Low |
 | I5 | Upgrade test from 3.8.50 → current | Proves the in-app updater still works across the fork boundary | P1 | S | Low |
 
