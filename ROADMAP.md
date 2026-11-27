@@ -255,7 +255,7 @@ How to read the columns:
 | I1 | Smoke test in CI on a Windows runner | Download one channel, launch it headless with `--version`, assert the version string. This is the single highest-value test | P0 | M | Medium |
 | I2 | `--selftest` flag that probes every source and prints pass/fail | Turns "is it broken?" into one command | P1 | S | Low |
 | I3 | Fault injection: proxy that drops mid-download | Two cases are now covered every run: a refused port and a listener that accepts then closes. The resume path itself (a body truncated mid-transfer) is still untested | P2 | M | Low |
-| I4 | Matrix: Win10/Win11 × x64/x86 × each browser | The real Firefox installer, Chrome for Testing ZIP and Cent installer are downloaded and unpacked on every run, proving each archive yields the path the launcher expects | Two Windows generations run every check; x64 and x86 both launch; 7 of 7 wired sources resolve. `windows-2019` is retired, so older generations cannot be covered | P2 | L | Low |
+| I4 | Matrix: Win10/Win11 × x64/x86 × each browser | The real Firefox, Chrome for Testing, Cent, Brave and Vivaldi packages are downloaded and unpacked on every run, proving each archive yields the path the launcher expects | Two Windows generations run every check; x64 and x86 both launch; 7 of 7 wired sources resolve. `windows-2019` is retired, so older generations cannot be covered | P2 | L | Low |
 | I5 | Upgrade test from 3.8.50 → current | Proves the in-app updater still works across the fork boundary | P1 | S | Low |
 
 ## J. Distribution

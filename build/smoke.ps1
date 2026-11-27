@@ -241,7 +241,8 @@ if ($Deep) {
             }
             $found = Get-ChildItem (Join-Path $dir 'out') -Recurse -Filter 'vivaldi.exe' -ErrorAction SilentlyContinue | Select-Object -First 1
             if (-not $found) { throw 'vivaldi.exe not found after extraction' }
-            $rel = $found.FullName.Substring((Join-Path $dir 'out').Length + 1)
+            # $env:TEMP can be a short path while FullName is the long one, so trim by marker.
+            $rel = ($found.FullName -replace '^.*\\out\\', '')
             "vivaldi.exe at $rel"
         } finally { Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue }
     }
