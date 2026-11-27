@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 53 of 75 done (71%), 5 partial, 17 open.** Updated for 3.9.18.
+**Progress: 54 of 75 done (72%), 5 partial, 16 open.** Updated for 3.9.19.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -63,7 +63,7 @@ How to read the columns:
 | C7 | VirusTotal link in release notes | P3 | ✅ done | 3.9.11 |
 | C8 | Document no telemetry | P2 | ✅ done | 3.9.3 |
 | D1 | Strip unreferenced UDFs | P2 | ⬜ open | — |
-| D2 | Split 6,900-line file into includes | P2 | ⬜ open | — |
+| D2 | Split the file into includes | P2 | ✅ done | 3.9.11 + 3.9.19 |
 | D3 | Adaptive segment count | P3 | ⬜ open | — |
 | D4 | Keep previous build for rollback | P3 | ⬜ open | — |
 | E1 | First-run wizard | P1 | ✅ done | pre-existing |

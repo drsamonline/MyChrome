@@ -1,6 +1,6 @@
-latest=3.9.18
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.18/MyBrowser_v3.9.18.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.18/MyBrowser_v3.9.18_x64.7z
-update=1. 發佈同時提供 .zip 檔；\n2. 新增 winget 清單；\n3. 3.9.18
-update_zh-TW=1. 發佈同時提供 .zip 檔；\n2. 新增 winget 清單；\n3. 3.9.18
-update_en-US=1. Releases now ship a .zip as well as a .7z;\n2. winget manifest added;\n3. 3.9.18
+latest=3.9.19
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.19/MyBrowser_v3.9.19.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.19/MyBrowser_v3.9.19_x64.7z
+update=1. 輔助函式再拆分至 include/helpers.au3；\n2. 3.9.19
+update_zh-TW=1. 輔助函式再拆分至 include/helpers.au3；\n2. 3.9.19
+update_en-US=1. Helpers split into include/helpers.au3;\n2. 3.9.19
