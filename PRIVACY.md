@@ -1,6 +1,6 @@
 # Privacy
 
-MyBrowser 3.9.4 · effective 27 November 2026
+Applies to MyBrowser 3.9.x · last revised 27 November 2026
 
 MyBrowser is a portable launcher. It has no account system, no telemetry, no analytics
 and no crash reporting. Nothing about you is sent anywhere by this program.

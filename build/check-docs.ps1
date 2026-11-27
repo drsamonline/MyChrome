@@ -42,6 +42,16 @@ else {
     }
 }
 
+# 2b. The landing page must carry the current version and asset names
+$page = Join-Path $root 'docs\index.html'
+if (Test-Path $page) {
+    $html = Get-Content $page -Raw
+    $pageVersions = @([regex]::Matches($html, '3\.9\.\d+') | ForEach-Object { $_.Value } | Sort-Object -Unique)
+    $wrong = @($pageVersions | Where-Object { $_ -ne $version })
+    if ($wrong.Count -gt 0) { Bad "docs/index.html references $($wrong -join ', '), source is $version" }
+    else { Ok "landing page matches $version" }
+}
+
 # 3. CHANGELOG must mention every release tag
 $tags = @(git -C $root tag | Where-Object { $_ -match '^v\d' } | ForEach-Object { $_.Substring(1) })
 if ($tags.Count -eq 0) { Write-Host 'SKIP  no tags in this checkout (fetch-depth)' }

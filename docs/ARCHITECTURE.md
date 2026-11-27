@@ -95,3 +95,38 @@ tag attaches the archives and the checksums to a release.
   `ROADMAP.md` H1.
 - The version string lives in the `.au3` and both language files. `build.ps1` fails the
   build if they disagree.
+
+## Testing and gates
+
+Three layers, cheapest first. A release is only cut when all of them pass.
+
+| Layer | File | What it proves |
+| --- | --- | --- |
+| Documentation gate | `build/check-docs.ps1` | README asset names match the source version; the ROADMAP progress line matches its own status board; CHANGELOG covers every tag; no relative link is broken |
+| Smoke test | `build/smoke.ps1` | every source feed answers; the upgrade path from 3.8.50 exists; both binaries launch; a first run writes `MyBrowser.ini`; the self-test fails cleanly behind a dead proxy; the Scoop manifest hashes match their release |
+| App self-test | `MyBrowser.exe /selftest` | the application's own resolvers, one child process per source, 20 s cap each |
+
+The self-test runs the product code, not a re-implementation of it — that is why it
+caught the Firefox lookup hang that a PowerShell copy of the same request did not.
+
+Fault injection: setting `Settings\SelfTestProxy=HTTP:127.0.0.1:9` in `MyBrowser.ini`
+points every probe at a dead endpoint. CI uses it to prove the failure path terminates.
+
+## CI jobs
+
+| Job | Runner | Purpose |
+| --- | --- | --- |
+| `windows` | `windows-latest` (2025) | build, gates, smoke, attestation, release, manifest update |
+| `compat` | `windows-2022` | same build and checks on the previous Windows generation |
+
+## Package manifests
+
+`bucket/mybrowser.json` (Scoop) and `manifests/d/drsamonline/MyBrowser/<version>/`
+(winget) are rewritten by `build/update-manifests.ps1` on every tag, from the
+`SHA256SUMS.txt` of the release it just created, and committed with `[skip ci]`. They
+cannot drift from the release.
+
+## Version
+
+The version lives in `src/MyBrowser.au3` and is copied to both language files and
+`update.txt`. `build.ps1` refuses to build if the four disagree.

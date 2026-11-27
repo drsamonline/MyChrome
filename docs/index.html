@@ -264,10 +264,10 @@
           <span data-zh>选择浏览器、更新通道和架构。MyBrowser 会下载官方版本，解压到程序旁边，并使用独立配置运行。<b>不写入注册表</b>，无需管理员权限，删除文件夹即可卸载。</span>
         </p>
         <div class="cta">
-          <a class="btn primary" href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.16/MyBrowser_v3.9.16_x64.7z">
-            <span><span data-en>Download</span><span data-zh>下载</span> x64</span><span class="k">3.9.16 · .7z</span>
+          <a class="btn primary" href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.23/MyBrowser_v3.9.23_x64.7z">
+            <span><span data-en>Download</span><span data-zh>下载</span> x64</span><span class="k">3.9.23 · .7z</span>
           </a>
-          <a class="btn ghost" href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.16/MyBrowser_v3.9.16.7z">
+          <a class="btn ghost" href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.23/MyBrowser_v3.9.23.7z">
             <span>x86</span><span class="k">32-bit</span>
           </a>
         </div>
@@ -275,7 +275,7 @@
 
       <aside class="spec">
         <dl>
-          <dt>Version</dt><dd>3.9.16</dd>
+          <dt>Version</dt><dd>3.9.23</dd>
           <dt>Chrome</dt><dd><span class="pulse"></span><span class="live" id="cft">158.0.8127.88</span></dd>
           <dt>Channels</dt><dd>Stable · Beta · Dev · Canary</dd>
           <dt>Package</dt><dd>~3.5 MB</dd>
@@ -358,25 +358,25 @@
   <section class="block" id="new">
     <div class="sec-head">
       <span class="num">03</span>
-      <h2><span data-en>What changed in 3.9.16</span><span data-zh>3.9.16 更新內容</span></h2>
+      <h2><span data-en>What changed in 3.9.23</span><span data-zh>3.9.23 更新內容</span></h2>
       <p><span data-en>Update behaviour, a support log, and signing ready to switch on.</span><span data-zh>更新行為、支援記錄，以及可隨時啟用的簽章。</span></p>
     </div>
     <div class="log">
       <div class="log-row">
-        <span class="tag">Fixed<small>silent failure</small></span>
-        <p><span data-en>If the Chrome feed has no build for the architecture you asked for, that is now written to the log instead of failing quietly.</span><span data-zh>若 Chrome 資料源沒有對應架構的版本，現在會明確寫入記錄，不再默默失敗。</span></p>
+        <span class="tag">Tested<small>failure path</small></span>
+        <p><span data-en>CI points every probe at an unreachable endpoint and requires the self-test to fail cleanly, within a bounded time — not hang, not claim success.</span><span data-zh>CI 會把所有探測指向無法連線的端點，要求自我檢測在有限時間內乾淨失敗，而不是卡住或誤報成功。</span></p>
       </div>
       <div class="log-row">
-        <span class="tag">Docs<small>CHANGELOG</small></span>
-        <p><span data-en>Every release since 3.9.0 is in one file, with the notable change per version.</span><span data-zh>自 3.9.0 起的每個版本都整理在同一份檔案中。</span></p>
+        <span class="tag">Tested<small>two Windows</small></span>
+        <p><span data-en>The same build and the same checks run on Windows Server 2022 and 2025.</span><span data-zh>同一份建置與檢查會在 Windows Server 2022 與 2025 上執行。</span></p>
       </div>
       <div class="log-row">
-        <span class="tag">Network<small>mirror</small></span>
-        <p><span data-en>The self-updater can fall back to a mirror named in the manifest when GitHub is slow or blocked.</span><span data-zh>自我更新可在 GitHub 緩慢或被封鎖時改用清單指定的鏡像。</span></p>
+        <span class="tag">Packaging<small>self-updating</small></span>
+        <p><span data-en>Scoop and winget manifests are rewritten by CI from the release's own checksums, so they cannot drift.</span><span data-zh>Scoop 與 winget 清單由 CI 依發布校驗值自動改寫，不會再落後。</span></p>
       </div>
       <div class="log-row">
-        <span class="tag">Trust<small>verify</small></span>
-        <p><span data-en>SHA256SUMS on every release, signed provenance on tagged builds, pasteable failure dialogs.</span><span data-zh>每版附 SHA256SUMS、標籤建置附簽章來源證明、失敗對話框可一鍵複製。</span></p>
+        <span class="tag">Docs<small>gated</small></span>
+        <p><span data-en>A CI gate checks version numbers, asset names, roadmap counts and links before anything ships.</span><span data-zh>CI 會在建置前檢查版本號、檔名、路線圖計數與連結。</span></p>
       </div>
     </div>
   </section>
@@ -388,15 +388,15 @@
       <p><span data-en>Unzip, run the exe, pick a browser. That is the whole setup.</span><span data-zh>解压、运行、选择浏览器，安装就这些。</span></p>
     </div>
     <div class="dl">
-      <a href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.16/MyBrowser_v3.9.16_x64.7z">
+      <a href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.23/MyBrowser_v3.9.23_x64.7z">
         <span class="arch">x64 · Recommended</span>
-        <span class="name">MyBrowser 3.9.16</span>
-        <span class="meta">MyBrowser_v3.9.16_x64.7z · Windows 10/11 64-bit</span>
+        <span class="name">MyBrowser 3.9.23</span>
+        <span class="meta">MyBrowser_v3.9.23_x64.7z · Windows 10/11 64-bit</span>
       </a>
-      <a href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.16/MyBrowser_v3.9.16.7z">
+      <a href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.23/MyBrowser_v3.9.23.7z">
         <span class="arch">x86 · Legacy</span>
-        <span class="name">MyBrowser 3.9.16</span>
-        <span class="meta">MyBrowser_v3.9.16.7z · 32-bit systems</span>
+        <span class="name">MyBrowser 3.9.23</span>
+        <span class="meta">MyBrowser_v3.9.23.7z · 32-bit systems</span>
       </a>
     </div>
     <div class="sub-dl">
@@ -422,8 +422,8 @@ cd MyChrome
 <span class="a">./build/build.ps1</span>
 
 <span class="c"># output</span>
-dist/MyBrowser_v3.9.16_x64.7z
-dist/MyBrowser_v3.9.16.7z</pre>
+dist/MyBrowser_v3.9.23_x64.7z
+dist/MyBrowser_v3.9.23.7z</pre>
     </div>
   </section>
 
@@ -451,7 +451,7 @@ dist/MyBrowser_v3.9.16.7z</pre>
 
 <footer class="wrap">
   <div class="foot">
-    <span>MyBrowser 3.9.16 · GPL-3.0 · Dr Sohil Momin</span>
+    <span>MyBrowser 3.9.23 · GPL-3.0 · Dr Sohil Momin</span>
     <span>
       <a href="https://github.com/drsamonline/MyChrome"><span data-en>Source</span><span data-zh>原始碼</span></a> ·
       <a href="https://github.com/drsamonline/MyChrome/blob/master/README.md#lineage"><span data-en>Lineage</span><span data-zh>來源</span></a> ·

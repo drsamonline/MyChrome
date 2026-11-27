@@ -1,6 +1,6 @@
 # Terms
 
-MyBrowser 3.9.5 · effective 27 November 2026
+Applies to MyBrowser 3.9.x · last revised 27 November 2026
 
 Short version: this is free software under the GPL. Donations are gifts, not purchases,
 and there is no warranty.
