@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 61 of 75 done (81%), 3 partial, 11 open.** Updated for 3.9.26.
+**Progress: 62 of 75 done (83%), 3 partial, 10 open.** Updated for 3.9.26.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -54,7 +54,7 @@ How to read the columns:
 | B8 | Background check with notification | P2 | ✅ done | 3.9.22 |
 | B9 | Update log | P2 | ✅ done | 3.9.4 |
 | B10 | Concurrent-instance lock | P2 | ✅ done | 3.9.12 |
-| C1 | Authenticode signing | P0 | 🟡 partial | 3.9.4 |
+| C1 | Authenticode signing | P0 | 🟡 partial | 3.9.26 — signs and verifies when a certificate is set; none is |
 | C2 | SHA256SUMS per release | P1 | ✅ done | 3.9.3 |
 | C3 | No --no-sandbox default | P0 | ✅ done | 3.9.3 |
 | C4 | Reconsider --test-type | P2 | ✅ reviewed — keeping it: `--with-greenchrome` is an unknown flag to Chrome and would show an infobar without it | 3.9.16 |
@@ -98,7 +98,7 @@ How to read the columns:
 | I1 | Smoke test in CI | P0 | ✅ done | 3.9.6 |
 | I2 | --selftest flag | P1 | ✅ done | 3.9.6 |
 | I3 | Fault injection: refused and dropped connections | P2 | ✅ done | 3.9.24 |
-| I4 | OS x arch x browser matrix | P2 | 🟡 partial | 3.9.24 — windows-2022 + 2025; 2019 retired |
+| I4 | OS x arch x browser matrix | P2 | ✅ done | 3.9.26 — 2 Windows generations x x64/x86 x 7 browsers |
 | I5 | Upgrade test 3.8.50 to current | P1 | ✅ done | 3.9.10 |
 | J1 | Enable GitHub Pages | P0 | ✅ done | 3.9.4 |
 | J2 | Mirror releases for mainland China | P1 | 🟡 partial | 3.9.15 |

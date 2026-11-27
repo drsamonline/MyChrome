@@ -93,9 +93,24 @@ if ($env:SIGNING_PFX) {
         if ($LASTEXITCODE -ne 0) { throw "signing failed for $f" }
     }
     Remove-Item $pfx -Force
-    Write-Host 'Signed both executables.'
+
+    # C1: do not trust the signer's exit code alone - verify what was produced.
+    foreach ($f in @($out64, $out86)) {
+        $sig = Get-AuthenticodeSignature $f
+        if ($sig.Status -ne 'Valid') {
+            throw "signature on $(Split-Path -Leaf $f) is $($sig.Status), not Valid"
+        }
+        if (-not $sig.TimeStamperCertificate) {
+            throw "signature on $(Split-Path -Leaf $f) carries no timestamp"
+        }
+        Write-Host ("Signed and timestamped: {0} by {1}" -f (Split-Path -Leaf $f), $sig.SignerCertificate.Subject)
+    }
 } else {
-    Write-Host 'No SIGNING_PFX secret configured; shipping unsigned binaries.'
+    # C1: an unsigned release is a choice, not an accident. Say so loudly and record it
+    # in the build summary so it cannot be overlooked.
+    Write-Warning 'No SIGNING_PFX secret configured; shipping unsigned binaries.'
+    Write-Host '### Signing' >> $env:GITHUB_STEP_SUMMARY
+    Write-Host 'Unsigned build: no `SIGNING_PFX` secret is configured for this repository.' >> $env:GITHUB_STEP_SUMMARY
 }
 
 # ---------------------------------------------------------------- package
