@@ -46,7 +46,15 @@ else {
 $page = Join-Path $root 'docs\index.html'
 if (Test-Path $page) {
     $html = Get-Content $page -Raw
-    $pageVersions = @([regex]::Matches($html, '3\.9\.\d+') | ForEach-Object { $_.Value } | Sort-Object -Unique)
+    # A version that follows "since" is history the page is meant to show; anything else
+    # is the page failing to keep up.
+    $pageVersions = @()
+    foreach ($m in [regex]::Matches($html, '3\.9\.\d+')) {
+        $before = $html.Substring([Math]::Max(0, $m.Index - 12), [Math]::Min(12, $m.Index))
+        if ($before -match 'since\s*$') { continue }
+        $pageVersions += $m.Value
+    }
+    $pageVersions = @($pageVersions | Sort-Object -Unique)
     $wrong = @($pageVersions | Where-Object { $_ -ne $version })
     if ($wrong.Count -gt 0) { Bad "docs/index.html references $($wrong -join ', '), source is $version" }
     else { Ok "landing page matches $version" }
