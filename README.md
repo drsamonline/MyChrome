@@ -28,16 +28,18 @@ delete the folder to uninstall.
 
 ## Download
 
-| Build | File | Notes |
+[**Latest release →**](https://github.com/drsamonline/MyChrome/releases/latest)
+
+| Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | [`MyBrowser_v3.9.7_x64.7z`](https://github.com/drsamonline/MyChrome/releases/latest/download/MyBrowser_v3.9.3_x64.7z) | Windows 10 / 11, 64-bit |
-| x86 | [`MyBrowser_v3.9.7.7z`](https://github.com/drsamonline/MyChrome/releases/latest/download/MyBrowser_v3.9.3.7z) | 32-bit systems |
+| **x64** (recommended) | `MyBrowser_v3.9.7_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.7.7z` | 32-bit systems |
 | Source | `MyBrowser_v3.9.7_source.7z` | source, resources, build scripts |
+| Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
-Unzip, run `MyBrowser.exe`, pick a browser and channel. Each release publishes
-`SHA256SUMS.txt`; verify with `certutil -hashfile <file> SHA256`.
-
-The executable is unsigned, so Windows may warn on first run.
+File names carry the version, so the release page is the stable link. Unzip, run
+`MyBrowser.exe`, pick a browser and channel. The executable is unsigned, so Windows may
+warn on first run.
 
 ## What it does
 
