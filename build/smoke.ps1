@@ -457,6 +457,46 @@ if ($Deep -and $env:MYBROWSER_LAUNCH_TEST -eq '1') {
         }
     }
 
+    Check '/profile <name> selects the data folder from the command line' {
+        # E8: the flag must win over the ini and persist, without a settings dialog.
+        $chromeExe = Join-Path $dist 'App\chrome-win64\chrome.exe'
+        if (-not (Test-Path $chromeExe)) { throw 'no Chrome in dist\App (deep Chrome check did not run)' }
+        $au3 = Join-Path $root 'src\MyBrowser.au3'
+        $ver = ([regex]::Match((Get-Content $au3 -Raw), 'APPVERSION = "([\d.]+)"')).Groups[1].Value
+        $ini = Join-Path $dist 'MyBrowser.ini'
+        $named = Join-Path $dist 'App\Profiles\CliProfile'
+        Remove-Item $named -Recurse -Force -ErrorAction SilentlyContinue
+        $lines = @(
+            '[Settings]'
+            "AppVersion=$ver"
+            'Platform=win'
+            'BrowserType=Chrome'
+            'Channel=Stable'
+            "ChromePath=$chromeExe"
+            'UpdateInterval=-1'
+            'AppUpdate=0'
+        )
+        Set-Content $ini ($lines -join "`r`n") -Encoding ASCII
+        $app = Start-Process (Join-Path $dist 'MyBrowser.exe') -ArgumentList '/profile','CliProfile' -WorkingDirectory $dist -PassThru
+        try {
+            $found = $false
+            for ($i = 0; $i -lt 30; $i++) {
+                Start-Sleep -Milliseconds 500
+                if (Test-Path $named) { $found = $true; break }
+            }
+            if (-not $found) { throw 'App\Profiles\CliProfile was not created' }
+            $written = ([regex]::Match((Get-Content $ini -Raw), 'ActiveProfile=(\S+)')).Groups[1].Value
+            if ($written -ne 'CliProfile') { throw "ActiveProfile was not persisted; ini says '$written'" }
+            'created App\Profiles\CliProfile and persisted ActiveProfile'
+        } finally {
+            Get-Process chrome -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+            if (-not $app.HasExited) { Stop-Process -Id $app.Id -Force -ErrorAction SilentlyContinue }
+            Start-Sleep -Milliseconds 500
+            Remove-Item (Join-Path $dist 'App\Profiles') -Recurse -Force -ErrorAction SilentlyContinue
+            Remove-Item $ini -Force -ErrorAction SilentlyContinue
+        }
+    }
+
 Check 'Launcher starts a real browser from App\' {
         # The end-to-end path: a configured ini, a real browser on disk, and the launcher
         # expected to start it. Nothing here is mocked.
