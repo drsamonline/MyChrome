@@ -425,10 +425,13 @@ if ($Deep) {
 
         # First establish that Chrome itself can run here; otherwise this check is
         # measuring the runner, not the launcher.
-        $probe = Start-Process $chromeExe -ArgumentList '--headless','--disable-gpu','--dump-dom','about:blank' -PassThru -RedirectStandardOutput (Join-Path $dir 'chrome.out') -RedirectStandardError (Join-Path $dir 'chrome.err') -NoNewWindow
+        $probeOut = Join-Path $dist 'chrome-probe.out'
+        $probeErrFile = Join-Path $dist 'chrome-probe.err'
+        $probe = Start-Process $chromeExe -ArgumentList '--headless','--disable-gpu','--dump-dom','about:blank' -PassThru -RedirectStandardOutput $probeOut -RedirectStandardError $probeErrFile -NoNewWindow
         $probeOk = $probe.WaitForExit(30000)
         if (-not $probeOk) { Stop-Process -Id $probe.Id -Force -ErrorAction SilentlyContinue }
-        $probeErr = if (Test-Path (Join-Path $dir 'chrome.err')) { (Get-Content (Join-Path $dir 'chrome.err') -Raw).Trim() } else { '' }
+        $probeErr = if (Test-Path $probeErrFile) { (Get-Content $probeErrFile -Raw).Trim() } else { '' }
+        Remove-Item $probeOut, $probeErrFile -Force -ErrorAction SilentlyContinue
         if (-not $probeOk -or $probe.ExitCode -ne 0) {
             throw "Chrome itself cannot run in this runner (exit $($probe.ExitCode)): $probeErr"
         }
