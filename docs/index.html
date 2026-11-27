@@ -324,7 +324,7 @@
     <div class="sec-head">
       <span class="num">02</span>
       <h2><span data-en>Browser support</span><span data-zh>瀏覽器支援</span></h2>
-      <p><span data-en>Three tiers. <b>Lookup ok</b> means CI proves the launcher resolves the current build and a usable download URL. The unpack-and-install step is not exercised on a real machine for any browser.</span><span data-zh>三個層級。<b>Lookup ok</b> 表示 CI 已驗證可解析目前版本與可用的下載連結；實際解壓安裝在任何瀏覽器上都尚未於真實機器驗證。</span></p>
+      <p><span data-en>Three tiers. <b>Lookup ok</b> means CI resolves the current build, downloads the real package and unpacks it to the path the launcher expects. What is not exercised is the final folder swap and the browser launching on a real machine.</span><span data-zh>三個層級。<b>Lookup ok</b> 表示 CI 會解析目前版本、下載實際安裝檔，並解壓到啟動器預期的路徑；尚未驗證的是最後的資料夾替換與在真實機器上啟動瀏覽器。</span></p>
     </div>
     <table class="matrix">
       <thead>
