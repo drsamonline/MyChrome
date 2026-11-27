@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.22"
+Global Const $APPVERSION = "3.9.23"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -3636,6 +3636,8 @@ Func _SELFTEST ( )
 		[ "Edge" , "Stable" , 0 ] , _
 		[ "Cent" , "" , 0 ] ]
 	Local $I , $SINFO , $AINFO , $SLINES = "" , $IFAIL = 0 , $IPID , $ITICKS
+	; I3: Settings\SelfTestProxy lets CI point every probe at a dead endpoint.
+	Local $STESTPROXY = IniRead ( $INIFILE , "Settings" , "SelfTestProxy" , "" )
 	Local $HREP = FileOpen ( @ScriptDir & "\MyBrowser.selftest.txt" , 2 )
 	For $I = 0 To UBound ( $ABROWSER ) - 1
 		If $HREP <> - 1 Then
@@ -3643,7 +3645,7 @@ Func _SELFTEST ( )
 			FileFlush ( $HREP )
 		EndIf
 		_SETVAR ( "DLInfo" , "" )
-		$IPID = _STARTTHREAD ( @ScriptFullPath , "GET_LATEST_CHROME_VER" , "win" , $ABROWSER [ $I ] [ 0 ] , $ABROWSER [ $I ] [ 1 ] , 0 , "MyBrowser.ini" )
+		$IPID = _STARTTHREAD ( @ScriptFullPath , "GET_LATEST_CHROME_VER" , "win" , $ABROWSER [ $I ] [ 0 ] , $ABROWSER [ $I ] [ 1 ] , 0 , "MyBrowser.ini" , $STESTPROXY )
 		$ITICKS = 0
 		While 1
 			Sleep ( 200 )

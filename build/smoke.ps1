@@ -176,6 +176,22 @@ Check 'App self-test (every wired source)' {
     "$(([regex]::Matches($txt,'(?m)^PASS')).Count) sources ok"
 }
 
+Check 'Self-test fails cleanly behind a dead proxy' {
+    # I3: point every probe at an unreachable endpoint and require a clean, bounded failure.
+    $exe = Join-Path $dist 'MyBrowser.exe'
+    $ini = Join-Path $dist 'MyBrowser.ini'
+    if (-not (Test-Path $ini)) { throw 'no settings file to configure' }
+    $text = Get-Content $ini -Raw
+    if ($text -notmatch 'SelfTestProxy') {
+        $text = $text -replace '\[Settings\]', "[Settings]`r`nSelfTestProxy=HTTP:127.0.0.1:9"
+        Set-Content $ini $text -NoNewline
+    }
+    $p = Start-Process $exe -ArgumentList '/selftest' -PassThru
+    if (-not $p.WaitForExit(120000)) { Stop-Process -Id $p.Id -Force; throw 'self-test hung with an unreachable proxy' }
+    if ($p.ExitCode -eq 0) { throw 'self-test reported success with an unreachable proxy' }
+    "failed cleanly after a bounded wait, exit $($p.ExitCode)"
+}
+
 if ($skip.Count -gt 0) {
     Write-Host ("Skipped (external): " + ($skip -join ', '))
 }

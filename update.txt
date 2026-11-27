@@ -1,6 +1,6 @@
-latest=3.9.22
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.22/MyBrowser_v3.9.22.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.22/MyBrowser_v3.9.22_x64.7z
-update=1. 可選用非干擾的更新通知（SilentUpdateCheck）；\n2. 首次執行會建立設定檔（已納入測試）；\n3. 3.9.22
-update_zh-TW=1. 可選用非干擾的更新通知（SilentUpdateCheck）；\n2. 首次執行會建立設定檔（已納入測試）；\n3. 3.9.22
-update_en-US=1. Optional non-blocking update notice (SilentUpdateCheck);\n2. First run creating its settings file is now tested;\n3. 3.9.22
+latest=3.9.23
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.23/MyBrowser_v3.9.23.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.23/MyBrowser_v3.9.23_x64.7z
+update=1. 自我檢測可注入代理以測試失敗路徑；\n2. 3.9.23
+update_zh-TW=1. 自我檢測可注入代理以測試失敗路徑；\n2. 3.9.23
+update_en-US=1. Self-test can inject a proxy to exercise the failure path;\n2. 3.9.23
