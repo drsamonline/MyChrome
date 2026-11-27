@@ -416,8 +416,8 @@ if ($Deep) {
             'Platform=win'
             'BrowserType=Chrome'
             'Channel=Stable'
-            'ChromePath=.\App\chrome-win64\chrome.exe'
-            'UserDataDir=.\Profile'
+            "ChromePath=$chromeExe"
+            "UserDataDir=$profile"
             'UpdateInterval=-1'
             'AppUpdate=0'
         )
