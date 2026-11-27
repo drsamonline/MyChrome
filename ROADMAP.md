@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 49 of 75 done (65%), 5 partial, 21 open.** Updated for 3.9.16.
+**Progress: 52 of 75 done (69%), 5 partial, 18 open.** Updated for 3.9.17.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -66,7 +66,7 @@ How to read the columns:
 | D2 | Split 6,900-line file into includes | P2 | ⬜ open | — |
 | D3 | Adaptive segment count | P3 | ⬜ open | — |
 | D4 | Keep previous build for rollback | P3 | ⬜ open | — |
-| E1 | First-run wizard | P1 | ⬜ open | — |
+| E1 | First-run wizard | P1 | ✅ done | pre-existing |
 | E2 | DPI awareness | P1 | ✅ done | 3.9.3 |
 | E3 | Strings out of code into language files | P1 | ✅ done | 3.9.10 |
 | E4 | More languages | P2 | ⬜ open | — |
@@ -77,10 +77,10 @@ How to read the columns:
 | E9 | Keyboard nav and accessible names | P2 | ⬜ open | — |
 | E10 | Progress in taskbar button | P3 | ⬜ open | — |
 | F1 | CLI mode | P1 | 🟡 partial | 3.9.6 |
-| F2 | Scoop manifest | P2 | ⬜ open | — |
+| F2 | Scoop manifest | P2 | ✅ done | 3.9.17 |
 | F3 | winget manifest | P2 | ⬜ open | — |
 | F4 | ARM64 build | P2 | ⬜ open | — |
-| F5 | Fully portable settings | P2 | ⬜ open | — |
+| F5 | Fully portable settings | P2 | ✅ done | verified |
 | G1 | Real source for Edge (proxy-aware WinHTTP) | P0 | ✅ done | 3.9.8 |
 | G2 | Real source for Vivaldi | P1 | ✅ done | 3.9.5 |
 | G3 | Real source for Cent | P2 | ⬜ open | — |

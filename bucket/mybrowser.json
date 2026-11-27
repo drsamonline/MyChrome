@@ -1,0 +1,40 @@
+{
+    "version": "3.9.17",
+    "description": "Portable browser launcher for Windows: downloads a browser, unpacks it beside the executable and runs it with its own profile.",
+    "homepage": "https://github.com/drsamonline/MyChrome",
+    "license": "GPL-3.0-only",
+    "notes": [
+        "The executable is not code-signed, so Windows may warn on first run.",
+        "Verify the download against SHA256SUMS.txt on the release page."
+    ],
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/drsamonline/MyChrome/releases/download/v3.9.17/MyBrowser_v3.9.17_x64.7z",
+            "hash": "PLACEHOLDER"
+        },
+        "32bit": {
+            "url": "https://github.com/drsamonline/MyChrome/releases/download/v3.9.17/MyBrowser_v3.9.17.7z",
+            "hash": "PLACEHOLDER"
+        }
+    },
+    "bin": "MyBrowser.exe",
+    "shortcuts": [
+        [
+            "MyBrowser.exe",
+            "MyBrowser"
+        ]
+    ],
+    "checkver": {
+        "github": "https://github.com/drsamonline/MyChrome"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/drsamonline/MyChrome/releases/download/v$version/MyBrowser_v$version_x64.7z"
+            },
+            "32bit": {
+                "url": "https://github.com/drsamonline/MyChrome/releases/download/v$version/MyBrowser_v$version.7z"
+            }
+        }
+    }
+}

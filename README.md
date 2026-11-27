@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.16_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.16.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.16_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.17_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.17.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.17_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -90,15 +90,15 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.16
+## What's new in 3.9.17
 
-- **A missing architecture is reported.** If Chrome for Testing answers but has no build
-  for the requested architecture, that is now written to the log instead of failing
-  quietly into the installer fallback.
-- **`CHANGELOG.md`** — every release since 3.9.0 in one file.
+- **Scoop manifest** in `bucket/mybrowser.json` — `scoop install` from a local bucket, with
+  `checkver`/`autoupdate` wired to the releases.
+- **Documentation consistency pass:** every version, filename and link in the README,
+  CHANGELOG, ROADMAP and landing page checked against the source.
 
-Earlier: **3.9.15** added the mirror fallback for self-update. **3.9.13** swept leftover
-temp folders at startup.
+Earlier: **3.9.16** logs a missing architecture instead of failing silently. **3.9.15**
+added the mirror fallback.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases) ·
 [CHANGELOG.md](CHANGELOG.md)
@@ -185,7 +185,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.16_source.7z`.
+`MyBrowser_v3.9.17_source.7z`.
 
 ## Lineage
 

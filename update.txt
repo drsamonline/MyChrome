@@ -1,6 +1,6 @@
-latest=3.9.16
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.16/MyBrowser_v3.9.16.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.16/MyBrowser_v3.9.16_x64.7z
-update=1. 缺少對應架構時會明確記錄；\n2. 新增 CHANGELOG.md；\n3. 3.9.16
-update_zh-TW=1. 缺少對應架構時會明確記錄；\n2. 新增 CHANGELOG.md；\n3. 3.9.16
-update_en-US=1. A missing architecture is now logged clearly;\n2. CHANGELOG.md added;\n3. 3.9.16
+latest=3.9.17
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.17/MyBrowser_v3.9.17.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.17/MyBrowser_v3.9.17_x64.7z
+update=1. 新增 Scoop 安裝清單；\n2. 文件一致性檢查；\n3. 3.9.17
+update_zh-TW=1. 新增 Scoop 安裝清單；\n2. 文件一致性檢查；\n3. 3.9.17
+update_en-US=1. Scoop manifest added;\n2. Documentation consistency pass;\n3. 3.9.17
