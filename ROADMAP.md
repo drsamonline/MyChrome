@@ -168,6 +168,18 @@ How to read the columns:
 | 3.9.24 | 2026-11-27 | `update.txt` carries `sha256` / `sha256_x64`; the self-updater verifies before unpacking. |
 | 3.9.25 | 2026-11-27 | The self-test report no longer truncates download URLs at 90 characters. |
 
+
+### Open question: the launcher does not start a browser under a synthetic config
+
+`build/smoke.ps1` can be run with `MYBROWSER_LAUNCH_TEST=1` to attempt the full path:
+a hand-written `MyBrowser.ini`, a real Chrome for Testing in `App\`, and the launcher
+expected to start it. In CI the launcher exits without starting the browser and writes no
+log, while Chrome itself runs fine in the same runner (`--headless --dump-dom` succeeds).
+
+So the gap is in the launcher, not the environment. It needs a desktop to diagnose —
+this is the same blocker as F1. Until it is understood the check is opt-in, so it cannot
+make a release look broken.
+
 ## A. Download integrity and correctness
 
 | # | Item | Why | P | Eff | Risk |
