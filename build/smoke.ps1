@@ -489,7 +489,7 @@ Check 'verify-release.ps1 accepts a real published asset' {
     try {
         $url = "https://github.com/drsamonline/MyChrome/releases/download/v$ver/MyBrowser_v${ver}_x64.7z"
         Invoke-WebRequest $url -OutFile $tmp -UseBasicParsing
-        $out = & (Join-Path $PSScriptRoot 'verify-release.ps1') -Path $tmp 2>&1
+        $out = & (Join-Path $PSScriptRoot 'verify-release.ps1') -Path $tmp -Version $ver 2>&1
         if ($LASTEXITCODE -ne 0) { throw "verify-release.ps1 exited $LASTEXITCODE : $($out -join ' | ')" }
         $joined = $out -join ' | '
         if ($joined -notmatch 'PASS  checksum matches') { throw "no checksum pass line: $joined" }
