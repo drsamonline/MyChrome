@@ -179,6 +179,24 @@ if ($Deep) {
         } finally { Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue }
     }
 
+    Check 'Chromium snapshot ZIP unpacks to chrome-win\\chrome.exe' {
+        if (-not (Test-Path $seven)) { throw '7-Zip is not available on this runner' }
+        $rev = (Invoke-WebRequest 'https://storage.googleapis.com/chromium-browser-snapshots/Win_x64/LAST_CHANGE' -UseBasicParsing).Content.Trim()
+        if (-not $rev) { throw 'no revision in LAST_CHANGE' }
+        $url = "https://storage.googleapis.com/chromium-browser-snapshots/Win_x64/$rev/chrome-win.zip"
+        $dir = Join-Path $env:TEMP ('chromium-' + [guid]::NewGuid().ToString('N'))
+        New-Item -ItemType Directory -Force -Path $dir | Out-Null
+        try {
+            $zip = Join-Path $dir 'chrome-win.zip'
+            Invoke-WebRequest $url -OutFile $zip -UseBasicParsing
+            & $seven x $zip "-o$dir\out" -y | Out-Null
+            if (-not (Test-Path (Join-Path $dir 'out\chrome-win\chrome.exe'))) {
+                throw "chrome-win\chrome.exe missing; found: $((Get-ChildItem (Join-Path $dir 'out') -Name | Select-Object -First 5) -join ', ')"
+            }
+            "chrome-win\chrome.exe present (rev $rev)"
+        } finally { Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue }
+    }
+
     Check 'Cent installer unpacks to Chrome-bin\safemode.bat' {
         if (-not (Test-Path $seven)) { throw '7-Zip is not available on this runner' }
         $page = (Invoke-WebRequest 'https://www.centbrowser.com/' -UseBasicParsing).Content
