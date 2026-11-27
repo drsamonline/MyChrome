@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 30 of 75 done (40%), 5 partial, 40 open.** Updated for 3.9.9.
+**Progress: 33 of 75 done (44%), 5 partial, 37 open.** Updated for 3.9.9.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -59,7 +59,7 @@ How to read the columns:
 | C3 | No --no-sandbox default | P0 | ✅ done | 3.9.3 |
 | C4 | Reconsider --test-type | P2 | ⬜ open | — |
 | C5 | Injection off by default and labelled | P1 | ✅ done | 3.9.x |
-| C6 | Build provenance attestation | P2 | ⬜ open | — |
+| C6 | Build provenance attestation | P2 | ✅ done | repo |
 | C7 | VirusTotal link in release notes | P3 | ⬜ open | — |
 | C8 | Document no telemetry | P2 | ✅ done | 3.9.3 |
 | D1 | Strip unreferenced UDFs | P2 | ⬜ open | — |
@@ -102,8 +102,8 @@ How to read the columns:
 | I5 | Upgrade test 3.8.50 to current | P1 | ⬜ open | — |
 | J1 | Enable GitHub Pages | P0 | ✅ done | 3.9.4 |
 | J2 | Mirror releases for mainland China | P1 | ⬜ open | — |
-| J3 | Issue templates and support doc | P2 | ⬜ open | — |
-| J4 | Release notes in Chinese | P2 | ⬜ open | — |
+| J3 | Issue templates and support doc | P2 | ✅ done | repo |
+| J4 | Release notes in Chinese | P2 | ✅ done | repo |
 | K1 | GPL-3.0 LICENSE and NOTICE | P0 | ✅ done | 3.9.1 |
 | K2 | licenses/ for bundled binaries | P1 | ✅ done | 3.9.3 |
 | K3 | Source archive on every release | P1 | ✅ done | 3.9.1 |

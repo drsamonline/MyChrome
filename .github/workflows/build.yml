@@ -8,6 +8,8 @@ on:
 
 permissions:
   contents: write
+  id-token: write
+  attestations: write
 
 jobs:
   windows:
@@ -43,6 +45,12 @@ jobs:
             dist/SHA256SUMS.txt
           if-no-files-found: error
 
+      - name: Attest build provenance
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: 'dist/*.7z'
+
       - name: Attach to release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
@@ -52,4 +60,11 @@ jobs:
             dist/SHA256SUMS.txt
           body: |
             Portable multi-browser launcher built from source.
-            Chrome is fetched from the official Chrome for Testing feed.
+
+            Chrome is fetched from the official Chrome for Testing feed; Firefox,
+            Chromium, Brave, Vivaldi and Edge from their own feeds.
+
+            ---
+
+            便攜式多瀏覽器啟動器，由原始碼建置。
+            Chrome 取自官方 Chrome for Testing；Firefox、Chromium、Brave、Vivaldi、Edge 取自各自官方來源。

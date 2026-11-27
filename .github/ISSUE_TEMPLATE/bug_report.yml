@@ -1,0 +1,61 @@
+name: Bug report
+description: Something in the launcher does not work
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Attach `MyBrowser.log` if you have one — it is next to the executable and records
+        every update step. Security issues go through SECURITY.md, not here.
+  - type: input
+    id: version
+    attributes:
+      label: MyBrowser version
+      description: Shown in the settings window title bar.
+      placeholder: 3.9.9
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version
+      placeholder: Windows 11 23H2, x64
+    validations:
+      required: true
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser and channel
+      options:
+        - Chrome — Stable
+        - Chrome — Beta / Dev / Canary
+        - Chromium
+        - Brave
+        - Firefox
+        - Vivaldi
+        - Edge
+        - Cent
+        - Not browser specific
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you expected, what happened instead, and the exact error text.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Settings → browser Chrome, channel Stable
+        2. Click Update
+        3. ...
+  - type: textarea
+    id: log
+    attributes:
+      label: MyBrowser.log
+      description: Paste the last ~50 lines.
+      render: text

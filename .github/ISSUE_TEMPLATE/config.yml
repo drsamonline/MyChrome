@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: https://github.com/drsamonline/MyChrome/security/advisories/new
+    about: Please report vulnerabilities privately, not as a public issue.
+  - name: Support and known limits
+    url: https://github.com/drsamonline/MyChrome/blob/master/SUPPORT.md
+    about: Read what is verified and what is not before filing.

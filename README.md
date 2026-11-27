@@ -143,6 +143,7 @@ update.txt               self-update manifest read by the app
 | [`PRIVACY.md`](PRIVACY.md) | exactly what is sent where, what the log holds, and how to check it |
 | [`TERMS.md`](TERMS.md) | licence in plain words, what a donation is and is not, warranty |
 | [`licenses/`](licenses/) | terms for the bundled 7-Zip, MozLz4 and other binaries |
+| [`SUPPORT.md`](SUPPORT.md) | what to include in a report, and what is not supported |
 
 ## Known limits
 
