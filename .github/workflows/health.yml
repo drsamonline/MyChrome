@@ -62,6 +62,7 @@ jobs:
           failing source, adjust `src/MyBrowser.au3`, and confirm `build/smoke.ps1 -Deep`
           passes before releasing.
           "@
+          gh label create feed-health --repo $env:GITHUB_REPOSITORY --color FBCA04 --description 'A vendor feed or archive changed' --force | Out-Null
           $existing = gh issue list --repo $env:GITHUB_REPOSITORY --label feed-health --state open --json number --jq '.[0].number'
           if ($existing) {
               gh issue comment $existing --repo $env:GITHUB_REPOSITORY --body $body
