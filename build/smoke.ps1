@@ -2,6 +2,8 @@
 #  1. every download source the app knows about answers with a usable URL
 #  2. the built executable starts and stays alive
 # Runs on Windows (GitHub Actions) or locally with PowerShell 7.
+param([switch]$Deep)
+
 $ErrorActionPreference = 'Stop'
 
 $root = Split-Path -Parent $PSScriptRoot
@@ -154,6 +156,47 @@ Check 'Firefox installer unpacks to the layout the launcher expects' {
         "core\firefox.exe present, which is what the launcher moves into App\"
     } finally {
         Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue
+    }
+}
+
+if ($Deep) {
+    $seven = 'C:\Program Files\7-Zip\7z.exe'
+
+    Check 'Chrome for Testing ZIP unpacks to chrome-win64\chrome.exe' {
+        if (-not (Test-Path $seven)) { throw '7-Zip is not available on this runner' }
+        $feed = Invoke-RestMethod 'https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json'
+        $url = ($feed.channels.Stable.downloads.chrome | Where-Object { $_.platform -eq 'win64' }).url
+        $dir = Join-Path $env:TEMP ('cft-' + [guid]::NewGuid().ToString('N'))
+        New-Item -ItemType Directory -Force -Path $dir | Out-Null
+        try {
+            $zip = Join-Path $dir 'chrome.zip'
+            Invoke-WebRequest $url -OutFile $zip -UseBasicParsing
+            & $seven x $zip "-o$dir\out" -y | Out-Null
+            if (-not (Test-Path (Join-Path $dir 'out\chrome-win64\chrome.exe'))) {
+                throw "chrome-win64\chrome.exe missing; found: $((Get-ChildItem (Join-Path $dir 'out') -Name | Select-Object -First 5) -join ', ')"
+            }
+            "chrome-win64\chrome.exe present"
+        } finally { Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue }
+    }
+
+    Check 'Cent installer unpacks to Chrome-bin\safemode.bat' {
+        if (-not (Test-Path $seven)) { throw '7-Zip is not available on this runner' }
+        $page = (Invoke-WebRequest 'https://www.centbrowser.com/' -UseBasicParsing).Content
+        $m = [regex]::Match([string]$page, 'Version:\s*([\d.]+)')
+        if (-not $m.Success) { throw 'no version on the vendor page' }
+        $ver = $m.Groups[1].Value
+        $url = "https://static.centbrowser.com/win_stable/$ver/centbrowser_$ver`_x64.exe"
+        $dir = Join-Path $env:TEMP ('cent-' + [guid]::NewGuid().ToString('N'))
+        New-Item -ItemType Directory -Force -Path $dir | Out-Null
+        try {
+            $exe = Join-Path $dir 'cent.exe'
+            Invoke-WebRequest $url -OutFile $exe -UseBasicParsing
+            & $seven x $exe "-o$dir\out" -y | Out-Null
+            if (-not (Test-Path (Join-Path $dir 'out\Chrome-bin\safemode.bat'))) {
+                throw "Chrome-bin\safemode.bat missing; found: $((Get-ChildItem (Join-Path $dir 'out') -Name | Select-Object -First 5) -join ', ')"
+            }
+            "Chrome-bin\safemode.bat present (Cent $ver)"
+        } finally { Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue }
     }
 }
 
