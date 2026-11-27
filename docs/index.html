@@ -356,24 +356,24 @@
     <div class="sec-head">
       <span class="num">03</span>
       <h2><span data-en>What changed in 3.9.27</span><span data-zh>3.9.27 更新內容</span></h2>
-      <p><span data-en>Update behaviour, a support log, and signing ready to switch on.</span><span data-zh>更新行為、支援記錄，以及可隨時啟用的簽章。</span></p>
+      <p><span data-en>Named profiles, an unattended update, a verified download, and tests that unpack the real packages.</span><span data-zh>具名設定檔、無人值守更新、可驗證的下載，以及實際解壓安裝檔的測試。</span></p>
     </div>
     <div class="log">
       <div class="log-row">
+        <span class="tag">Profiles<small>since 3.9.27</small></span>
+        <p><span data-en><b>ActiveProfile</b> in the ini keeps the browser's data in <b>App\Profiles\&lt;name&gt;</b>, so one installation holds work and personal logins apart.</span><span data-zh>設定檔中的 <b>ActiveProfile</b> 會把資料放在 <b>App\Profiles\&lt;名稱&gt;</b>，同一份安裝即可分開工作與個人登入。</span></p>
+      </div>
+      <div class="log-row">
+        <span class="tag">Automation<small>since 3.9.26</small></span>
+        <p><span data-en><b>MyBrowser.exe /update</b> updates without a desktop. Exit code 0 means updated, 1 not updated, 3 the configuration is incomplete.</span><span data-zh><b>MyBrowser.exe /update</b> 可在無介面環境更新；結束代碼 0 表示已更新、1 未更新、3 設定不完整。</span></p>
+      </div>
+      <div class="log-row">
         <span class="tag">Security<small>verified update</small></span>
-        <p><span data-en>The self-updater now hashes the package it downloaded and refuses to unpack it if the SHA256 does not match the manifest. CI writes that hash from the published asset.</span><span data-zh>自我更新會先計算下載檔的 SHA256，與清單不符就拒絕解壓；該值由 CI 依實際發布檔案寫入。</span></p>
+        <p><span data-en>The self-updater hashes the package it downloaded and refuses to unpack it if the SHA256 does not match the manifest. CI writes that hash from the published asset.</span><span data-zh>自我更新會比對下載檔的 SHA256，不符即拒絕解壓；該值由 CI 依實際發布檔案寫入。</span></p>
       </div>
       <div class="log-row">
-        <span class="tag">Docs<small>translating</small></span>
-        <p><span data-en>All 224 interface keys are listed by section, with the rules for adding a language by dropping one file.</span><span data-zh>224 個介面字串依區段列出，並說明如何放入單一檔案即可新增語言。</span></p>
-      </div>
-      <div class="log-row">
-        <span class="tag">Tested<small>failure path</small></span>
-        <p><span data-en>CI points every probe at an unreachable endpoint and requires a clean, bounded failure.</span><span data-zh>CI 會把所有探測指向無法連線的端點，要求有限時間內乾淨失敗。</span></p>
-      </div>
-      <div class="log-row">
-        <span class="tag">Tested<small>two Windows</small></span>
-        <p><span data-en>The same build and checks run on Windows Server 2022 and 2025.</span><span data-zh>同一份建置與檢查在 Windows Server 2022 與 2025 上執行。</span></p>
+        <span class="tag">Testing<small>the real thing</small></span>
+        <p><span data-en>CI downloads all seven browser packages, unpacks each to the expected path, and starts Chrome through the launcher — no mocks.</span><span data-zh>CI 會下載七個瀏覽器安裝檔、解壓到預期路徑，並實際透過啟動器開啟 Chrome。</span></p>
       </div>
     </div>
   </section>
@@ -399,7 +399,7 @@
     <div class="sub-dl">
       <a href="https://github.com/drsamonline/MyChrome/releases"><span data-en>All releases and checksums</span><span data-zh>全部版本与校验值</span></a>
       <a href="https://github.com/drsamonline/MyChrome"><span data-en>Source on GitHub</span><span data-zh>GitHub 源码</span></a>
-      <span><span data-en>Windows may warn about unsigned files.</span><span data-zh>Windows 可能提示未签名的文件。</span></span>
+      <span><span data-en>Windows may warn about unsigned files. Verify a download with <b>build/verify-release.ps1</b> — it checks the published SHA256 and the build attestation.</span><span data-zh>Windows 可能提示未簽名的檔案。可用 <b>build/verify-release.ps1</b> 驗證下載檔的 SHA256 與建置來源證明。</span></span>
     </div>
   </section>
 
