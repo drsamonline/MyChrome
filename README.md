@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.24_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.24.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.24_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.25_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.25.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.25_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -90,17 +90,14 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.24
+## What's new in 3.9.25
 
-- **Self-update verifies its own download.** `update.txt` now carries `sha256=` and
-  `sha256_x64=`; the launcher hashes the package with `certutil` before unpacking and
-  aborts with a clear message if it does not match. CI writes those hashes from the
-  published asset on every release, so they cannot go stale.
-- **`docs/TRANSLATING.md`** — every one of the 224 interface keys, by section, with the
-  rules for adding a language.
+- **The self-test report keeps the full download URL.** It was truncated at 90
+  characters, which cut the Edge delivery URL short enough that Microsoft answered
+  `403 unexpected URL format` — the report was hiding the thing it was meant to show.
 
-Earlier: **3.9.23** added proxy fault injection; **3.9.22** the silent update notice and
-self-updating package manifests.
+Earlier: **3.9.24** made self-update verify its own download. **3.9.23** added proxy fault
+injection.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases) ·
 [CHANGELOG.md](CHANGELOG.md)
@@ -189,7 +186,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.24_source.7z`.
+`MyBrowser_v3.9.25_source.7z`.
 
 ## Lineage
 

@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.24"
+Global Const $APPVERSION = "3.9.25"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -3681,7 +3681,7 @@ Func _SELFTEST ( )
 		If ProcessExists ( $IPID ) Then _KILLTHREAD ( $IPID )
 		$AINFO = StringSplit ( $SINFO , "|" , 2 )
 		If UBound ( $AINFO ) >= 3 And $AINFO [ 0 ] <> "" Then
-			$SLINES &= "PASS  " & $ABROWSER [ $I ] [ 0 ] & "  " & $AINFO [ 0 ] & "  " & StringLeft ( $AINFO [ 1 ] , 90 ) & @CRLF
+			$SLINES &= "PASS  " & $ABROWSER [ $I ] [ 0 ] & "  " & $AINFO [ 0 ] & "  " & StringLeft ( $AINFO [ 1 ] , 250 ) & @CRLF
 		ElseIf $ABROWSER [ $I ] [ 2 ] = 1 Then
 			$IFAIL += 1
 			$SLINES &= "FAIL  " & $ABROWSER [ $I ] [ 0 ] & "  " & StringReplace ( $SINFO , "|" , " " ) & @CRLF

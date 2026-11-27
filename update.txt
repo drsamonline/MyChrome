@@ -1,8 +1,8 @@
 sha256_x64=30bc9f2d4643b0255ece929fefb0a17906b394d3a6e2d21aa6f5f9d2abc7606a
 sha256=7e629c23cdf6ffbf13954e943afcecca63ddb2ccf506cfb6849e8169237d7d5b
-latest=3.9.24
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.24/MyBrowser_v3.9.24.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.24/MyBrowser_v3.9.24_x64.7z
-update=1. 自我更新會校驗下載檔的 SHA256；\n2. 新增翻譯指南；\n3. 3.9.24
-update_zh-TW=1. 自我更新會校驗下載檔的 SHA256；\n2. 新增翻譯指南；\n3. 3.9.24
-update_en-US=1. Self-update verifies the package SHA256;\n2. Translation guide added;\n3. 3.9.24
+latest=3.9.25
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.25/MyBrowser_v3.9.25.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.25/MyBrowser_v3.9.25_x64.7z
+update=1. 自我檢測報告保留完整下載連結；\n2. 3.9.25
+update_zh-TW=1. 自我檢測報告保留完整下載連結；\n2. 3.9.25
+update_en-US=1. The self-test report keeps the full download URL;\n2. 3.9.25

@@ -52,6 +52,13 @@ if (Test-Path $page) {
     else { Ok "landing page matches $version" }
 }
 
+# 2c. The ROADMAP release log must reach the current version
+if ($road -match '\| Version \| Date \| Shipped \|') {
+    if ($road -notmatch "(?m)^\| $([regex]::Escape($version)) \|") {
+        Bad "ROADMAP release log does not mention $version"
+    } else { Ok "release log reaches $version" }
+}
+
 # 3. CHANGELOG must mention every release tag
 $tags = @(git -C $root tag | Where-Object { $_ -match '^v\d' } | ForEach-Object { $_.Substring(1) })
 if ($tags.Count -eq 0) { Write-Host 'SKIP  no tags in this checkout (fetch-depth)' }

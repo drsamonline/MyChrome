@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 60 of 75 done (80%), 4 partial, 11 open.** Updated for 3.9.24.
+**Progress: 60 of 75 done (80%), 4 partial, 11 open.** Updated for 3.9.25.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -141,12 +141,32 @@ How to read the columns:
 
 | Version | Date | Shipped |
 |---|---|---|
-| 3.9.0 | 2026-11-27 | Rebuilt from recovered source; Chrome via Chrome for Testing; source, build and CI published |
-| 3.9.1 | 2026-11-27 | Firefox, Chromium and Brave sources repaired; GPL-3.0 LICENSE and NOTICE |
-| 3.9.2 | 2026-11-27 | Disk-space guard, temp cleanup, apply pre-flight, portable flags, modern UA, HTTPS-only mirrors |
-| 3.9.3 | 2026-11-27 | Google credentials removed; `--no-sandbox` dropped; command injection fixed; archive integrity test; SHA256SUMS; README rebuilt; SECURITY, PRIVACY, licenses, ARCHITECTURE |
-| 3.9.4 | 2026-11-27 | Skip one version not all; `MyBrowser.log`; version assertion; last-known version; signing hook; CI fails on warnings |
-| 3.9.5 | 2026-11-27 | Vivaldi real appcast; 17-browser matrix; support block; standalone framing; TERMS.md |
+| 3.9.0 | 2026-11-27 | Rebuilt from recovered source; Chrome via Chrome for Testing. |
+| 3.9.1 | 2026-11-27 | Firefox, Chromium and Brave download sources repaired. |
+| 3.9.2 | 2026-11-27 | Disk-space guard, temp cleanup, apply pre-flight, portable launch flags, HTTPS-only mirrors. |
+| 3.9.3 | 2026-11-27 | Hardcoded Google API credentials removed. |
+| 3.9.4 | 2026-11-27 | "No" skips one release instead of disabling update checks forever. |
+| 3.9.5 | 2026-11-27 | Vivaldi downloads from its real appcast instead of a link page. |
+| 3.9.6 | 2026-11-27 | Atomic folder swap with rollback. |
+| 3.9.7 | 2026-11-27 | Download pages point at the vendors, not a third party. |
+| 3.9.8 | 2026-11-27 | Edge lookup moved to proxy-aware WinHTTP with a timeout; Edge verified for the first time. |
+| 3.9.9 | 2026-11-27 | Download progress shows time remaining. |
+| 3.9.10 | 2026-11-27 | All 222 interface strings live in the language files. |
+| 3.9.11 | 2026-11-27 | 1,557 lines of helpers moved to `src/include/udf.au3`. |
+| 3.9.12 | 2026-11-27 | Failure dialogs copy the message and the log tail to the clipboard. |
+| 3.9.13 | 2026-11-27 | Leftover `~update` / `~updated` folders are removed at startup. |
+| 3.9.14 | 2026-11-27 | Cancelling an update waits for the download worker before cleaning up. |
+| 3.9.15 | 2026-11-27 | Self-update can fall back to a mirror named in `update.txt` (inert until a host exists). |
+| 3.9.16 | 2026-11-27 | A missing architecture is logged instead of failing silently. |
+| 3.9.17 | 2026-11-27 | Scoop manifest with real hashes; documentation consistency pass. |
+| 3.9.18 | 2026-11-27 | A `.zip` is published next to the `.7z`; winget manifests added. |
+| 3.9.19 | 2026-11-27 | App helpers split into `src/include/helpers.au3`; main file down to 5,323 lines. |
+| 3.9.20 | 2026-11-27 | Cent downloads from the vendor page instead of a link page. |
+| 3.9.21 | 2026-11-27 | Any language can be added by dropping `Lang\<code>.ini` and setting `Language=<code>`; user files are never overwritten. |
+| 3.9.22 | 2026-11-27 | `SilentUpdateCheck=1` shows a tray notification instead of a modal update dialog. |
+| 3.9.23 | 2026-11-27 | `SelfTestProxy` lets CI inject an unreachable endpoint and assert a clean, bounded failure. |
+| 3.9.24 | 2026-11-27 | `update.txt` carries `sha256` / `sha256_x64`; the self-updater verifies before unpacking. |
+| 3.9.25 | 2026-11-27 | The self-test report no longer truncates download URLs at 90 characters. |
 
 ## A. Download integrity and correctness
 
