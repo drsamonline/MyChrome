@@ -290,6 +290,36 @@ Check 'App self-test (every wired source)' {
     "$(([regex]::Matches($txt,'(?m)^PASS')).Count) sources ok"
 }
 
+if ($Deep) {
+    # The Edge delivery URL is per-release and comes from a CDP handshake, so read it
+    # from the self-test report rather than reimplementing the handshake here.
+    Check 'Edge package unpacks to Chrome-bin\<version>\msedge.exe' {
+        $seven = 'C:\Program Files\7-Zip\7z.exe'
+        if (-not (Test-Path $seven)) { throw '7-Zip is not available on this runner' }
+        $rep = Join-Path $dist 'MyBrowser.selftest.txt'
+        if (-not (Test-Path $rep)) { throw 'no self-test report to read the Edge URL from' }
+        $line = Get-Content $rep | Where-Object { $_ -match '^\s*PASS\s+Edge\s' } | Select-Object -First 1
+        if (-not $line) { throw 'the self-test did not resolve Edge' }
+        $url = ([regex]::Match($line, 'https?://\S+')).Value
+        if (-not $url) { throw "no URL in the Edge line: $line" }
+        $dir = Join-Path $env:TEMP ('edge-' + [guid]::NewGuid().ToString('N'))
+        New-Item -ItemType Directory -Force -Path $dir | Out-Null
+        try {
+            $exe = Join-Path $dir 'edge.exe'
+            try { Invoke-WebRequest $url -OutFile $exe -UseBasicParsing }
+            catch { Invoke-WebRequest ($url -replace '^https:', 'http:') -OutFile $exe -UseBasicParsing }
+            & $seven x $exe "-o$dir\out" -y | Out-Null
+            if (-not (Test-Path (Join-Path $dir 'out\MSEDGE.7z'))) {
+                throw "MSEDGE.7z missing; found: $((Get-ChildItem (Join-Path $dir 'out') -Name | Select-Object -First 5) -join ', ')"
+            }
+            & $seven x (Join-Path $dir 'out\MSEDGE.7z') "-o$dir\out" -y | Out-Null
+            $found = Get-ChildItem (Join-Path $dir 'out\Chrome-bin') -Recurse -Filter 'msedge.exe' -ErrorAction SilentlyContinue | Select-Object -First 1
+            if (-not $found) { throw 'msedge.exe not found under Chrome-bin after extraction' }
+            ($found.FullName -replace '^.*\\out\\', '')
+        } finally { Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue }
+    }
+}
+
 Check 'Self-test survives a proxy that drops the connection' {
     # I3: accept the connection and close it immediately - the closest a CI step can
     # get to a transfer that dies in flight.
@@ -346,36 +376,6 @@ Check 'Self-test fails cleanly behind a dead proxy' {
     if (-not $p.WaitForExit(120000)) { Stop-Process -Id $p.Id -Force; throw 'self-test hung with an unreachable proxy' }
     if ($p.ExitCode -eq 0) { throw 'self-test reported success with an unreachable proxy' }
     "failed cleanly after a bounded wait, exit $($p.ExitCode)"
-}
-
-if ($Deep) {
-    # The Edge delivery URL is per-release and comes from a CDP handshake, so read it
-    # from the self-test report rather than reimplementing the handshake here.
-    Check 'Edge package unpacks to Chrome-bin\<version>\msedge.exe' {
-        $seven = 'C:\Program Files\7-Zip\7z.exe'
-        if (-not (Test-Path $seven)) { throw '7-Zip is not available on this runner' }
-        $rep = Join-Path $dist 'MyBrowser.selftest.txt'
-        if (-not (Test-Path $rep)) { throw 'no self-test report to read the Edge URL from' }
-        $line = Get-Content $rep | Where-Object { $_ -match '^\s*PASS\s+Edge\s' } | Select-Object -First 1
-        if (-not $line) { throw 'the self-test did not resolve Edge' }
-        $url = ([regex]::Match($line, 'https?://\S+')).Value
-        if (-not $url) { throw "no URL in the Edge line: $line" }
-        $dir = Join-Path $env:TEMP ('edge-' + [guid]::NewGuid().ToString('N'))
-        New-Item -ItemType Directory -Force -Path $dir | Out-Null
-        try {
-            $exe = Join-Path $dir 'edge.exe'
-            try { Invoke-WebRequest $url -OutFile $exe -UseBasicParsing }
-            catch { Invoke-WebRequest ($url -replace '^https:', 'http:') -OutFile $exe -UseBasicParsing }
-            & $seven x $exe "-o$dir\out" -y | Out-Null
-            if (-not (Test-Path (Join-Path $dir 'out\MSEDGE.7z'))) {
-                throw "MSEDGE.7z missing; found: $((Get-ChildItem (Join-Path $dir 'out') -Name | Select-Object -First 5) -join ', ')"
-            }
-            & $seven x (Join-Path $dir 'out\MSEDGE.7z') "-o$dir\out" -y | Out-Null
-            $found = Get-ChildItem (Join-Path $dir 'out\Chrome-bin') -Recurse -Filter 'msedge.exe' -ErrorAction SilentlyContinue | Select-Object -First 1
-            if (-not $found) { throw 'msedge.exe not found under Chrome-bin after extraction' }
-            ($found.FullName -replace '^.*\\out\\', '')
-        } finally { Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue }
-    }
 }
 
 if ($skip.Count -gt 0) {
