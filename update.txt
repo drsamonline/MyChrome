@@ -1,6 +1,6 @@
-latest=3.9.10
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.10/MyBrowser_v3.9.10.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.10/MyBrowser_v3.9.10_x64.7z
-update=1. 補齊介面字串（可完整在地化）；\n2. 新增 3.8.50 升級路徑測試；\n3. 3.9.10
-update_zh-TW=1. 補齊介面字串（可完整在地化）；\n2. 新增 3.8.50 升級路徑測試；\n3. 3.9.10
-update_en-US=1. Every interface string now lives in the language files;\n2. CI tests the 3.8.50 upgrade path;\n3. 3.9.10
+latest=3.9.11
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.11/MyBrowser_v3.9.11.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.11/MyBrowser_v3.9.11_x64.7z
+update=1. 原始碼拆分为主程式与 UDF 引入档；\n2. 续传失败两次后自动重新下载；\n3. 3.9.11
+update_zh-TW=1. 原始碼拆分為主程式與 UDF 引入檔；\n2. 續傳失敗兩次後自動重新下載；\n3. 3.9.11
+update_en-US=1. Source split into main file and UDF include;\n2. Two failed resumes restart the download;\n3. 3.9.11

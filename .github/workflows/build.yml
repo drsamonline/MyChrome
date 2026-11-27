@@ -66,5 +66,8 @@ jobs:
 
             ---
 
+            Verify an asset: `certutil -hashfile <file> SHA256` against `SHA256SUMS.txt`,
+            or check it at https://www.virustotal.com/gui/home/search
+
             便攜式多瀏覽器啟動器，由原始碼建置。
             Chrome 取自官方 Chrome for Testing；Firefox、Chromium、Brave、Vivaldi、Edge 取自各自官方來源。

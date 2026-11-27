@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.10_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.10.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.10_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.11_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.11.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.11_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -90,17 +90,18 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.10
+## What's new in 3.9.11
 
-- **Every interface string now lives in the language files.** 222 keys, all present in
-  both `en-US.ini` and `zh-TW.ini`; five were reachable only as inline defaults before,
-  so a translator could not see them.
-- **CI tests the upgrade path.** It asserts that an install of 3.8.50 sees a newer
-  version in `update.txt` and that both asset URLs answer.
+- **The source is split.** The 1,557 lines of inlined WinHTTP, WinAPI, security and
+  accessibility helpers moved to `src/include/udf.au3`; `src/MyBrowser.au3` is now the
+  application itself.
+- **A wedged resume no longer loops.** After two failed resume attempts the partial file
+  is discarded and the download restarts from zero, instead of retrying a range the
+  server keeps rejecting.
+- Release notes now point at `SHA256SUMS.txt` and VirusTotal for verification.
 
-Earlier: **3.9.9** added the ETA, retry backoff and a remembered window, plus build
-provenance attestation. **3.9.8** moved Edge to proxy-aware WinHTTP. **3.9.6** added the
-atomic swap with rollback.
+Earlier: **3.9.10** moved every interface string into the language files and added the
+upgrade-path test. **3.9.9** added the ETA and provenance attestation.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases).
 
@@ -122,7 +123,8 @@ attaches them to a GitHub release.
 ## Project layout
 
 ```
-src/MyBrowser.au3        application source (AutoIt3, single file — see ROADMAP H1)
+src/MyBrowser.au3        application source (AutoIt3)
+src/include/udf.au3     inlined WinHTTP, WinAPI and accessibility helpers
 resources/               files embedded into the exe at compile time
 build/build.ps1          build and packaging
 build/smoke.ps1          source and binary smoke test
@@ -184,7 +186,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.10_source.7z`.
+`MyBrowser_v3.9.11_source.7z`.
 
 ## Lineage
 
