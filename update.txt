@@ -1,6 +1,6 @@
-latest=3.9.20
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.20/MyBrowser_v3.9.20.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.20/MyBrowser_v3.9.20_x64.7z
-update=1. Cent 改由官網版本資訊取得下載；\n2. 比對廠商公布的 SHA256 並記錄；\n3. 3.9.20
-update_zh-TW=1. Cent 改由官網版本資訊取得下載；\n2. 比對廠商公布的 SHA256 並記錄；\n3. 3.9.20
-update_en-US=1. Cent resolves its build from the vendor page;\n2. Vendor SHA256 compared and logged;\n3. 3.9.20
+latest=3.9.21
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.21/MyBrowser_v3.9.21.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.21/MyBrowser_v3.9.21_x64.7z
+update=1. 可直接放入自訂語言檔；\n2. 自我檢測涵蓋 Cent；\n3. 3.9.21
+update_zh-TW=1. 可直接放入自訂語言檔；\n2. 自我檢測涵蓋 Cent；\n3. 3.9.21
+update_en-US=1. Custom language files are picked up by name;\n2. Self-test covers Cent;\n3. 3.9.21

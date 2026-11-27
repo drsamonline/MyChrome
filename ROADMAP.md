@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 55 of 75 done (73%), 6 partial, 14 open.** Updated for 3.9.20.
+**Progress: 55 of 75 done (73%), 7 partial, 13 open.** Updated for 3.9.21.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -69,7 +69,7 @@ How to read the columns:
 | E1 | First-run wizard | P1 | ✅ done | pre-existing |
 | E2 | DPI awareness | P1 | ✅ done | 3.9.3 |
 | E3 | Strings out of code into language files | P1 | ✅ done | 3.9.10 |
-| E4 | More languages | P2 | ⬜ open | — |
+| E4 | More languages (drop-in files) | P2 | 🟡 partial | 3.9.21 |
 | E5 | Error dialogs with copy details | P1 | ✅ done | 3.9.12 |
 | E6 | Installed vs latest side by side | P1 | ✅ done | pre-existing |
 | E7 | Remember window position | P1 | ✅ done | 3.9.9 |

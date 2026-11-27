@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.20"
+Global Const $APPVERSION = "3.9.21"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -994,6 +994,9 @@ Func LANGCHECK ( )
 	Local $LNGFILE
 	If $LANGUAGE = "zh-CN" Then
 		Return ""
+	ElseIf FileExists ( @ScriptDir & "\Lang\" & $LANGUAGE & ".ini" ) And $LANGUAGE <> "en-US" And $LANGUAGE <> "zh-TW" Then
+		; E4: any language can be added by dropping Lang\<code>.ini and setting Language=<code>.
+		$LNGFILE = @ScriptDir & "\Lang\" & $LANGUAGE & ".ini"
 	ElseIf $LANGUAGE = "zh-TW" Then
 		$LNGFILE = @ScriptDir & "\Lang\zh-TW.ini"
 	ElseIf $LANGUAGE = "en-US" Then
@@ -1016,10 +1019,13 @@ Func LANGCHECK ( )
 		If Not FileExists ( $LNGFILE ) Or IniRead ( $LNGFILE , "Lang" , "Version" , "" ) <> $APPVERSION Then
 			FileInstall ( "zh-TW.ini" , $LNGFILE , 1 )
 		EndIf
-	Else
+	ElseIf $LNGFILE = @ScriptDir & "\Lang\en-US.ini" Then
 		If Not FileExists ( $LNGFILE ) Or IniRead ( $LNGFILE , "Lang" , "Version" , "" ) <> $APPVERSION Then
 			FileInstall ( "en-US.ini" , $LNGFILE , 1 )
 		EndIf
+	Else
+		; A language file the user supplied: leave it alone, whatever version it declares.
+		If Not FileExists ( $LNGFILE ) Then FileInstall ( "en-US.ini" , $LNGFILE , 1 )
 	EndIf
 	Return $LNGFILE
 EndFunc
@@ -3616,13 +3622,14 @@ EndFunc
 Func _SELFTEST ( )
 	; Probes each wired source in a child process, exactly as the updater does, and kills
 	; it after 20 s. An in-process probe can block forever; a child cannot.
-	Local $ABROWSER [ 6 ] [ 3 ] = [ _
+	Local $ABROWSER [ 7 ] [ 3 ] = [ _
 		[ "Chrome" , "Stable" , 1 ] , _
 		[ "Chromium" , "" , 1 ] , _
 		[ "Brave" , "Release" , 1 ] , _
 		[ "Firefox" , "Release" , 1 ] , _
 		[ "Vivaldi" , "" , 1 ] , _
-		[ "Edge" , "Stable" , 0 ] ]
+		[ "Edge" , "Stable" , 0 ] , _
+		[ "Cent" , "" , 0 ] ]
 	Local $I , $SINFO , $AINFO , $SLINES = "" , $IFAIL = 0 , $IPID , $ITICKS
 	Local $HREP = FileOpen ( @ScriptDir & "\MyBrowser.selftest.txt" , 2 )
 	For $I = 0 To UBound ( $ABROWSER ) - 1
