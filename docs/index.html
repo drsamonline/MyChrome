@@ -264,10 +264,10 @@
           <span data-zh>选择浏览器、更新通道和架构。MyBrowser 会下载官方版本，解压到程序旁边，并使用独立配置运行。<b>不写入注册表</b>，无需管理员权限，删除文件夹即可卸载。</span>
         </p>
         <div class="cta">
-          <a class="btn primary" href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.8/MyBrowser_v3.9.8_x64.7z">
-            <span><span data-en>Download</span><span data-zh>下载</span> x64</span><span class="k">3.9.8 · .7z</span>
+          <a class="btn primary" href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.9/MyBrowser_v3.9.9_x64.7z">
+            <span><span data-en>Download</span><span data-zh>下载</span> x64</span><span class="k">3.9.9 · .7z</span>
           </a>
-          <a class="btn ghost" href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.8/MyBrowser_v3.9.8.7z">
+          <a class="btn ghost" href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.9/MyBrowser_v3.9.9.7z">
             <span>x86</span><span class="k">32-bit</span>
           </a>
         </div>
@@ -275,7 +275,7 @@
 
       <aside class="spec">
         <dl>
-          <dt>Version</dt><dd>3.9.8</dd>
+          <dt>Version</dt><dd>3.9.9</dd>
           <dt>Chrome</dt><dd><span class="pulse"></span><span class="live" id="cft">158.0.8127.88</span></dd>
           <dt>Channels</dt><dd>Stable · Beta · Dev · Canary</dd>
           <dt>Package</dt><dd>~3.5 MB</dd>
@@ -358,25 +358,25 @@
   <section class="block" id="new">
     <div class="sec-head">
       <span class="num">03</span>
-      <h2><span data-en>What changed in 3.9.8</span><span data-zh>3.9.8 更新內容</span></h2>
+      <h2><span data-en>What changed in 3.9.9</span><span data-zh>3.9.9 更新內容</span></h2>
       <p><span data-en>Update behaviour, a support log, and signing ready to switch on.</span><span data-zh>更新行為、支援記錄，以及可隨時啟用的簽章。</span></p>
     </div>
     <div class="log">
       <div class="log-row">
-        <span class="tag">Fixed<small>Edge</small></span>
-        <p><span data-en>Edge used a request object that ignored your proxy setting and had no timeout — it could hang the update check. It now shares the WinHTTP session every other source uses.</span><span data-zh>Edge 原本使用的請求元件會忽略代理設定且沒有逾時，可能讓更新檢查卡住。現在與其他來源共用 WinHTTP。</span></p>
+        <span class="tag">Progress<small>ETA</small></span>
+        <p><span data-en>The download line now shows time remaining, not just a percentage and a speed.</span><span data-zh>下載進度現在會顯示剩餘時間，不只是百分比與速度。</span></p>
       </div>
       <div class="log-row">
-        <span class="tag">Tested<small>self-check</small></span>
-        <p><span data-en>Edge is back in the self-test, reported as informational until its install path is confirmed.</span><span data-zh>Edge 已回到自我檢測，於安裝流程確認前僅作資訊回報。</span></p>
+        <span class="tag">Network<small>backoff</small></span>
+        <p><span data-en>Retries wait 400 ms, then 800 ms, instead of firing three times instantly at the same failure.</span><span data-zh>重試改為等待 400 毫秒、再 800 毫秒，不再連續三次撞同一個失敗。</span></p>
       </div>
       <div class="log-row">
-        <span class="tag">Earlier<small>3.9.6–3.9.7</small></span>
-        <p><span data-en>Atomic folder swap with rollback, <b>/selftest</b>, vendor download pages, Brave lookups cached for a day.</span><span data-zh>原子替換與回滾、<b>/selftest</b>、下載頁指向廠商官網、Brave 查詢快取一天。</span></p>
+        <span class="tag">Window<small>position</small></span>
+        <p><span data-en>The settings window reopens where you left it; saved positions from a disconnected monitor are ignored.</span><span data-zh>設定視窗會回到上次的位置；來自已移除螢幕的座標會被忽略。</span></p>
       </div>
       <div class="log-row">
-        <span class="tag">Security<small>since 3.9.3</small></span>
-        <p><span data-en>Hardcoded Google API credentials removed, <b>--no-sandbox</b> dropped from the defaults, command injection in the injection path fixed.</span><span data-zh>已移除內建 Google API 憑證、預設不再關閉沙箱、修復注入路徑的指令注入。</span></p>
+        <span class="tag">Edge<small>since 3.9.8</small></span>
+        <p><span data-en>Edge moved to proxy-aware WinHTTP with a timeout, and its plain-http download URL now tries https first.</span><span data-zh>Edge 改用支援代理且具逾時的 WinHTTP，其 http 下載連結會先嘗試 https。</span></p>
       </div>
     </div>
   </section>
@@ -388,15 +388,15 @@
       <p><span data-en>Unzip, run the exe, pick a browser. That is the whole setup.</span><span data-zh>解压、运行、选择浏览器，安装就这些。</span></p>
     </div>
     <div class="dl">
-      <a href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.8/MyBrowser_v3.9.8_x64.7z">
+      <a href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.9/MyBrowser_v3.9.9_x64.7z">
         <span class="arch">x64 · Recommended</span>
-        <span class="name">MyBrowser 3.9.8</span>
-        <span class="meta">MyBrowser_v3.9.8_x64.7z · Windows 10/11 64-bit</span>
+        <span class="name">MyBrowser 3.9.9</span>
+        <span class="meta">MyBrowser_v3.9.9_x64.7z · Windows 10/11 64-bit</span>
       </a>
-      <a href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.8/MyBrowser_v3.9.8.7z">
+      <a href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.9/MyBrowser_v3.9.9.7z">
         <span class="arch">x86 · Legacy</span>
-        <span class="name">MyBrowser 3.9.8</span>
-        <span class="meta">MyBrowser_v3.9.8.7z · 32-bit systems</span>
+        <span class="name">MyBrowser 3.9.9</span>
+        <span class="meta">MyBrowser_v3.9.9.7z · 32-bit systems</span>
       </a>
     </div>
     <div class="sub-dl">
@@ -422,8 +422,8 @@ cd MyChrome
 <span class="a">./build/build.ps1</span>
 
 <span class="c"># output</span>
-dist/MyBrowser_v3.9.8_x64.7z
-dist/MyBrowser_v3.9.8.7z</pre>
+dist/MyBrowser_v3.9.9_x64.7z
+dist/MyBrowser_v3.9.9.7z</pre>
     </div>
   </section>
 
@@ -451,7 +451,7 @@ dist/MyBrowser_v3.9.8.7z</pre>
 
 <footer class="wrap">
   <div class="foot">
-    <span>MyBrowser 3.9.8 · GPL-3.0 · Dr Sohil Momin</span>
+    <span>MyBrowser 3.9.9 · GPL-3.0 · Dr Sohil Momin</span>
     <span>
       <a href="https://github.com/drsamonline/MyChrome"><span data-en>Source</span><span data-zh>原始碼</span></a> ·
       <a href="https://github.com/drsamonline/MyChrome/blob/master/README.md#lineage"><span data-en>Lineage</span><span data-zh>來源</span></a> ·

@@ -1,6 +1,6 @@
-latest=3.9.8
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.8/MyBrowser_v3.9.8.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.8/MyBrowser_v3.9.8_x64.7z
-update=1. Edge 更新改用 WinHTTP，支援代理並具備逾時；\n2. 自我檢測涵蓋 Edge；\n3. 3.9.8
-update_zh-TW=1. Edge 更新改用 WinHTTP，支援代理並具備逾時；\n2. 自我檢測涵蓋 Edge；\n3. 3.9.8
-update_en-US=1. Edge updates now use WinHTTP: proxy-aware and with a timeout;\n2. Self-test covers Edge;\n3. 3.9.8
+latest=3.9.9
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.9/MyBrowser_v3.9.9.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.9/MyBrowser_v3.9.9_x64.7z
+update=1. 下載進度顯示剩餘時間；\n2. 查詢失敗重試之間加入退避；\n3. 設定視窗記住位置；\n4. 3.9.9
+update_zh-TW=1. 下載進度顯示剩餘時間；\n2. 查詢失敗重試之間加入退避；\n3. 設定視窗記住位置；\n4. 3.9.9
+update_en-US=1. Download progress shows time remaining;\n2. Retries back off instead of firing instantly;\n3. The settings window reopens where you left it;\n4. 3.9.9

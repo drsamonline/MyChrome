@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 25 of 75 done (33%), 5 partial, 45 open.** Updated for 3.9.8.
+**Progress: 30 of 75 done (40%), 5 partial, 40 open.** Updated for 3.9.9.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -41,7 +41,7 @@ How to read the columns:
 | A4 | Keep last-known-good version | P1 | ✅ done | 3.9.4 |
 | A5 | Reject plain-http mirrors | P0 | ✅ done | 3.9.2 |
 | A6 | Cache Brave version 24 h (rate limits) | P1 | ✅ done | 3.9.7 |
-| A7 | Retry 5xx with backoff | P1 | ⬜ open | — |
+| A7 | Retry 5xx with backoff | P1 | ✅ done | 3.9.9 |
 | A8 | Handle HTTP 416 on resume | P2 | ⬜ open | — |
 | A9 | Verify vendor hashes where published | P2 | ⬜ open | — |
 | B1 | Atomic swap of the browser folder | P0 | ✅ done | 3.9.6 |
@@ -50,7 +50,7 @@ How to read the columns:
 | B4 | Skip one version, not all checks | P1 | ✅ done | 3.9.4 |
 | B5 | Clean stale temp dirs on startup | P1 | 🟡 partial | 3.9.2 |
 | B6 | Deterministic cancel | P1 | ⬜ open | — |
-| B7 | Speed and ETA in progress | P2 | ⬜ open | — |
+| B7 | Speed and ETA in progress | P1 | ✅ done | 3.9.9 |
 | B8 | Background check with notification | P2 | ⬜ open | — |
 | B9 | Update log | P2 | ✅ done | 3.9.4 |
 | B10 | Concurrent-instance lock | P2 | ⬜ open | — |
@@ -72,7 +72,7 @@ How to read the columns:
 | E4 | More languages | P2 | ⬜ open | — |
 | E5 | Error dialogs with copy details | P1 | ⬜ open | — |
 | E6 | Installed vs latest side by side | P1 | ⬜ open | — |
-| E7 | Remember window position | P2 | ⬜ open | — |
+| E7 | Remember window position | P1 | ✅ done | 3.9.9 |
 | E8 | Multiple profiles per browser | P2 | ⬜ open | — |
 | E9 | Keyboard nav and accessible names | P2 | ⬜ open | — |
 | E10 | Progress in taskbar button | P3 | ⬜ open | — |
@@ -93,8 +93,8 @@ How to read the columns:
 | H3 | docs/ARCHITECTURE.md | P1 | ✅ done | 3.9.3 |
 | H4 | CI fails on warnings | P2 | ✅ done | 3.9.4 |
 | H5 | Changelog from commits | P2 | ⬜ open | — |
-| H6 | Pin and cache AutoIt SDK | P2 | ⬜ open | — |
-| H7 | .editorconfig + format pass | P3 | ⬜ open | — |
+| H6 | Pin and cache AutoIt SDK | P1 | ✅ done | 3.9.9 |
+| H7 | .editorconfig + format pass | P1 | ✅ done | 3.9.9 |
 | I1 | Smoke test in CI | P0 | ✅ done | 3.9.6 |
 | I2 | --selftest flag | P1 | ⬜ open | — |
 | I3 | Fault injection on download | P2 | ⬜ open | — |

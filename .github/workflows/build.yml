@@ -15,6 +15,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Cache AutoIt SDK
+        uses: actions/cache@v4
+        with:
+          path: .build/autoit
+          key: autoit-3.3.16.1-v1
+
       - name: Build with AutoIt3
         shell: pwsh
         env:

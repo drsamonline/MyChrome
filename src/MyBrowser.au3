@@ -1558,7 +1558,7 @@ Func _STRINGENDSWITH ( $SINPUT , $SSEARCH , $FCASESENSITIVE = False )
 	Return False
 EndFunc
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.8"
+Global Const $APPVERSION = "3.9.9"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -2973,7 +2973,15 @@ Case Else
 	Else
 	EndIf
 	Opt ( "ExpandEnvStrings" , 0 )
-	$HSETTINGS = GUICreate ( LANG ( "GUI" , "Title" , "MyBrowser" ) , 500 , 530 )
+	; E7: reopen where it was left. Negative coordinates are ignored, because a saved
+	; position from a monitor that is no longer attached would put the window off-screen.
+	Local $IWINX = Int ( IniRead ( $INIFILE , "Window" , "SettingsX" , "-1" ) )
+	Local $IWINY = Int ( IniRead ( $INIFILE , "Window" , "SettingsY" , "-1" ) )
+	If $IWINX < 0 Or $IWINY < 0 Then
+		$IWINX = - 1
+		$IWINY = - 1
+	EndIf
+	$HSETTINGS = GUICreate ( LANG ( "GUI" , "Title" , "MyBrowser" ) , 500 , 530 , $IWINX , $IWINY )
 	GUISetOnEvent ( $GUI_EVENT_CLOSE , "ExitApp" )
 	Local $LANGCOPYRIGHT = LANG ( "GUI" , "Copyright" , "MyBrowser %s" )
 	$LANGCOPYRIGHT = StringFormat ( $LANGCOPYRIGHT , $APPVERSION )
@@ -3419,6 +3427,11 @@ Case Else
 	While Not $SETTINGSOK
 		Sleep ( 100 )
 	WEnd
+	Local $AWINPOS = WinGetPos ( $HSETTINGS )
+	If IsArray ( $AWINPOS ) Then
+		IniWrite ( $INIFILE , "Window" , "SettingsX" , $AWINPOS [ 0 ] )
+		IniWrite ( $INIFILE , "Window" , "SettingsY" , $AWINPOS [ 1 ] )
+	EndIf
 	GUIDelete ( $HSETTINGS )
 	DllCallbackFree ( $HFUNCHOTKEY )
 	$DICKEYS = ""
@@ -3745,6 +3758,11 @@ Func GUI_LANGUAGEEVENT ( )
 	EndIf
 	MsgBox ( 64 , "MyBrowser" , $LANGSTR )
 	If $ISUPDATING Then Return
+	Local $AWINPOS = WinGetPos ( $HSETTINGS )
+	If IsArray ( $AWINPOS ) Then
+		IniWrite ( $INIFILE , "Window" , "SettingsX" , $AWINPOS [ 0 ] )
+		IniWrite ( $INIFILE , "Window" , "SettingsY" , $AWINPOS [ 1 ] )
+	EndIf
 	GUIDelete ( $HSETTINGS )
 	If @Compiled Then
 		ShellExecute ( @ScriptName , "-Set" , @ScriptDir )
@@ -5385,6 +5403,8 @@ Func GET_LATEST_CHROME_VER ( $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 = 0 , $I
 		$HOST = $HTTP & "://storage.googleapis.com"
 		$URLBASE = "chromium-browser-snapshots"
 		For $I = 1 To 3
+			If $I > 1 Then Sleep ( 400 * ( $I - 1 ) )
+
 			_SETVAR ( "DLInfo" , "|||||" & StringFormat ( $LANGGETCHROMECHANCES , "Chromium" , $I ) )
 			$HCONNECT = _WINHTTPCONNECT ( $HHTTPOPEN , $HOST )
 			$VAR = _WINHTTPSIMPLESSLREQUEST ( $HCONNECT , "GET" , $URLBASE & "/" & $OSARCH & "/LAST_CHANGE" )
@@ -5451,6 +5471,8 @@ Func GET_LATEST_CHROME_VER ( $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 = 0 , $I
 			EndIf
 		EndSwitch
 		For $I = 1 To 3
+			If $I > 1 Then Sleep ( 400 * ( $I - 1 ) )
+
 			$DATA = "{""targetingAttributes"":{""AppAp"":"""",""AppCohort"":"""",""AppLang"":""de-de"",""AppRollout"":""1.0"",""AppVersion"":"""",""IsMachine"":""0"",""OsArch"":""" & $OSARCH & """,""OsPlatform"":""win"",""OsVersion"":"""",""Updater"":""MicrosoftEdgeUpdate"",""UpdaterVersion"":""1.3.183.29""}}"
 			$ORECEIVED = _EDGE_POST ( $HHTTPOPEN , "/api/v1.1/contents/Browser/namespaces/Default/names/" & $AP & "/versions/latest?action=select" , $DATA )
 			$POSITION = StringInStr ( $ORECEIVED , """Version"":""" )
@@ -5597,6 +5619,8 @@ Func GET_LATEST_CHROME_VER ( $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 = 0 , $I
 		Local $PHYSMEMORY = Round ( $A [ 1 ] / 1024 / 1024 )
 		$DATA = "<?xml version=""1.0"" encoding=""UTF-8""?><request protocol=""3.0"" version=""1.3.23.9"" shell_version=""1.3.21.103"" ismachine=""0"" sessionid=""{3597644B-2952-4F92-AE55-D315F45F80A5}"" installsource=""ondemandcheckforupdate"" requestid=""{CD7523AD-A40D-49F4-AEEF-8C114B804658}"" dedup=""cr"">" & "<hw physmemory=""12582912"" sse=""1"" sse2=""1"" sse3=""1"" ssse3=""1"" sse41=""1"" sse42=""1"" avx=""1""/>" & "<os platform=""" & $PLATFORM & """ version=""" & $VERSION1 & """ arch=""" & $OSARCH & """/>" & "<app appid=""" & $APPID & """ version="""" nextversion="""" ap=""" & $AP & """ lang=""zh-CN""><updatecheck/></app></request>"
 		For $I = 1 To 3
+			If $I > 1 Then Sleep ( 400 * ( $I - 1 ) )
+
 			_SETVAR ( "DLInfo" , "|||||" & StringFormat ( $LANGGETCHROMECHANCES , "Chrome" , $I ) )
 			$HCONNECT = _WINHTTPCONNECT ( $HHTTPOPEN , "https://tools.google.com" )
 			$VAR = _WINHTTPSIMPLESSLREQUEST ( $HCONNECT , "POST" , "service/update2" , Default , $DATA , "User-Agent: Google Update/1.3.32.7;winhttp;cup-ecdsa" )
@@ -5689,6 +5713,8 @@ Func GET_LATEST_CHROME_VER ( $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 = 0 , $I
 		EndIf
 		$DATA = "<?xml version=""1.0"" encoding=""UTF-8""?><request protocol=""3.0"" version=""1.3.99.0"" shell_version=""1.3.99.0"" ismachine=""1"" sessionid=""{11111111-1111-1111-1111-111111111111}"" installsource=""taggedmi"" testsource=""auto"" requestid=""{11111111-1111-1111-1111-111111111111}"" dedup=""cr""><os platform=""win"" version="""" sp="""" arch=""" & $OSARCH & """/><app appid=""" & $APPID & """ version="""" nextversion="""" ap=""" & $AP & """ lang=""en"" brand="""" client="""" installage=""-1"" installdate=""-1""><updatecheck/></app></request>"
 		For $I = 1 To 3
+			If $I > 1 Then Sleep ( 400 * ( $I - 1 ) )
+
 			_SETVAR ( "DLInfo" , "|||||" & StringFormat ( $LANGGETCHROMECHANCES , "Brave" , $I ) )
 			$HCONNECT = _WINHTTPCONNECT ( $HHTTPOPEN , "https://updates.bravesoftware.com" )
 			$VAR = _WINHTTPSIMPLESSLREQUEST ( $HCONNECT , "POST" , "service/update2" , Default , $DATA , "User-Agent: Google Update/1.3.101.0;winhttp" )
@@ -5828,6 +5854,8 @@ Func __DOWNLOADCHROME ( $URL , $LOCALFILE , $HDLFILE , $DOWNLOADTHREADS , $HHTTP
 	If Not $RESUME Then
 		_SETVAR ( "DLInfo" , "|||||" & LANG ( "Update" , "ConnectingServer" , "正在连接服务器 ..." ) )
 		For $I = 1 To 3
+			If $I > 1 Then Sleep ( 400 * ( $I - 1 ) )
+
 			$ATHREAD = CREATETHREAD ( $URL , $HHTTPOPEN , "10-20" )
 			$HEADER = _WINHTTPQUERYHEADERS ( $ATHREAD [ 0 ] )
 			_WINHTTPCLOSEHANDLE ( $ATHREAD [ 0 ] )
@@ -5999,19 +6027,31 @@ Func __DOWNLOADCHROME ( $URL , $LOCALFILE , $HDLFILE , $DOWNLOADTHREADS , $HHTTP
 		EndIf
 		If TimerDiff ( $T ) > 200 Then
 			$SPEED = 0
+			$SETATEXT = ""
 			$T = TimerInit ( )
 			$TIMEDIFF = TimerDiff ( $TIMEINIT )
 			_ARRAYPUSH ( $S , $TIMEDIFF & ":" & $SIZE )
 			$A = StringSplit ( $S [ 0 ] , ":" )
 			If $A [ 0 ] >= 2 Then
-				$SPEED = ( $SIZE - $A [ 2 ] ) / ( $TIMEDIFF - $A [ 1 ] ) / 1.024
-				If $SPEED < 1000 Then
-					$SPEED = StringFormat ( "%.1fKB/s" , $SPEED )
+				Local $SSPEEDNUM = ( $SIZE - $A [ 2 ] ) / ( $TIMEDIFF - $A [ 1 ] ) / 1.024
+				; B7: remaining time is what people actually want from a progress line.
+				If $SSPEEDNUM > 0 And $REMOTESIZE > $SIZE Then
+					Local $IETA = Int ( ( $REMOTESIZE - $SIZE ) / ( $SSPEEDNUM * 1.024 ) )
+					If $IETA > 0 Then
+						If $IETA >= 60 Then
+							$SETATEXT = StringFormat ( " · %dm %02ds left" , Int ( $IETA / 60 ) , Mod ( $IETA , 60 ) )
+						Else
+							$SETATEXT = StringFormat ( " · %ds left" , $IETA )
+						EndIf
+					EndIf
+				EndIf
+				If $SSPEEDNUM < 1000 Then
+					$SPEED = StringFormat ( "%.1fKB/s" , $SSPEEDNUM )
 				Else
-					$SPEED = StringFormat ( "%.1fMB/s" , $SPEED / 1024 )
+					$SPEED = StringFormat ( "%.1fMB/s" , $SSPEEDNUM / 1024 )
 				EndIf
 			EndIf
-			$PROGRESS = StringFormat ( "%.1f% - %.1fMB / %.1fMB - %s" , $SIZE / $REMOTESIZE * 100 , $SIZE / 1024 / 1024 , $REMOTESIZE / 1024 / 1024 , $SPEED )
+			$PROGRESS = StringFormat ( "%.1f%% - %.1fMB / %.1fMB - %s%s" , $SIZE / $REMOTESIZE * 100 , $SIZE / 1024 / 1024 , $REMOTESIZE / 1024 / 1024 , $SPEED , $SETATEXT )
 			_SETVAR ( "DLInfo" , StringFormat ( "%d|%d||||%s ...  %s" , $SIZE , $REMOTESIZE , $LANGDOWNLOADINGCHROME , $PROGRESS ) )
 		EndIf
 	Until Not $LIVETHREADS
