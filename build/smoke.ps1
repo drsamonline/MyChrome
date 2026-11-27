@@ -431,7 +431,11 @@ if ($Deep) {
                 Start-Sleep -Milliseconds 500
                 if (Get-Process chrome -ErrorAction SilentlyContinue) { $started = $true; break }
             }
-            if (-not $started) { throw 'the launcher did not start the browser within 20s' }
+            if (-not $started) {
+                $log = Join-Path $dist 'MyBrowser.log'
+                $tail = if (Test-Path $log) { (Get-Content $log -Tail 12) -join ' | ' } else { '(no log)' }
+                throw "the launcher did not start the browser within 20s. Log: $tail"
+            }
             "chrome.exe started by the launcher"
         } finally {
             Get-Process chrome -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
