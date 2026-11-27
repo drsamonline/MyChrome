@@ -11,9 +11,12 @@ $scoopPath = Join-Path $root 'bucket\mybrowser.json'
 $scoop = Get-Content $scoopPath -Raw | ConvertFrom-Json
 if ($scoop.version -eq $version) { Write-Host "manifests already at $version"; exit 0 }
 
-$sums = (Invoke-WebRequest "$base/SHA256SUMS.txt" -UseBasicParsing).Content
+# GitHub serves release assets as application/octet-stream, so .Content is a byte array.
+$resp = Invoke-WebRequest "$base/SHA256SUMS.txt" -UseBasicParsing
+$sums = if ($resp.Content -is [byte[]]) { [Text.Encoding]::UTF8.GetString($resp.Content) } else { [string]$resp.Content }
 function HashOf([string]$name) {
     $m = [regex]::Match($sums, "(?m)^([0-9a-fA-F]{64})\s+" + [regex]::Escape($name) + "\s*`$")
+    if (-not $m.Success) { $m = [regex]::Match($sums, "([0-9a-fA-F]{64})\s+" + [regex]::Escape($name)) }
     if (-not $m.Success) { throw "no checksum for $name in SHA256SUMS.txt" }
     $m.Groups[1].Value.ToLower()
 }
