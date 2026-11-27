@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 54 of 75 done (72%), 5 partial, 16 open.** Updated for 3.9.19.
+**Progress: 55 of 75 done (73%), 6 partial, 14 open.** Updated for 3.9.20.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -43,7 +43,7 @@ How to read the columns:
 | A6 | Cache Brave version 24 h (rate limits) | P1 | ✅ done | 3.9.7 |
 | A7 | Retry 5xx with backoff | P1 | ✅ done | 3.9.9 |
 | A8 | Handle HTTP 416 on resume | P2 | ✅ done | 3.9.11 |
-| A9 | Verify vendor hashes where published | P2 | ⬜ open | — |
+| A9 | Vendor hashes (log-only, not enforced) | P2 | 🟡 partial | 3.9.20 |
 | B1 | Atomic swap of the browser folder | P0 | ✅ done | 3.9.6 |
 | B2 | Auto rollback if new build fails | P1 | ✅ done | 3.9.6 |
 | B3 | Profile folder never inside replaced dir | P1 | ✅ done | 3.9.6 |
@@ -83,7 +83,7 @@ How to read the columns:
 | F5 | Fully portable settings | P2 | ✅ done | verified |
 | G1 | Real source for Edge (proxy-aware WinHTTP) | P0 | ✅ done | 3.9.8 |
 | G2 | Real source for Vivaldi | P1 | ✅ done | 3.9.5 |
-| G3 | Real source for Cent | P2 | ⬜ open | — |
+| G3 | Real source for Cent | P2 | ✅ done | 3.9.20 |
 | G4 | Chrome Extended Stable | P2 | ⬜ open | — |
 | G5 | Chrome 109 for Windows 7/8 | P3 | ⬜ open | — |
 | G6 | Warn if win32 Chrome retired | P2 | ✅ done | 3.9.16 |

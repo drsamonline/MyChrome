@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.19"
+Global Const $APPVERSION = "3.9.20"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -3663,6 +3663,20 @@ Func _SELFTEST ( )
 	EndIf
 	Return $IFAIL
 EndFunc
+Func _SHA256FILE ( $SFILE )
+	; A9: certutil ships with Windows; no external dependency and no hash code to maintain.
+	Local $SOUT = $SFILE & ".sha256.txt"
+	FileDelete ( $SOUT )
+	RunWait ( @ComSpec & ' /c certutil -hashfile "' & $SFILE & '" SHA256 > "' & $SOUT & '" 2>&1' , "" , @SW_HIDE )
+	If Not FileExists ( $SOUT ) Then Return ""
+	Local $SLINES = FileRead ( $SOUT )
+	FileDelete ( $SOUT )
+	Local $AM = StringRegExp ( $SLINES , '(?m)^\s*([0-9a-fA-F]{64})\s*$' , 1 )
+	If Not @error Then Return StringLower ( $AM [ 0 ] )
+	Local $AM2 = StringRegExp ( $SLINES , '(?m)^\s*([0-9a-fA-F]{2}(?:\s+[0-9a-fA-F]{2}){31})\s*$' , 1 )
+	If Not @error Then Return StringLower ( StringReplace ( $AM2 [ 0 ] , " " , "" ) )
+	Return ""
+EndFunc
 Func _SHOWERROR ( $SMSG , $IFLAGS = 16 )
 	; E5: a failure dialog the user can paste straight into a bug report. The message and
 	; the tail of the log go to the clipboard; the dialog says so.
@@ -3780,6 +3794,19 @@ Func _EDGE_POST ( $HHTTPOPEN , $SPATH , $SDATA )
 	_WINHTTPCLOSEHANDLE ( $HCONNECT )
 	If $IERR Then Return ""
 	Return $SBODY
+EndFunc
+Func _CENT_LATEST ( $HHTTPOPEN , $NEED_X86 )
+	; G3: Cent publishes the current version on its home page and serves installers from
+	; a versioned static path. InetRead for the same reason as Firefox: chunked responses
+	; are not safe through the inlined WinHTTP reader.
+	Local $SBODY = BinaryToString ( InetRead ( "https://www.centbrowser.com/" , 1 ) , 4 )
+	If $SBODY = "" Then Return ""
+	Local $AVER = StringRegExp ( $SBODY , '(?i)Version:\s*([\d.]+)' , 1 )
+	If @error Then Return ""
+	Local $SVER = $AVER [ 0 ]
+	Local $SSUFFIX = ""
+	If Not $NEED_X86 Then $SSUFFIX = "_x64"
+	Return $SVER & "|https://static.centbrowser.com/win_stable/" & $SVER & "/centbrowser_" & $SVER & $SSUFFIX & ".exe"
 EndFunc
 Func _VIVALDI_LATEST ( $HHTTPOPEN , $NEED_X86 )
 	; Sparkle appcast: the newest enclosure is the full installer, deltas carry a .cab suffix.
@@ -4064,6 +4091,7 @@ Func GET_LATEST_CHROME_VER ( $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 = 0 , $I
 				Local $ACFT = StringSplit ( $CFT , "|" , 2 )
 				If UBound ( $ACFT ) = 2 Then
 					_WINHTTPCLOSEHANDLE ( $HHTTPOPEN )
+					IniWrite ( $INIFILE , "Cache" , "PackageHash" , "" )
 					_SETVAR ( "DLInfo" , $ACFT [ 0 ] & "|" & $ACFT [ 1 ] & "|1|1||" & StringFormat ( $LANGUPDATEGOT , "Chrome" ) )
 					Return
 				EndIf
@@ -4149,6 +4177,8 @@ Func GET_LATEST_CHROME_VER ( $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 = 0 , $I
 			$NAME = $MATCH [ 1 ]
 			; https only: the manifest also lists plain-http mirrors, and they used to be tried first.
 			$MATCH = StringRegExp ( $VAR , "(?i)<url +codebase=""(https://.+?)""" , 3 )
+			Local $AHASH = StringRegExp ( $VAR , "(?i)<package [^>]*hash_sha256=""([0-9a-f]{64})""" , 1 )
+			If Not @error Then IniWrite ( $INIFILE , "Cache" , "PackageHash" , StringLower ( $AHASH [ 0 ] ) )
 			If Not @error Then
 				For $I = 0 To UBound ( $MATCH ) - 1
 					$LATESTURLS &= " " & $MATCH [ $I ] & $NAME
@@ -4245,6 +4275,15 @@ Func GET_LATEST_CHROME_VER ( $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 = 0 , $I
 		EndIf
 	EndIf
 	If $BROWSERTYPE = "Cent" Then
+		Local $SCENT = _CENT_LATEST ( $HHTTPOPEN , $NEED_X86 )
+		If $SCENT <> "" Then
+			Local $ACENT = StringSplit ( $SCENT , "|" , 2 )
+			If UBound ( $ACENT ) = 2 Then
+				_WINHTTPCLOSEHANDLE ( $HHTTPOPEN )
+				_SETVAR ( "DLInfo" , $ACENT [ 0 ] & "|" & $ACENT [ 1 ] & "|1|1||" & StringFormat ( $LANGUPDATEGOT , "Cent" ) )
+				Return
+			EndIf
+		EndIf
 		$LATESTURLS = "https://www.centbrowser.com/"
 		If $LATESTURLS Then
 			_SETVAR ( "DLInfo" , $LATESTVER & "|" & $LATESTURLS & "|1|1||" & StringFormat ( $LANGUPDATEGOT , "Cent" ) )
@@ -4622,6 +4661,19 @@ Func INSTALLCHROME ( $CHROMEINSTALLER = "" )
 		$IPACKETOK = 0
 	ElseIf RunWait ( $TEMPDIR & "\7z.exe t """ & $CHROMEINSTALLER & """ -y" , $TEMPDIR , @SW_HIDE ) <> 0 Then
 		$IPACKETOK = 0
+	EndIf
+	; A9: the vendor publishes a SHA256 in its update manifest. Compare when one is known;
+	; a mismatch is logged, not enforced, because a bad parse must never block an update.
+	Local $SEXPECTHASH = IniRead ( $INIFILE , "Cache" , "PackageHash" , "" )
+	If $SEXPECTHASH <> "" And FileExists ( $CHROMEINSTALLER ) Then
+		Local $SACTUALHASH = _SHA256FILE ( $CHROMEINSTALLER )
+		If $SACTUALHASH <> "" Then
+			If $SACTUALHASH <> $SEXPECTHASH Then
+				_LOG ( "hash mismatch: vendor " & $SEXPECTHASH & ", downloaded " & $SACTUALHASH )
+			Else
+				_LOG ( "hash verified against the vendor manifest" )
+			EndIf
+		EndIf
 	EndIf
 	If Not $IPACKETOK Then
 		_LOG ( "archive failed integrity test: " & $CHROMEINSTALLER )

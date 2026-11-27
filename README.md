@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.19_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.19.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.19_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.20_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.20.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.20_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -90,14 +90,17 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.19
+## What's new in 3.9.20
 
-- **Second split.** The app-level helpers — process lookup, path handling, version
-  comparison, shortcut creation, preference checks — moved to `src/include/helpers.au3`.
-  `src/MyBrowser.au3` is down to 5,300 lines from the 7,263 the recovery started with.
+- **Cent Browser downloads for real.** It read the version from the vendor's home page and
+  fetches `static.centbrowser.com/win_stable/<version>/centbrowser_<version>[_x64].exe`,
+  instead of opening a link page.
+- **Vendor hash compared.** When the update manifest publishes a `hash_sha256`, the
+  downloaded package is hashed with `certutil` and the result logged — verified or
+  mismatched. It is reported, not enforced: a parse failure must never block an update.
 
-Earlier: **3.9.18** published `.zip` assets and winget manifests. **3.9.17** added the
-Scoop manifest.
+Earlier: **3.9.19** split the app helpers into a second include. **3.9.18** added `.zip`
+assets and winget manifests.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases) ·
 [CHANGELOG.md](CHANGELOG.md)
@@ -185,7 +188,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.19_source.7z`.
+`MyBrowser_v3.9.20_source.7z`.
 
 ## Lineage
 
