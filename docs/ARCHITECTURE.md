@@ -112,6 +112,18 @@ caught the Firefox lookup hang that a PowerShell copy of the same request did no
 Fault injection: setting `Settings\SelfTestProxy=HTTP:127.0.0.1:9` in `MyBrowser.ini`
 points every probe at a dead endpoint. CI uses it to prove the failure path terminates.
 
+## Scheduled feed health
+
+`build/smoke.ps1 -Deep` is the only thing that notices when a vendor changes its feed or
+its archive layout. `.github/workflows/health.yml` runs it every Monday and on demand, then
+
+| Outcome | Action |
+| --- | --- |
+| a check fails | opens an issue labelled `feed-health`, or comments on the open one |
+| everything passes | comments and closes any open `feed-health` issue |
+
+That way a broken source is a Monday morning ticket rather than a user's bug report.
+
 ## CI jobs
 
 | Job | Runner | Purpose |

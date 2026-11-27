@@ -1,0 +1,90 @@
+name: Feed health
+
+# The launcher depends on seven vendor feeds. If one of them changes shape, users find out
+# first unless something checks on a schedule. This runs the deep smoke test weekly and
+# opens an issue when a source stops answering.
+
+on:
+  schedule:
+    - cron: '17 3 * * 1'      # Mondays, 03:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  health:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Cache AutoIt SDK
+        uses: actions/cache@v4
+        with:
+          path: .build/autoit
+          key: autoit-3.3.16.1-v1
+
+      - name: Build with AutoIt3
+        shell: pwsh
+        run: ./build/build.ps1
+
+      - name: Smoke test every source and archive
+        id: smoke
+        shell: pwsh
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MYBROWSER_LAUNCH_TEST: '1'
+        run: ./build/smoke.ps1 -Deep 2>&1 | Tee-Object -FilePath health.log
+
+      - name: Open or update an issue when a feed breaks
+        if: steps.smoke.outcome == 'failure'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $log = if (Test-Path health.log) { Get-Content health.log -Raw } else { '(no log)' }
+          $fails = ($log -split "`n" | Where-Object { $_ -match '^(FAIL|SKIP)\s' }) -join "`n"
+          if (-not $fails) { $fails = 'the smoke test failed but printed no FAIL line' }
+          $body = @"
+          The scheduled feed check failed on $(Get-Date -Format 'yyyy-MM-dd').
+
+          ````
+          $fails
+          ````
+
+          Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+          A vendor changing its feed or archive layout breaks installs for users. Check the
+          failing source, adjust `src/MyBrowser.au3`, and confirm `build/smoke.ps1 -Deep`
+          passes before releasing.
+          "@
+          $existing = gh issue list --repo $env:GITHUB_REPOSITORY --label feed-health --state open --json number --jq '.[0].number'
+          if ($existing) {
+              gh issue comment $existing --repo $env:GITHUB_REPOSITORY --body $body
+          } else {
+              gh issue create --repo $env:GITHUB_REPOSITORY --title 'Feed health check failed' --label feed-health --body $body
+          }
+
+      - name: Close the issue when the feeds recover
+        if: steps.smoke.outcome == 'success'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $existing = gh issue list --repo $env:GITHUB_REPOSITORY --label feed-health --state open --json number --jq '.[0].number'
+          if ($existing) {
+              gh issue comment $existing --repo $env:GITHUB_REPOSITORY --body "The scheduled check passes again as of $(Get-Date -Format 'yyyy-MM-dd')."
+              gh issue close $existing --repo $env:GITHUB_REPOSITORY
+          }
+
+      - name: Upload the log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: feed-health-log
+          path: health.log
+          if-no-files-found: ignore
