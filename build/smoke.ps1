@@ -203,6 +203,48 @@ if ($Deep) {
             "two-stage extract yields Chrome-bin\safemode.bat (Cent $ver)"
         } finally { Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue }
     }
+
+    Check 'Brave ZIP unpacks to brave.exe at the root' {
+        if (-not (Test-Path $seven)) { throw '7-Zip is not available on this runner' }
+        $h = @{ 'User-Agent' = 'MyBrowser-ci' }
+        if ($env:GITHUB_TOKEN) { $h['Authorization'] = "Bearer $env:GITHUB_TOKEN" }
+        $rel = Invoke-RestMethod 'https://api.github.com/repos/brave/brave-browser/releases/latest' -Headers $h
+        $asset = $rel.assets | Where-Object { $_.name -match '^brave-v[\d.]+-win32-x64\.zip$' } | Select-Object -First 1
+        if (-not $asset) { throw "no win32-x64 zip in Brave $($rel.tag_name)" }
+        $dir = Join-Path $env:TEMP ('brave-' + [guid]::NewGuid().ToString('N'))
+        New-Item -ItemType Directory -Force -Path $dir | Out-Null
+        try {
+            $zip = Join-Path $dir 'brave.zip'
+            Invoke-WebRequest $asset.browser_download_url -OutFile $zip -UseBasicParsing
+            & $seven x $zip "-o$dir\out" -y | Out-Null
+            if (-not (Test-Path (Join-Path $dir 'out\brave.exe'))) {
+                throw "brave.exe missing at the root; found: $((Get-ChildItem (Join-Path $dir 'out') -Name | Select-Object -First 5) -join ', ')"
+            }
+            "brave.exe at the root ($($rel.tag_name))"
+        } finally { Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue }
+    }
+
+    Check 'Vivaldi package yields Vivaldi-bin with vivaldi.exe' {
+        if (-not (Test-Path $seven)) { throw '7-Zip is not available on this runner' }
+        $xml = [xml](Invoke-WebRequest 'https://update.vivaldi.com/update/1.0/win/appcast.xml' -UseBasicParsing).Content
+        $item = $xml.rss.channel.item | Select-Object -First 1
+        $url = $item.enclosure.url
+        if (-not $url) { throw 'no enclosure in the Vivaldi appcast' }
+        $dir = Join-Path $env:TEMP ('vivaldi-' + [guid]::NewGuid().ToString('N'))
+        New-Item -ItemType Directory -Force -Path $dir | Out-Null
+        try {
+            $exe = Join-Path $dir 'vivaldi.exe'
+            Invoke-WebRequest $url -OutFile $exe -UseBasicParsing
+            & $seven x $exe "-o$dir\out" -y | Out-Null
+            if (Test-Path (Join-Path $dir 'out\vivaldi.7z')) {
+                & $seven x (Join-Path $dir 'out\vivaldi.7z') "-o$dir\out" -y | Out-Null
+            }
+            $found = Get-ChildItem (Join-Path $dir 'out') -Recurse -Filter 'vivaldi.exe' -ErrorAction SilentlyContinue | Select-Object -First 1
+            if (-not $found) { throw 'vivaldi.exe not found after extraction' }
+            $rel = $found.FullName.Substring((Join-Path $dir 'out').Length + 1)
+            "vivaldi.exe at $rel"
+        } finally { Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue }
+    }
 }
 
 Check 'First run writes its settings file' {
