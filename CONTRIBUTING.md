@@ -98,3 +98,47 @@ Version-prefixed for releases, plain otherwise. No emoji.
 
 `SUPPORT.md` has the checklist. In short: the version, what you expected, what happened,
 and the log — `MyBrowser.log` sits next to the executable.
+
+## Signing the binaries
+
+The build signs both executables when two repository secrets exist:
+
+| Secret | Value |
+| --- | --- |
+| `SIGNING_PFX` | base64 of your code-signing `.pfx` |
+| `SIGNING_PFX_PASSWORD` | the password for that `.pfx` |
+
+```powershell
+[Convert]::ToBase64String([IO.File]::ReadAllBytes('codesign.pfx')) | Set-Clipboard
+```
+
+With them set, `build.ps1` runs `signtool` and then **verifies the result**: each
+executable must report `Get-AuthenticodeSignature` status `Valid` with a timestamp, or the
+build fails. Without them the build warns and records "unsigned" in the job summary.
+
+Nothing else changes — the same artefacts, the same checksums, just signed.
+
+## Running a mirror
+
+`update.txt` can name a mirror, which the self-updater falls back to when the GitHub
+download is unusable:
+
+```ini
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.26/MyBrowser_v3.9.26.7z
+url_mirror=https://mirror.example.org/mybrowser/MyBrowser_v3.9.26.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.26/MyBrowser_v3.9.26_x64.7z
+url_x64_mirror=https://mirror.example.org/mybrowser/MyBrowser_v3.9.26_x64.7z
+```
+
+The mirror must serve the **exact same bytes** — the download is checked against the
+`sha256` lines in the same file, and a mismatch aborts the update. Add the keys with a
+pull request; CI rewrites the hash lines on every tag but leaves the URLs alone.
+
+## Verifying a release
+
+```powershell
+./build/verify-release.ps1 -Path .\MyBrowser_v3.9.26_x64.7z
+```
+
+Checks the SHA256 against the published manifest and, when the GitHub CLI is installed,
+the build provenance attestation. Exit 0 means both passed.

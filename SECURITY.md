@@ -58,3 +58,19 @@ You can expect an acknowledgement within a few days. There is no bounty.
   `--no-sandbox` from the shipped parameters). If you add it back by hand to work
   around a startup problem, you are weakening the browser's isolation — prefer fixing
   the underlying cause.
+
+## Verifying a download
+
+Two checks, one command:
+
+```powershell
+./build/verify-release.ps1 -Path .\MyBrowser_v3.9.26_x64.7z
+```
+
+It compares the file's SHA256 with the `SHA256SUMS.txt` published alongside it, then asks
+the GitHub CLI to verify the build provenance attestation, which records that the file was
+produced by this repository's release workflow. Exit code 0 means both checks passed; 2
+means the bytes are not what was published; 3 means the attestation did not verify.
+
+A file whose name was changed is still checked — the tool falls back to matching by hash
+and tells you which published asset it corresponds to.
