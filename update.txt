@@ -1,6 +1,6 @@
-latest=3.9.12
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.12/MyBrowser_v3.9.12.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.12/MyBrowser_v3.9.12_x64.7z
-update=1. 失敗對話框可一鍵複製診斷資訊；\n2. 同一安裝不允許同時執行兩個實例；\n3. 3.9.12
-update_zh-TW=1. 失敗對話框可一鍵複製診斷資訊；\n2. 同一安裝不允許同時執行兩個實例；\n3. 3.9.12
-update_en-US=1. Failure dialogs copy diagnostics to the clipboard;\n2. One instance per installation;\n3. 3.9.12
+latest=3.9.13
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.13/MyBrowser_v3.9.13.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.13/MyBrowser_v3.9.13_x64.7z
+update=1. 啟動時清理中斷更新留下的暫存資料；\n2. 建置會檢查四處版本號一致；\n3. 3.9.13
+update_zh-TW=1. 啟動時清理中斷更新留下的暫存資料；\n2. 建置會檢查四處版本號一致；\n3. 3.9.13
+update_en-US=1. Leftovers from an interrupted update are cleared at startup;\n2. The build checks the version agrees in four places;\n3. 3.9.13

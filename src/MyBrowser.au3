@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.12"
+Global Const $APPVERSION = "3.9.13"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -32,6 +32,15 @@ Local $IOTHERINSTANCE = APPISRUNNING ( @ScriptFullPath )
 If $IOTHERINSTANCE And $IOTHERINSTANCE <> @AutoItPID Then
 	_LOG ( "second instance refused, already running as pid " & $IOTHERINSTANCE )
 	Exit
+EndIf
+; B5: an interrupted update can leave several hundred MB in ~update and ~updated.
+Local $SCHROMEPATH = IniRead ( $INIFILE , "Settings" , "ChromePath" , "" )
+If $SCHROMEPATH <> "" Then
+	Local $SCHROMEDIR = StringRegExpReplace ( FULLPATH ( $SCHROMEPATH ) , "\\[^\\]*$" , "" )
+	If $SCHROMEDIR <> "" And FileExists ( $SCHROMEDIR ) Then
+		If FileExists ( $SCHROMEDIR & "\~updated" ) Then DirRemove ( $SCHROMEDIR & "\~updated" , 1 )
+		If FileExists ( $SCHROMEDIR & "\~update" ) Then DirRemove ( $SCHROMEDIR & "\~update" , 1 )
+	EndIf
 EndIf
 Func _STARTTHREAD ( $EXE , $FUNCTION , $P1 = "" , $P2 = "" , $P3 = "" , $P4 = "" , $P5 = "" , $P6 = "" , $P7 = "" , $P8 = "" , $P9 = "" , $P10 = "" )
 	Local $I , $P , $PARA

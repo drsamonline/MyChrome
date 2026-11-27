@@ -11,11 +11,18 @@ $tool = Join-Path $root '.build'
 $Version = (Select-String -Path (Join-Path $src 'MyBrowser.au3') -Pattern 'Global Const \$APPVERSION = "([^"]+)"').Matches[0].Groups[1].Value
 if (-not $Version) { throw 'Could not read $APPVERSION from src/MyBrowser.au3' }
 
-# The version is embedded in the language files too; a mismatch ships a wrong label.
-$iniVersion = (Select-String -Path (Join-Path $res 'en-US.ini') -Pattern '^Version=(.+)$').Matches[0].Groups[1].Value.Trim()
-if ($iniVersion -ne $Version) {
-    throw "Version mismatch: src/MyBrowser.au3 says $Version, resources/en-US.ini says $iniVersion"
+# H2: the version lives in four places. Nothing may disagree with the source.
+$checks = @(
+    @{ Name = 'resources/en-US.ini'; Value = (Select-String -Path (Join-Path $res 'en-US.ini') -Pattern '^Version=(.+)$').Matches[0].Groups[1].Value.Trim() },
+    @{ Name = 'resources/zh-TW.ini'; Value = (Select-String -Path (Join-Path $res 'zh-TW.ini') -Pattern '^Version=(.+)$' -Encoding Unicode).Matches[0].Groups[1].Value.Trim() },
+    @{ Name = 'update.txt (latest=)'; Value = (Select-String -Path (Join-Path $root 'update.txt') -Pattern '^latest=(.+)$').Matches[0].Groups[1].Value.Trim() }
+)
+foreach ($c in $checks) {
+    if ($c.Value -ne $Version) {
+        throw "Version mismatch: src/MyBrowser.au3 says $Version, $($c.Name) says $($c.Value)"
+    }
 }
+Write-Host "Version $Version agrees in 4 places (source, 2 language files, update.txt)"
 Write-Host "Building MyBrowser $Version"
 
 New-Item -ItemType Directory -Force -Path $dist, $tool | Out-Null

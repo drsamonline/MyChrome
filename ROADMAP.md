@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 40 of 75 done (53%), 5 partial, 30 open.** Updated for 3.9.12.
+**Progress: 43 of 75 done (57%), 4 partial, 28 open.** Updated for 3.9.13.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -48,7 +48,7 @@ How to read the columns:
 | B2 | Auto rollback if new build fails | P1 | ✅ done | 3.9.6 |
 | B3 | Profile folder never inside replaced dir | P1 | ✅ done | 3.9.6 |
 | B4 | Skip one version, not all checks | P1 | ✅ done | 3.9.4 |
-| B5 | Clean stale temp dirs on startup | P1 | 🟡 partial | 3.9.2 |
+| B5 | Clean stale temp dirs on startup | P1 | ✅ done | 3.9.13 |
 | B6 | Deterministic cancel | P1 | ⬜ open | — |
 | B7 | Speed and ETA in progress | P1 | ✅ done | 3.9.9 |
 | B8 | Background check with notification | P2 | ⬜ open | — |
@@ -71,7 +71,7 @@ How to read the columns:
 | E3 | Strings out of code into language files | P1 | ✅ done | 3.9.10 |
 | E4 | More languages | P2 | ⬜ open | — |
 | E5 | Error dialogs with copy details | P1 | ✅ done | 3.9.12 |
-| E6 | Installed vs latest side by side | P1 | ⬜ open | — |
+| E6 | Installed vs latest side by side | P1 | ✅ done | pre-existing |
 | E7 | Remember window position | P1 | ✅ done | 3.9.9 |
 | E8 | Multiple profiles per browser | P2 | ⬜ open | — |
 | E9 | Keyboard nav and accessible names | P2 | ⬜ open | — |
@@ -89,7 +89,7 @@ How to read the columns:
 | G6 | Warn if win32 Chrome retired | P2 | ⬜ open | — |
 | G7 | Firefox channel naming check | P3 | ⬜ open | — |
 | H1 | Restore include-based structure | P1 | ✅ done | 3.9.11 |
-| H2 | Single source of truth for version | P1 | 🟡 partial | 3.9.3 |
+| H2 | Single source of truth for version | P1 | ✅ done | 3.9.13 |
 | H3 | docs/ARCHITECTURE.md | P1 | ✅ done | 3.9.3 |
 | H4 | CI fails on warnings | P2 | ✅ done | 3.9.4 |
 | H5 | Changelog from commits | P2 | ⬜ open | — |
