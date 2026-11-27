@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 58 of 75 done (77%), 5 partial, 12 open.** Updated for 3.9.22.
+**Progress: 57 of 75 done (76%), 5 partial, 13 open.** Updated for 3.9.22.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -51,7 +51,7 @@ How to read the columns:
 | B5 | Clean stale temp dirs on startup | P1 | ✅ done | 3.9.13 |
 | B6 | Deterministic cancel | P1 | ✅ done | 3.9.14 |
 | B7 | Speed and ETA in progress | P1 | ✅ done | 3.9.9 |
-| B8 | Background check with notification | P2 | ⬜ open | — |
+| B8 | Background check with notification | P2 | ✅ done | 3.9.22 |
 | B9 | Update log | P2 | ✅ done | 3.9.4 |
 | B10 | Concurrent-instance lock | P2 | ✅ done | 3.9.12 |
 | C1 | Authenticode signing | P0 | 🟡 partial | 3.9.4 |
@@ -97,7 +97,7 @@ How to read the columns:
 | H7 | .editorconfig + format pass | P1 | ✅ done | 3.9.9 |
 | I1 | Smoke test in CI | P0 | ✅ done | 3.9.6 |
 | I2 | --selftest flag | P1 | ✅ done | 3.9.6 |
-| I3 | Behavioural smoke test | P2 | ✅ done | 3.9.22 |
+| I3 | Fault injection: proxy that drops mid-download | P2 | ⬜ open | — |
 | I4 | OS x arch x browser matrix | P2 | ⬜ open | — |
 | I5 | Upgrade test 3.8.50 to current | P1 | ✅ done | 3.9.10 |
 | J1 | Enable GitHub Pages | P0 | ✅ done | 3.9.4 |
