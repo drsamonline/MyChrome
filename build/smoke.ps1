@@ -452,7 +452,7 @@ if ($Deep -and $env:MYBROWSER_LAUNCH_TEST -eq '1') {
             Get-Process chrome -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
             if (-not $app.HasExited) { Stop-Process -Id $app.Id -Force -ErrorAction SilentlyContinue }
             Start-Sleep -Milliseconds 500
-            Remove-Item (Join-Path $dist 'App') -Recurse -Force -ErrorAction SilentlyContinue
+            Remove-Item (Join-Path $dist 'App\Profiles') -Recurse -Force -ErrorAction SilentlyContinue
             Remove-Item $ini -Force -ErrorAction SilentlyContinue
         }
     }
@@ -515,7 +515,7 @@ Check 'Launcher starts a real browser from App\' {
             Get-Process chrome -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
             if (-not $app.HasExited) { Stop-Process -Id $app.Id -Force -ErrorAction SilentlyContinue }
             Start-Sleep -Milliseconds 500
-            Remove-Item (Join-Path $dist 'App\Profiles') -Recurse -Force -ErrorAction SilentlyContinue
+            Remove-Item (Join-Path $dist 'App') -Recurse -Force -ErrorAction SilentlyContinue
             Remove-Item $profile -Recurse -Force -ErrorAction SilentlyContinue
             Remove-Item $ini -Force -ErrorAction SilentlyContinue
         }
