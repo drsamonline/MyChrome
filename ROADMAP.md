@@ -62,7 +62,7 @@ How to read the columns:
 | C6 | Build provenance attestation | P2 | ✅ done | repo |
 | C7 | VirusTotal link in release notes | P3 | ✅ done | 3.9.11 |
 | C8 | Document no telemetry | P2 | ✅ done | 3.9.3 |
-| D1 | Strip unreferenced UDFs | P2 | ⬜ open | — |
+| D1 | Strip unused UDFs | P2 | ✅ done — none: 242 functions, 0 unreferenced (checked by name, string and event registration) | verified |
 | D2 | Split the file into includes | P2 | ✅ done | 3.9.11 + 3.9.19 |
 | D3 | Adaptive segment count | P3 | ⬜ open | — |
 | D4 | Keep previous build for rollback | P3 | ⬜ open | — |

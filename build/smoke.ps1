@@ -96,6 +96,34 @@ Check 'Upgrade path from 3.8.50' {
 }
 
 # ---------------------------------------------------------------- binaries
+Check 'Package manifests match their release' {
+    # A manifest that points at a stale hash fails the user's install, not ours.
+    $manifest = Join-Path $root 'bucket\mybrowser.json'
+    if (-not (Test-Path $manifest)) { throw 'scoop manifest missing' }
+    $m = Get-Content $manifest -Raw | ConvertFrom-Json
+    $v = $m.version
+    $checks = @(
+        @{ Url = $m.architecture.'64bit'.url; Hash = $m.architecture.'64bit'.hash },
+        @{ Url = $m.architecture.'32bit'.url; Hash = $m.architecture.'32bit'.hash }
+    )
+    $tmp = Join-Path $env:TEMP ('scoopcheck-' + [guid]::NewGuid().ToString('N') + '.bin')
+    try {
+        foreach ($c in $checks) {
+            Invoke-WebRequest $c.Url -OutFile $tmp -UseBasicParsing
+            $actual = (Get-FileHash $tmp -Algorithm SHA256).Hash.ToLower()
+            if ($actual -ne $c.Hash.ToLower()) {
+                throw "scoop manifest hash for $v does not match $($c.Url)"
+            }
+        }
+    } finally {
+        Remove-Item $tmp -Force -ErrorAction SilentlyContinue
+    }
+    $au3 = Join-Path $root 'src\MyBrowser.au3'
+    $builtVer = ([regex]::Match((Get-Content $au3 -Raw), 'APPVERSION = "([\d.]+)"')).Groups[1].Value
+    if ($v -ne $builtVer) { Write-Host "      note: scoop manifest is at $v, source is at $builtVer" }
+    "scoop manifest $v matches both assets"
+}
+
 Check 'x64 executable starts' {
     $exe = Join-Path $dist 'MyBrowser.exe'
     if (-not (Test-Path $exe)) { throw 'dist/MyBrowser.exe missing' }
