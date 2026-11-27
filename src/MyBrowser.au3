@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.11"
+Global Const $APPVERSION = "3.9.12"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -26,6 +26,12 @@ $__HWND_VARS = GUICreate ( "main thread" )
 GUICtrlCreateEdit ( "" , 0 , 0 , 350 )
 If _HASPARAM ( "/selftest" ) Then
 	Exit _SELFTEST ( )
+EndIf
+; B10: two instances would fight over the ini and the update lock.
+Local $IOTHERINSTANCE = APPISRUNNING ( @ScriptFullPath )
+If $IOTHERINSTANCE And $IOTHERINSTANCE <> @AutoItPID Then
+	_LOG ( "second instance refused, already running as pid " & $IOTHERINSTANCE )
+	Exit
 EndIf
 Func _STARTTHREAD ( $EXE , $FUNCTION , $P1 = "" , $P2 = "" , $P3 = "" , $P4 = "" , $P5 = "" , $P6 = "" , $P7 = "" , $P8 = "" , $P9 = "" , $P10 = "" )
 	Local $I , $P , $PARA
@@ -3358,7 +3364,7 @@ Func UPDATECHROME ( $CHROMEPATH , $CHANNEL , $STRURL = "" )
 			EndIf
 			If Not $LATESTCHROMEVER Then
 				If Not IsHWnd ( $HSETTINGS ) Then ExitLoop
-				$MSG = MsgBox ( 16 + 5 , "MyBrowser" , LANG ( "GUI" , "GetUpdateInfoFailed" , "获取更新信息失败" ) & "！" & @CRLF & $ERROR & @CRLF & @CRLF & LANG ( "GUI" , "LastKnownVersion" , "上次已知版本" ) & ": " & IniRead ( $INIFILE , "Settings" , "LastKnownVersion" , "-" ) , 0 , $HSETTINGS )
+				$MSG = _SHOWERROR ( LANG ( "GUI" , "GetUpdateInfoFailed" , "获取更新信息失败" ) & "！" & @CRLF & $ERROR & @CRLF & @CRLF & LANG ( "GUI" , "LastKnownVersion" , "上次已知版本" ) & ": " & IniRead ( $INIFILE , "Settings" , "LastKnownVersion" , "-" ) , 16 + 5 )
 			EndIf
 		Until $LATESTCHROMEVER Or $MSG = 2
 		If $LATESTCHROMEVER And IsHWnd ( $HSETTINGS ) Then
@@ -3559,7 +3565,7 @@ Func UPDATECHROME ( $CHROMEPATH , $CHANNEL , $STRURL = "" )
 		If IsHWnd ( $HSETTINGS ) Then
 			_GUICTRLSTATUSBAR_SETTEXT ( $HSTAUSBAR , $LANGDOWNLOADFAILED & " " & $ERROR )
 		EndIf
-		$MSG = MsgBox ( 16 + 5 , "MyBrowser" , $LANGDOWNLOADFAILED & "！" & @CRLF & $ERROR , 0 , $HSETTINGS )
+		$MSG = _SHOWERROR ( $LANGDOWNLOADFAILED & "！" & @CRLF & $ERROR , 16 + 5 )
 		If $MSG <> 4 Then ExitLoop
 	WEnd
 	If @TrayIconVisible Then
@@ -3631,6 +3637,23 @@ Func _SELFTEST ( )
 		FileClose ( $HREP )
 	EndIf
 	Return $IFAIL
+EndFunc
+Func _SHOWERROR ( $SMSG , $IFLAGS = 16 )
+	; E5: a failure dialog the user can paste straight into a bug report. The message and
+	; the tail of the log go to the clipboard; the dialog says so.
+	Local $SDETAIL = $SMSG
+	Local $SLOGFILE = @ScriptDir & "\MyBrowser.log"
+	If FileExists ( $SLOGFILE ) Then
+		Local $HLOG = FileOpen ( $SLOGFILE , 0 )
+		If $HLOG <> - 1 Then
+			Local $SALL = FileRead ( $HLOG )
+			FileClose ( $HLOG )
+			If StringLen ( $SALL ) > 1500 Then $SALL = StringRight ( $SALL , 1500 )
+			$SDETAIL &= @CRLF & @CRLF & $SALL
+		EndIf
+	EndIf
+	ClipPut ( $SDETAIL )
+	Return MsgBox ( $IFLAGS , "MyBrowser" , $SMSG & @CRLF & @CRLF & LANG ( "GUI" , "DetailsCopied" , "详细信息已复制到剪贴板。" ) , 0 , $HSETTINGS )
 EndFunc
 Func _LOG ( $SMSG )
 	; Append-only support log next to the exe. Never let logging break an update.
@@ -4572,7 +4595,7 @@ Func INSTALLCHROME ( $CHROMEINSTALLER = "" )
 	EndIf
 	If Not $IPACKETOK Then
 		_LOG ( "archive failed integrity test: " & $CHROMEINSTALLER )
-		MsgBox ( 64 , "MyBrowser" , LANG ( "Update" , "ArchiveCorrupt" , "下载的更新包不完整或已损坏，请重试。" ) , 0 , $HSETTINGS )
+		_SHOWERROR ( LANG ( "Update" , "ArchiveCorrupt" , "下载的更新包不完整或已损坏，请重试。" ) , 64 )
 		If FileExists ( $CHROMEINSTALLER ) Then FileDelete ( $CHROMEINSTALLER )
 		DirRemove ( $TEMPDIR , 1 )
 		Return SetError ( 1 , 0 , 0 )
@@ -4959,7 +4982,7 @@ Func APPLYUPDATE ( )
 	EndIf
 	If Not $SAPPLYOK Then
 		_LOG ( "apply refused: incomplete tree for " & $CHROMEEXE )
-		MsgBox ( 64 , "MyBrowser" , LANG ( "Update" , "ApplyIncomplete" , "更新文件不完整，已取消本次更新，原浏览器未受影响。" ) , 0 , $HSETTINGS )
+		_SHOWERROR ( LANG ( "Update" , "ApplyIncomplete" , "更新文件不完整，已取消本次更新，原浏览器未受影响。" ) , 64 )
 		If FileExists ( $CHROMEDIR & "\~updated" ) Then DirRemove ( $CHROMEDIR & "\~updated" , 1 )
 		If FileExists ( $CHROMEDIR & "\~update" ) Then DirRemove ( $CHROMEDIR & "\~update" , 1 )
 		ENDUPDATE ( )

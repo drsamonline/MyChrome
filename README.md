@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.11_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.11.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.11_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.12_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.12.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.12_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -90,18 +90,16 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.11
+## What's new in 3.9.12
 
-- **The source is split.** The 1,557 lines of inlined WinHTTP, WinAPI, security and
-  accessibility helpers moved to `src/include/udf.au3`; `src/MyBrowser.au3` is now the
-  application itself.
-- **A wedged resume no longer loops.** After two failed resume attempts the partial file
-  is discarded and the download restarts from zero, instead of retrying a range the
-  server keeps rejecting.
-- Release notes now point at `SHA256SUMS.txt` and VirusTotal for verification.
+- **Failure dialogs are pasteable.** The four user-facing failures (lookup, download,
+  corrupt archive, incomplete update) now copy the message plus the last 1.5 KB of
+  `MyBrowser.log` to the clipboard and say so — a report is one paste.
+- **One instance per installation.** A second copy exits instead of fighting over the
+  ini file and the update lock; the attempt is logged.
 
-Earlier: **3.9.10** moved every interface string into the language files and added the
-upgrade-path test. **3.9.9** added the ETA and provenance attestation.
+Earlier: **3.9.11** split the source into a main file plus `include/udf.au3`.
+**3.9.10** moved every interface string into the language files.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases).
 
@@ -186,7 +184,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.11_source.7z`.
+`MyBrowser_v3.9.12_source.7z`.
 
 ## Lineage
 

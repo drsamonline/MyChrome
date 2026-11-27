@@ -264,10 +264,10 @@
           <span data-zh>选择浏览器、更新通道和架构。MyBrowser 会下载官方版本，解压到程序旁边，并使用独立配置运行。<b>不写入注册表</b>，无需管理员权限，删除文件夹即可卸载。</span>
         </p>
         <div class="cta">
-          <a class="btn primary" href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.11/MyBrowser_v3.9.11_x64.7z">
-            <span><span data-en>Download</span><span data-zh>下载</span> x64</span><span class="k">3.9.11 · .7z</span>
+          <a class="btn primary" href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.12/MyBrowser_v3.9.12_x64.7z">
+            <span><span data-en>Download</span><span data-zh>下载</span> x64</span><span class="k">3.9.12 · .7z</span>
           </a>
-          <a class="btn ghost" href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.11/MyBrowser_v3.9.11.7z">
+          <a class="btn ghost" href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.12/MyBrowser_v3.9.12.7z">
             <span>x86</span><span class="k">32-bit</span>
           </a>
         </div>
@@ -275,7 +275,7 @@
 
       <aside class="spec">
         <dl>
-          <dt>Version</dt><dd>3.9.11</dd>
+          <dt>Version</dt><dd>3.9.12</dd>
           <dt>Chrome</dt><dd><span class="pulse"></span><span class="live" id="cft">158.0.8127.88</span></dd>
           <dt>Channels</dt><dd>Stable · Beta · Dev · Canary</dd>
           <dt>Package</dt><dd>~3.5 MB</dd>
@@ -358,25 +358,25 @@
   <section class="block" id="new">
     <div class="sec-head">
       <span class="num">03</span>
-      <h2><span data-en>What changed in 3.9.11</span><span data-zh>3.9.11 更新內容</span></h2>
+      <h2><span data-en>What changed in 3.9.12</span><span data-zh>3.9.12 更新內容</span></h2>
       <p><span data-en>Update behaviour, a support log, and signing ready to switch on.</span><span data-zh>更新行為、支援記錄，以及可隨時啟用的簽章。</span></p>
     </div>
     <div class="log">
       <div class="log-row">
-        <span class="tag">Source<small>split</small></span>
-        <p><span data-en>1,557 lines of inlined WinHTTP, WinAPI and accessibility helpers moved into <b>src/include/udf.au3</b>. The main file is the application again.</span><span data-zh>1,557 行內嵌的 WinHTTP、WinAPI 與輔助函式移入 <b>src/include/udf.au3</b>，主檔回到應用程式本身。</span></p>
+        <span class="tag">Diagnostics<small>one paste</small></span>
+        <p><span data-en>Failure dialogs copy the message and the last 1.5 KB of <b>MyBrowser.log</b> to the clipboard, so a bug report needs no digging.</span><span data-zh>失敗對話框會把訊息與 <b>MyBrowser.log</b> 最後 1.5 KB 複製到剪貼簿，回報問題免翻找。</span></p>
       </div>
       <div class="log-row">
-        <span class="tag">Fixed<small>resume</small></span>
-        <p><span data-en>A partial file the server keeps rejecting is discarded after two attempts, so the download restarts instead of looping.</span><span data-zh>伺服器持續拒絕的部分檔案在兩次嘗試後會被丟棄，下載改為重新開始而非無限重試。</span></p>
+        <span class="tag">Stability<small>one instance</small></span>
+        <p><span data-en>A second copy of the launcher exits instead of fighting over the settings file and the update lock.</span><span data-zh>第二個啟動器實例會直接結束，不再爭用設定檔與更新鎖。</span></p>
+      </div>
+      <div class="log-row">
+        <span class="tag">Source<small>since 3.9.11</small></span>
+        <p><span data-en>1,557 lines of helpers live in <b>src/include/udf.au3</b>; the main file is the application.</span><span data-zh>1,557 行輔助函式位於 <b>src/include/udf.au3</b>，主檔即應用程式。</span></p>
       </div>
       <div class="log-row">
         <span class="tag">Trust<small>verify</small></span>
-        <p><span data-en>Release notes point at <b>SHA256SUMS.txt</b> and VirusTotal; tagged builds also carry a signed provenance attestation.</span><span data-zh>發布說明指向 <b>SHA256SUMS.txt</b> 與 VirusTotal；標籤建置另附簽章來源證明。</span></p>
-      </div>
-      <div class="log-row">
-        <span class="tag">Earlier<small>3.9.6–3.9.10</small></span>
-        <p><span data-en>Atomic swap with rollback, self-test, Edge over proxy-aware WinHTTP, ETA, retry backoff, full localisation.</span><span data-zh>原子替換與回滾、自我檢測、Edge 改用支援代理的 WinHTTP、剩餘時間、重試退避、完整在地化。</span></p>
+        <p><span data-en>SHA256SUMS with every release, plus a signed provenance attestation on tagged builds.</span><span data-zh>每個版本附 SHA256SUMS，標籤建置另附簽章來源證明。</span></p>
       </div>
     </div>
   </section>
@@ -388,15 +388,15 @@
       <p><span data-en>Unzip, run the exe, pick a browser. That is the whole setup.</span><span data-zh>解压、运行、选择浏览器，安装就这些。</span></p>
     </div>
     <div class="dl">
-      <a href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.11/MyBrowser_v3.9.11_x64.7z">
+      <a href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.12/MyBrowser_v3.9.12_x64.7z">
         <span class="arch">x64 · Recommended</span>
-        <span class="name">MyBrowser 3.9.11</span>
-        <span class="meta">MyBrowser_v3.9.11_x64.7z · Windows 10/11 64-bit</span>
+        <span class="name">MyBrowser 3.9.12</span>
+        <span class="meta">MyBrowser_v3.9.12_x64.7z · Windows 10/11 64-bit</span>
       </a>
-      <a href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.11/MyBrowser_v3.9.11.7z">
+      <a href="https://github.com/drsamonline/MyChrome/releases/download/v3.9.12/MyBrowser_v3.9.12.7z">
         <span class="arch">x86 · Legacy</span>
-        <span class="name">MyBrowser 3.9.11</span>
-        <span class="meta">MyBrowser_v3.9.11.7z · 32-bit systems</span>
+        <span class="name">MyBrowser 3.9.12</span>
+        <span class="meta">MyBrowser_v3.9.12.7z · 32-bit systems</span>
       </a>
     </div>
     <div class="sub-dl">
@@ -422,8 +422,8 @@ cd MyChrome
 <span class="a">./build/build.ps1</span>
 
 <span class="c"># output</span>
-dist/MyBrowser_v3.9.11_x64.7z
-dist/MyBrowser_v3.9.11.7z</pre>
+dist/MyBrowser_v3.9.12_x64.7z
+dist/MyBrowser_v3.9.12.7z</pre>
     </div>
   </section>
 
@@ -451,7 +451,7 @@ dist/MyBrowser_v3.9.11.7z</pre>
 
 <footer class="wrap">
   <div class="foot">
-    <span>MyBrowser 3.9.11 · GPL-3.0 · Dr Sohil Momin</span>
+    <span>MyBrowser 3.9.12 · GPL-3.0 · Dr Sohil Momin</span>
     <span>
       <a href="https://github.com/drsamonline/MyChrome"><span data-en>Source</span><span data-zh>原始碼</span></a> ·
       <a href="https://github.com/drsamonline/MyChrome/blob/master/README.md#lineage"><span data-en>Lineage</span><span data-zh>來源</span></a> ·

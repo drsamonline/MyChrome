@@ -96,24 +96,6 @@ Check 'Upgrade path from 3.8.50' {
 }
 
 # ---------------------------------------------------------------- binaries
-Check 'App self-test (every wired source)' {
-    $exe = Join-Path $dist 'MyBrowser.exe'
-    $rep = Join-Path $dist 'MyBrowser.selftest.txt'
-    Remove-Item $rep -Force -ErrorAction SilentlyContinue
-    $p = Start-Process $exe -ArgumentList '/selftest' -PassThru
-    $done = $p.WaitForExit(120000)
-    if (-not $done) {
-        Stop-Process -Id $p.Id -Force
-        $partial = if (Test-Path $rep) { Get-Content $rep -Raw } else { '(no report)' }
-        throw "self-test hung for 120s. Last probe:`n$partial"
-    }
-    if (-not (Test-Path $rep)) { throw 'the self-test wrote no report' }
-    $txt = Get-Content $rep -Raw
-    Write-Host $txt
-    if ($p.ExitCode -ne 0) { throw "self-test reported $($p.ExitCode) failure(s)" }
-    "$(([regex]::Matches($txt,'(?m)^PASS')).Count) sources ok"
-}
-
 Check 'x64 executable starts' {
     $exe = Join-Path $dist 'MyBrowser.exe'
     if (-not (Test-Path $exe)) { throw 'dist/MyBrowser.exe missing' }
@@ -135,6 +117,24 @@ Check 'x86 executable starts' {
 }
 
 # ---------------------------------------------------------------- verdict
+Check 'App self-test (every wired source)' {
+    $exe = Join-Path $dist 'MyBrowser.exe'
+    $rep = Join-Path $dist 'MyBrowser.selftest.txt'
+    Remove-Item $rep -Force -ErrorAction SilentlyContinue
+    $p = Start-Process $exe -ArgumentList '/selftest' -PassThru
+    $done = $p.WaitForExit(120000)
+    if (-not $done) {
+        Stop-Process -Id $p.Id -Force
+        $partial = if (Test-Path $rep) { Get-Content $rep -Raw } else { '(no report)' }
+        throw "self-test hung for 120s. Last probe:`n$partial"
+    }
+    if (-not (Test-Path $rep)) { throw 'the self-test wrote no report' }
+    $txt = Get-Content $rep -Raw
+    Write-Host $txt
+    if ($p.ExitCode -ne 0) { throw "self-test reported $($p.ExitCode) failure(s)" }
+    "$(([regex]::Matches($txt,'(?m)^PASS')).Count) sources ok"
+}
+
 if ($skip.Count -gt 0) {
     Write-Host ("Skipped (external): " + ($skip -join ', '))
 }

@@ -1,6 +1,6 @@
-latest=3.9.11
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.11/MyBrowser_v3.9.11.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.11/MyBrowser_v3.9.11_x64.7z
-update=1. 原始碼拆分为主程式与 UDF 引入档；\n2. 续传失败两次后自动重新下载；\n3. 3.9.11
-update_zh-TW=1. 原始碼拆分為主程式與 UDF 引入檔；\n2. 續傳失敗兩次後自動重新下載；\n3. 3.9.11
-update_en-US=1. Source split into main file and UDF include;\n2. Two failed resumes restart the download;\n3. 3.9.11
+latest=3.9.12
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.12/MyBrowser_v3.9.12.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.12/MyBrowser_v3.9.12_x64.7z
+update=1. 失敗對話框可一鍵複製診斷資訊；\n2. 同一安裝不允許同時執行兩個實例；\n3. 3.9.12
+update_zh-TW=1. 失敗對話框可一鍵複製診斷資訊；\n2. 同一安裝不允許同時執行兩個實例；\n3. 3.9.12
+update_en-US=1. Failure dialogs copy diagnostics to the clipboard;\n2. One instance per installation;\n3. 3.9.12

@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 38 of 75 done (51%), 5 partial, 32 open.** Updated for 3.9.11.
+**Progress: 40 of 75 done (53%), 5 partial, 30 open.** Updated for 3.9.12.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -53,7 +53,7 @@ How to read the columns:
 | B7 | Speed and ETA in progress | P1 | ✅ done | 3.9.9 |
 | B8 | Background check with notification | P2 | ⬜ open | — |
 | B9 | Update log | P2 | ✅ done | 3.9.4 |
-| B10 | Concurrent-instance lock | P2 | ⬜ open | — |
+| B10 | Concurrent-instance lock | P2 | ✅ done | 3.9.12 |
 | C1 | Authenticode signing | P0 | 🟡 partial | 3.9.4 |
 | C2 | SHA256SUMS per release | P1 | ✅ done | 3.9.3 |
 | C3 | No --no-sandbox default | P0 | ✅ done | 3.9.3 |
@@ -70,7 +70,7 @@ How to read the columns:
 | E2 | DPI awareness | P1 | ✅ done | 3.9.3 |
 | E3 | Strings out of code into language files | P1 | ✅ done | 3.9.10 |
 | E4 | More languages | P2 | ⬜ open | — |
-| E5 | Error dialogs with copy details | P1 | ⬜ open | — |
+| E5 | Error dialogs with copy details | P1 | ✅ done | 3.9.12 |
 | E6 | Installed vs latest side by side | P1 | ⬜ open | — |
 | E7 | Remember window position | P1 | ✅ done | 3.9.9 |
 | E8 | Multiple profiles per browser | P2 | ⬜ open | — |
