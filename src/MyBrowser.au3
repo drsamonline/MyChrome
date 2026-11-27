@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.26"
+Global Const $APPVERSION = "3.9.27"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -263,6 +263,13 @@ If Not FileExists ( $INIFILE ) Then
 EndIf
 $CHROMEPATH = IniRead ( $INIFILE , "Settings" , "ChromePath" , "" )
 $USERDATADIR = IniRead ( $INIFILE , "Settings" , "UserDataDir" , "" )
+; E8: named profiles. ActiveProfile wins over UserDataDir, so one installation can keep
+; several browsers or several people apart under App\Profiles\<name>.
+Local $SACTIVEPROFILE = IniRead ( $INIFILE , "Settings" , "ActiveProfile" , "" )
+If $SACTIVEPROFILE <> "" Then
+	$USERDATADIR = @ScriptDir & "\App\Profiles\" & $SACTIVEPROFILE
+	If Not FileExists ( $USERDATADIR ) Then DirCreate ( $USERDATADIR )
+EndIf
 $PLUGINSDIR = IniRead ( $INIFILE , "Settings" , "PluginsDir" , "" )
 $CACHEDIR = IniRead ( $INIFILE , "Settings" , "CacheDir" , "" )
 $CACHESIZE = IniRead ( $INIFILE , "Settings" , "CacheSize" , "" )

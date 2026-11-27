@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.26_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.26.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.26_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.27_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.27.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.27_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -44,7 +44,7 @@ warn on first run.
 Verify a download before running it — one command, both checks:
 
 ```powershell
-./build/verify-release.ps1 -Path .\MyBrowser_v3.9.26_x64.7z
+./build/verify-release.ps1 -Path .\MyBrowser_v3.9.27_x64.7z
 ```
 
 It compares the file's SHA256 with the published manifest and asks the GitHub CLI to
@@ -101,22 +101,22 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.26
+## What's new in 3.9.27
 
-- **`MyBrowser.exe /update` updates without a desktop.** It reads `MyBrowser.ini`, runs the
-  same update the settings window runs, answers every prompt with its documented default
-  (proceed; do not overwrite in place; do not kill a running browser) and reports the
-  result in the exit code: `0` updated, `1` not updated, `3` configuration incomplete.
+- **Named profiles.** `ActiveProfile=Work` in `MyBrowser.ini` puts the browser's data in
+  `App\Profiles\Work` and takes precedence over `UserDataDir`, so one installation can
+  keep several sets of cookies, logins and settings apart — no second copy of the app.
 
-  ```powershell
-  MyBrowser.exe /update
-  if ($LASTEXITCODE -eq 0) { "updated" }
+  ```ini
+  [Settings]
+  ActiveProfile=Work
   ```
 
-- **The self-test report keeps the full download URL** (from 3.9.25).
+  The folder is created on first use. Set the key by hand today; the settings window does
+  not offer it yet.
 
-Earlier: **3.9.24** made self-update verify its own download. **3.9.23** added proxy fault
-injection.
+Earlier: **3.9.26** added `/update`. **3.9.25** stopped truncating URLs in the self-test
+report.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases) ·
 [CHANGELOG.md](CHANGELOG.md)
@@ -206,7 +206,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.26_source.7z`.
+`MyBrowser_v3.9.27_source.7z`.
 
 ## Lineage
 
