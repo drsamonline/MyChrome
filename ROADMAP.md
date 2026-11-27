@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 61 of 75 done (81%), 4 partial, 10 open.** Updated for 3.9.26.
+**Progress: 61 of 75 done (81%), 3 partial, 11 open.** Updated for 3.9.26.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -167,6 +167,7 @@ How to read the columns:
 | 3.9.23 | 2026-11-27 | `SelfTestProxy` lets CI inject an unreachable endpoint and assert a clean, bounded failure. |
 | 3.9.24 | 2026-11-27 | `update.txt` carries `sha256` / `sha256_x64`; the self-updater verifies before unpacking. |
 | 3.9.25 | 2026-11-27 | The self-test report no longer truncates download URLs at 90 characters. |
+| 3.9.26 | 2026-11-27 | `/update` runs an update without a desktop; exit codes report the outcome. |
 
 
 ### End-to-end launch is tested
