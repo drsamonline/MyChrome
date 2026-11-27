@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 56 of 75 done (75%), 7 partial, 12 open.** Updated for 3.9.21.
+**Progress: 56 of 75 done (75%), 5 partial, 14 open.** Updated for 3.9.21.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|

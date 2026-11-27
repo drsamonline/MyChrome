@@ -30,6 +30,10 @@ jobs:
           SIGNING_PFX_PASSWORD: ${{ secrets.SIGNING_PFX_PASSWORD }}
         run: ./build/build.ps1
 
+      - name: Documentation gate
+        shell: pwsh
+        run: ./build/check-docs.ps1
+
       - name: Smoke test sources and binaries
         shell: pwsh
         timeout-minutes: 10
