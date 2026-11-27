@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.13"
+Global Const $APPVERSION = "3.9.14"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -5220,6 +5220,13 @@ EndFunc
 Func ENDUPDATE ( )
 	If ProcessExists ( $ITHREADPID ) Then
 		_KILLTHREAD ( $ITHREADPID )
+		; B6: the worker may still hold the partial file open. Wait for it to go before
+		; deleting, or the delete silently fails and the folder lingers.
+		Local $IWAIT = 0
+		While ProcessExists ( $ITHREADPID ) And $IWAIT < 30
+			Sleep ( 100 )
+			$IWAIT += 1
+		WEnd
 	EndIf
 	If Not CHROMEISUPDATING ( $CHROMEDIR ) Then
 		Local $TEMPDIR = $CHROMEDIR & "\~update\"

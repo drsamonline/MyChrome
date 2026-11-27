@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 43 of 75 done (57%), 4 partial, 28 open.** Updated for 3.9.13.
+**Progress: 45 of 75 done (60%), 4 partial, 26 open.** Updated for 3.9.14.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -49,7 +49,7 @@ How to read the columns:
 | B3 | Profile folder never inside replaced dir | P1 | ✅ done | 3.9.6 |
 | B4 | Skip one version, not all checks | P1 | ✅ done | 3.9.4 |
 | B5 | Clean stale temp dirs on startup | P1 | ✅ done | 3.9.13 |
-| B6 | Deterministic cancel | P1 | ⬜ open | — |
+| B6 | Deterministic cancel | P1 | ✅ done | 3.9.14 |
 | B7 | Speed and ETA in progress | P1 | ✅ done | 3.9.9 |
 | B8 | Background check with notification | P2 | ⬜ open | — |
 | B9 | Update log | P2 | ✅ done | 3.9.4 |
@@ -96,7 +96,7 @@ How to read the columns:
 | H6 | Pin and cache AutoIt SDK | P1 | ✅ done | 3.9.9 |
 | H7 | .editorconfig + format pass | P1 | ✅ done | 3.9.9 |
 | I1 | Smoke test in CI | P0 | ✅ done | 3.9.6 |
-| I2 | --selftest flag | P1 | ⬜ open | — |
+| I2 | --selftest flag | P1 | ✅ done | 3.9.6 |
 | I3 | Fault injection on download | P2 | ⬜ open | — |
 | I4 | OS x arch x browser matrix | P2 | ⬜ open | — |
 | I5 | Upgrade test 3.8.50 to current | P1 | ✅ done | 3.9.10 |

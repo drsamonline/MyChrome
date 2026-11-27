@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.13_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.13.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.13_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.14_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.14.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.14_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -90,16 +90,14 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.13
+## What's new in 3.9.14
 
-- **Leftovers from an interrupted update are cleared at startup.** `~update` and
-  `~updated` can hold several hundred megabytes after a crash or a cancelled run; they
-  are removed on launch, which is safe because only one instance can run.
-- **The build fails if the version disagrees anywhere.** It is now checked in four
-  places — the source, both language files and `update.txt` — instead of one.
+- **Cancelling an update now finishes the job.** The worker process is waited for before
+  the temp folder is deleted; previously the delete could fail silently because the
+  worker still held the partial file open, leaving the download behind.
 
-Earlier: **3.9.12** made failure dialogs pasteable and added the single-instance lock.
-**3.9.11** split the source into a main file plus `include/udf.au3`.
+Earlier: **3.9.13** swept leftover temp folders at startup and made the build refuse a
+mismatched version. **3.9.12** made failure dialogs pasteable.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases).
 
@@ -184,7 +182,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.13_source.7z`.
+`MyBrowser_v3.9.14_source.7z`.
 
 ## Lineage
 
