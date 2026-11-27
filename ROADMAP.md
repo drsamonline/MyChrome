@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 56 of 75 done (75%), 5 partial, 14 open.** Updated for 3.9.21.
+**Progress: 58 of 75 done (77%), 5 partial, 12 open.** Updated for 3.9.22.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -97,7 +97,7 @@ How to read the columns:
 | H7 | .editorconfig + format pass | P1 | ✅ done | 3.9.9 |
 | I1 | Smoke test in CI | P0 | ✅ done | 3.9.6 |
 | I2 | --selftest flag | P1 | ✅ done | 3.9.6 |
-| I3 | Fault injection on download | P2 | ⬜ open | — |
+| I3 | Behavioural smoke test | P2 | ✅ done | 3.9.22 |
 | I4 | OS x arch x browser matrix | P2 | ⬜ open | — |
 | I5 | Upgrade test 3.8.50 to current | P1 | ✅ done | 3.9.10 |
 | J1 | Enable GitHub Pages | P0 | ✅ done | 3.9.4 |

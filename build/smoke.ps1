@@ -134,6 +134,19 @@ Check 'x64 executable starts' {
     'stayed alive for 6s'
 }
 
+Check 'First run writes its settings file' {
+    $exe = Join-Path $dist 'MyBrowser.exe'
+    $ini = Join-Path $dist 'MyBrowser.ini'
+    Remove-Item $ini -Force -ErrorAction SilentlyContinue
+    $p = Start-Process $exe -PassThru
+    $p.WaitForExit(9000) | Out-Null
+    if (-not $p.HasExited) { Stop-Process -Id $p.Id -Force }
+    if (-not (Test-Path $ini)) { throw 'no MyBrowser.ini was created' }
+    $ver = ([regex]::Match((Get-Content $ini -Raw), 'AppVersion=([\d.]+)')).Groups[1].Value
+    if (-not $ver) { throw 'AppVersion was not written' }
+    "ini created, AppVersion=$ver"
+}
+
 Check 'x86 executable starts' {
     $exe = Join-Path $dist 'MyBrowser_x86.exe'
     if (-not (Test-Path $exe)) { throw 'dist/MyBrowser_x86.exe missing' }

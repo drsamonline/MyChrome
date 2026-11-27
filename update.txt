@@ -1,6 +1,6 @@
-latest=3.9.21
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.21/MyBrowser_v3.9.21.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.21/MyBrowser_v3.9.21_x64.7z
-update=1. 可直接放入自訂語言檔；\n2. 自我檢測涵蓋 Cent；\n3. 3.9.21
-update_zh-TW=1. 可直接放入自訂語言檔；\n2. 自我檢測涵蓋 Cent；\n3. 3.9.21
-update_en-US=1. Custom language files are picked up by name;\n2. Self-test covers Cent;\n3. 3.9.21
+latest=3.9.22
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.22/MyBrowser_v3.9.22.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.22/MyBrowser_v3.9.22_x64.7z
+update=1. 可選用非干擾的更新通知（SilentUpdateCheck）；\n2. 首次執行會建立設定檔（已納入測試）；\n3. 3.9.22
+update_zh-TW=1. 可選用非干擾的更新通知（SilentUpdateCheck）；\n2. 首次執行會建立設定檔（已納入測試）；\n3. 3.9.22
+update_en-US=1. Optional non-blocking update notice (SilentUpdateCheck);\n2. First run creating its settings file is now tested;\n3. 3.9.22

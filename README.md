@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.21_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.21.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.21_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.22_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.22.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.22_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -90,16 +90,16 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.21
+## What's new in 3.9.22
 
-- **Any language can be added by dropping a file.** Put `Lang\de-DE.ini` next to the
-  executable and set `Language=de-DE`; the launcher uses it and never overwrites it.
-  Previously only the two bundled languages were reachable.
-- **Cent is in the self-test**, reported as informational until its install path is
-  confirmed.
+- **Optional non-blocking update notice.** `SilentUpdateCheck=1` in `MyBrowser.ini` makes
+  the launcher show a tray notification when a new version exists instead of a modal
+  dialog. Off by default — the dialog is unchanged.
+- **First run is tested.** CI deletes `MyBrowser.ini`, launches the binary and asserts the
+  file is created with the right `AppVersion`.
 
-Earlier: **3.9.20** made Cent a real download source and compared the vendor hash.
-**3.9.19** split the helpers into a second include.
+Earlier: **3.9.21** added drop-in language files and verified Cent. **3.9.20** made Cent a
+real download source.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases) ·
 [CHANGELOG.md](CHANGELOG.md)
@@ -187,7 +187,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.21_source.7z`.
+`MyBrowser_v3.9.22_source.7z`.
 
 ## Lineage
 

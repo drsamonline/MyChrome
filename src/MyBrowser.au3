@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.21"
+Global Const $APPVERSION = "3.9.22"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -1324,6 +1324,11 @@ Func CHECKAPPUPDATE ( )
 		If VERSIONCOMPARE ( $LATESTAPPVER , $APPVERSION ) > 0 Then
 			If IsHWnd ( $HSETTINGS ) Then
 				$MSG = 6
+			ElseIf IniRead ( $INIFILE , "Settings" , "SilentUpdateCheck" , "0" ) = "1" Then
+				; B8: notify instead of interrupting. The user updates from Settings when ready.
+
+				TrayTip ( "MyBrowser" , StringFormat ( LANG ( "AppUpdate" , "UpdateAvailableTip" , "%s %s 可用，可在设置中更新。" ) , "MyBrowser" , $LATESTAPPVER ) , 10 , 1 )
+				$MSG = 7
 			Else
 				$MSG = MsgBox ( 68 , "MyBrowser" , StringFormat ( $LANGUPDATETIPS , "MyBrowser" , $APPVERSION , $LATESTAPPVER , $UPDATE ) )
 			EndIf

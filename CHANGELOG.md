@@ -5,6 +5,7 @@ Every release, newest first. Full notes and downloads on the
 
 | Version | Highlights |
 |---|---|
+| [3.9.22](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.22) | Optional non-blocking update notice; first-run behaviour tested. |
 | [3.9.21](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.21) | Any language can be added by dropping `Lang\<code>.ini` and setting `Language=<code>`; user files are never overwritten. |
 | [3.9.20](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.20) | Cent downloads from the vendor page instead of a link page. |
 | [3.9.19](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.19) | App helpers split into `src/include/helpers.au3`; main file down to 5,323 lines. |
@@ -27,6 +28,11 @@ Every release, newest first. Full notes and downloads on the
 | [3.9.2](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.2) | Disk-space guard, temp cleanup, apply pre-flight, portable launch flags, HTTPS-only mirrors. |
 | [3.9.1](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.1) | Firefox, Chromium and Brave download sources repaired. |
 | [3.9.0](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.0) | Rebuilt from recovered source; Chrome via Chrome for Testing. |
+
+## 3.9.22
+
+- `SilentUpdateCheck=1` shows a tray notification instead of a modal update dialog.
+- CI asserts that a first run creates `MyBrowser.ini` with the right `AppVersion`.
 
 ## 3.9.21
 
