@@ -411,6 +411,9 @@ if ($Deep -and $env:MYBROWSER_LAUNCH_TEST -eq '1') {
         $ver = ([regex]::Match((Get-Content $au3 -Raw), 'APPVERSION = "([\d.]+)"')).Groups[1].Value
         $ini = Join-Path $dist 'MyBrowser.ini'
         $profile = Join-Path $dist 'Profile'
+        # The launcher opens Settings when the profile folder does not exist, so it
+        # must be there before the ini points at it.
+        New-Item -ItemType Directory -Force -Path $profile | Out-Null
         # AppVersion must match the binary or the launcher treats this as a first run
         # and opens Settings instead of starting the browser.
         $lines = @(
