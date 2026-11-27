@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.15"
+Global Const $APPVERSION = "3.9.16"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -3823,7 +3823,12 @@ Func _CFT_GETLATEST ( $HHTTPOPEN , $CHANNEL , $NEED_X86 )
 	Local $AVER = StringRegExp ( $SSUB , '(?s)"version"\s*:\s*"([\d.]+)"' , 1 )
 	If @error Then Return ""
 	Local $AURL = StringRegExp ( $SSUB , '(?s)"platform"\s*:\s*"' & $SPLAT & '"\s*,\s*"url"\s*:\s*"([^"]+)"' , 1 )
-	If @error Then Return ""
+	If @error Then
+		; G6: the feed answered but has no build for this architecture. Say so in the
+		; log instead of failing silently into the installer fallback.
+		_LOG ( "Chrome for Testing has no " & $SPLAT & " asset for " & $SCH & " " & $AVER [ 0 ] )
+		Return ""
+	EndIf
 	Return $AVER [ 0 ] & "|" & $AURL [ 0 ]
 EndFunc
 Func GET_LATEST_CHROME_VER ( $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 = 0 , $INIFILE = "MyBrowser.ini" , $PROXY = "" )

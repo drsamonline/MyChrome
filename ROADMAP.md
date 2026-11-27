@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 46 of 75 done (61%), 5 partial, 24 open.** Updated for 3.9.15.
+**Progress: 49 of 75 done (65%), 5 partial, 21 open.** Updated for 3.9.16.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -57,7 +57,7 @@ How to read the columns:
 | C1 | Authenticode signing | P0 | 🟡 partial | 3.9.4 |
 | C2 | SHA256SUMS per release | P1 | ✅ done | 3.9.3 |
 | C3 | No --no-sandbox default | P0 | ✅ done | 3.9.3 |
-| C4 | Reconsider --test-type | P2 | ⬜ open | — |
+| C4 | Reconsider --test-type | P2 | ✅ reviewed — keeping it: `--with-greenchrome` is an unknown flag to Chrome and would show an infobar without it | 3.9.16 |
 | C5 | Injection off by default and labelled | P1 | ✅ done | 3.9.x |
 | C6 | Build provenance attestation | P2 | ✅ done | repo |
 | C7 | VirusTotal link in release notes | P3 | ✅ done | 3.9.11 |
@@ -86,13 +86,13 @@ How to read the columns:
 | G3 | Real source for Cent | P2 | ⬜ open | — |
 | G4 | Chrome Extended Stable | P2 | ⬜ open | — |
 | G5 | Chrome 109 for Windows 7/8 | P3 | ⬜ open | — |
-| G6 | Warn if win32 Chrome retired | P2 | ⬜ open | — |
+| G6 | Warn if win32 Chrome retired | P2 | ✅ done | 3.9.16 |
 | G7 | Firefox channel naming check | P3 | ✅ done | verified |
 | H1 | Restore include-based structure | P1 | ✅ done | 3.9.11 |
 | H2 | Single source of truth for version | P1 | ✅ done | 3.9.13 |
 | H3 | docs/ARCHITECTURE.md | P1 | ✅ done | 3.9.3 |
 | H4 | CI fails on warnings | P2 | ✅ done | 3.9.4 |
-| H5 | Changelog from commits | P2 | ⬜ open | — |
+| H5 | Changelog generated from commits | P2 | ✅ done | 3.9.16 |
 | H6 | Pin and cache AutoIt SDK | P1 | ✅ done | 3.9.9 |
 | H7 | .editorconfig + format pass | P1 | ✅ done | 3.9.9 |
 | I1 | Smoke test in CI | P0 | ✅ done | 3.9.6 |

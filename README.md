@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.15_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.15.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.15_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.16_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.16.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.16_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -90,18 +90,18 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.15
+## What's new in 3.9.16
 
-- **Mirror support for the self-updater.** `update.txt` may now carry
-  `url_mirror=` / `url_x64_mirror=`; if the primary download is unusable (bad archive,
-  blocked host) the app retries from the mirror. The keys are inert until a mirror host
-  exists — GitHub is slow or blocked on some networks, which is much of this app's
-  audience.
+- **A missing architecture is reported.** If Chrome for Testing answers but has no build
+  for the requested architecture, that is now written to the log instead of failing
+  quietly into the installer fallback.
+- **`CHANGELOG.md`** — every release since 3.9.0 in one file.
 
-Earlier: **3.9.14** made cancelling an update finish the cleanup. **3.9.13** swept
-leftover temp folders at startup.
+Earlier: **3.9.15** added the mirror fallback for self-update. **3.9.13** swept leftover
+temp folders at startup.
 
-Full history: [releases](https://github.com/drsamonline/MyChrome/releases).
+Full history: [releases](https://github.com/drsamonline/MyChrome/releases) ·
+[CHANGELOG.md](CHANGELOG.md)
 
 ## Build
 
@@ -142,6 +142,7 @@ update.txt               self-update manifest read by the app
 | [`TERMS.md`](TERMS.md) | licence in plain words, what a donation is and is not, warranty |
 | [`licenses/`](licenses/) | terms for the bundled 7-Zip, MozLz4 and other binaries |
 | [`SUPPORT.md`](SUPPORT.md) | what to include in a report, and what is not supported |
+| [`CHANGELOG.md`](CHANGELOG.md) | every release since 3.9.0 |
 
 ## Known limits
 
@@ -184,7 +185,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.15_source.7z`.
+`MyBrowser_v3.9.16_source.7z`.
 
 ## Lineage
 

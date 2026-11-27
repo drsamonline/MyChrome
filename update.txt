@@ -1,6 +1,6 @@
-latest=3.9.15
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.15/MyBrowser_v3.9.15.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.15/MyBrowser_v3.9.15_x64.7z
-update=1. 自我更新支援鏡像備援（url_mirror）；\n2. 3.9.15
-update_zh-TW=1. 自我更新支援鏡像備援（url_mirror）；\n2. 3.9.15
-update_en-US=1. Self-update supports a mirror fallback (url_mirror);\n2. 3.9.15
+latest=3.9.16
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.16/MyBrowser_v3.9.16.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.16/MyBrowser_v3.9.16_x64.7z
+update=1. 缺少對應架構時會明確記錄；\n2. 新增 CHANGELOG.md；\n3. 3.9.16
+update_zh-TW=1. 缺少對應架構時會明確記錄；\n2. 新增 CHANGELOG.md；\n3. 3.9.16
+update_en-US=1. A missing architecture is now logged clearly;\n2. CHANGELOG.md added;\n3. 3.9.16
