@@ -145,11 +145,13 @@ Check 'Firefox installer unpacks to the layout the launcher expects' {
         $exe = Join-Path $dir 'ff.exe'
         Invoke-WebRequest 'https://download.mozilla.org/?product=firefox-latest-ssl&os=win&lang=en-US' -OutFile $exe -UseBasicParsing
         & $seven x $exe "-o$dir\out" -y | Out-Null
-        if (-not (Test-Path (Join-Path $dir 'out\firefox.exe'))) {
+        # The launcher extracts the installer, then moves core\* up into App\, so the
+        # file it checks for is core\firefox.exe inside the temp folder.
+        if (-not (Test-Path (Join-Path $dir 'out\core\firefox.exe'))) {
             $top = (Get-ChildItem (Join-Path $dir 'out') -Name | Select-Object -First 5) -join ', '
-            throw "firefox.exe is not at the archive root; found: $top"
+            throw "core\firefox.exe is missing after extraction; found: $top"
         }
-        "firefox.exe at the archive root, as expected"
+        "core\firefox.exe present, which is what the launcher moves into App\"
     } finally {
         Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue
     }
