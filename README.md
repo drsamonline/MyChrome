@@ -98,6 +98,17 @@ archives are already confirmed.
   characters, which cut the Edge delivery URL short enough that Microsoft answered
   `403 unexpected URL format` — the report was hiding the thing it was meant to show.
 
+### Testing, since 3.9.25
+
+CI now exercises the real thing rather than a description of it:
+
+| Check | What it does |
+|---|---|
+| Seven archives | downloads each browser package and unpacks it to the path the launcher expects |
+| End-to-end launch | writes a real `MyBrowser.ini`, unpacks Chrome into `App\`, starts the launcher, asserts `chrome.exe` runs |
+| Failure paths | a refused port and a listener that drops connections, both required to fail cleanly |
+| Self-update | hashes the published asset and compares it with the manifest |
+
 Earlier: **3.9.24** made self-update verify its own download. **3.9.23** added proxy fault
 injection.
 

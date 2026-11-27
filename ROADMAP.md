@@ -169,16 +169,16 @@ How to read the columns:
 | 3.9.25 | 2026-11-27 | The self-test report no longer truncates download URLs at 90 characters. |
 
 
-### Open question: the launcher does not start a browser under a synthetic config
+### End-to-end launch is tested
 
-`build/smoke.ps1` can be run with `MYBROWSER_LAUNCH_TEST=1` to attempt the full path:
-a hand-written `MyBrowser.ini`, a real Chrome for Testing in `App\`, and the launcher
-expected to start it. In CI the launcher exits without starting the browser and writes no
-log, while Chrome itself runs fine in the same runner (`--headless --dump-dom` succeeds).
+`build/smoke.ps1 -Deep` now writes a real `MyBrowser.ini`, unpacks Chrome for Testing into
+`dist\App\`, creates the profile folder and launches the launcher, then asserts a
+`chrome.exe` process appears. Nothing in that path is mocked.
 
-So the gap is in the launcher, not the environment. It needs a desktop to diagnose —
-this is the same blocker as F1. Until it is understood the check is opt-in, so it cannot
-make a release look broken.
+Two things had to be right for it to work, and both are now encoded in the check:
+`AppVersion` must match the binary, and the profile directory must exist — the launcher
+opens Settings instead of starting the browser when either is missing.
+
 
 ## A. Download integrity and correctness
 
