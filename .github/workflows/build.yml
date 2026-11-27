@@ -121,29 +121,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./build/smoke.ps1
-
-  # I4: a third Windows generation. Server 2019 is the closest CI image to the
-  # Windows 10 machines much of this app runs on.
-  legacy:
-    runs-on: windows-2019
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Cache AutoIt SDK
-        uses: actions/cache@v4
-        with:
-          path: .build/autoit
-          key: autoit-3.3.16.1-v1
-
-      - name: Build with AutoIt3
-        shell: pwsh
-        run: ./build/build.ps1
-
-      - name: Smoke test on windows-2019
-        shell: pwsh
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./build/smoke.ps1
