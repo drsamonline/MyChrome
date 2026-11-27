@@ -1,5 +1,5 @@
-sha256_x64=PENDING
-sha256=PENDING
+sha256_x64=30bc9f2d4643b0255ece929fefb0a17906b394d3a6e2d21aa6f5f9d2abc7606a
+sha256=7e629c23cdf6ffbf13954e943afcecca63ddb2ccf506cfb6849e8169237d7d5b
 latest=3.9.24
 url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.24/MyBrowser_v3.9.24.7z
 url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.24/MyBrowser_v3.9.24_x64.7z
