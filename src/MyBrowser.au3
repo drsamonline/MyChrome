@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.27"
+Global Const $APPVERSION = "3.9.28"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -266,6 +266,15 @@ $USERDATADIR = IniRead ( $INIFILE , "Settings" , "UserDataDir" , "" )
 ; E8: named profiles. ActiveProfile wins over UserDataDir, so one installation can keep
 ; several browsers or several people apart under App\Profiles\<name>.
 Local $SACTIVEPROFILE = IniRead ( $INIFILE , "Settings" , "ActiveProfile" , "" )
+; E8: /profile <name> picks a profile for this run and remembers it, so a shortcut
+; can carry its own data folder without a settings dialog.
+For $I = 1 To $CMDLINE [ 0 ] - 1
+	If $CMDLINE [ $I ] = "/profile" And $CMDLINE [ $I + 1 ] <> "" Then
+		$SACTIVEPROFILE = $CMDLINE [ $I + 1 ]
+		IniWrite ( $INIFILE , "Settings" , "ActiveProfile" , $SACTIVEPROFILE )
+		_LOG ( "/profile " & $SACTIVEPROFILE )
+	EndIf
+Next
 If $SACTIVEPROFILE <> "" Then
 	$USERDATADIR = @ScriptDir & "\App\Profiles\" & $SACTIVEPROFILE
 	If Not FileExists ( $USERDATADIR ) Then DirCreate ( $USERDATADIR )

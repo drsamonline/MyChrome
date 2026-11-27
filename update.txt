@@ -1,8 +1,8 @@
 sha256_x64=e06df8d8b26dbae75e4582b810f84b65c6d5a0383960c4ead2a593d3ee62294c
 sha256=df6869fd630b8a2498499fdbc1aa91827f6794ece83bc73d01bd0060a7ad536a
-latest=3.9.27
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.27/MyBrowser_v3.9.27.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.27/MyBrowser_v3.9.27_x64.7z
-update=1. 具名設定檔（ActiveProfile）可分隔多組瀏覽資料；\n2. 3.9.27
-update_zh-TW=1. 具名設定檔（ActiveProfile）可分隔多組瀏覽資料；\n2. 3.9.27
-update_en-US=1. Named profiles (ActiveProfile) keep several data sets apart;\n2. 3.9.27
+latest=3.9.28
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.28/MyBrowser_v3.9.28.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.28/MyBrowser_v3.9.28_x64.7z
+update=1. 新增命令列 /profile <名稱>；\n2. 3.9.28
+update_zh-TW=1. 新增命令列 /profile <名稱>；\n2. 3.9.28
+update_en-US=1. New /profile <name> command line flag;\n2. 3.9.28

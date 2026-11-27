@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.27_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.27.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.27_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.28_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.28.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.28_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -44,7 +44,7 @@ warn on first run.
 Verify a download before running it — one command, both checks:
 
 ```powershell
-./build/verify-release.ps1 -Path .\MyBrowser_v3.9.27_x64.7z
+./build/verify-release.ps1 -Path .\MyBrowser_v3.9.28_x64.7z
 ```
 
 It compares the file's SHA256 with the published manifest and asks the GitHub CLI to
@@ -101,22 +101,19 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.27
+## What's new in 3.9.28
 
-- **Named profiles.** `ActiveProfile=Work` in `MyBrowser.ini` puts the browser's data in
-  `App\Profiles\Work` and takes precedence over `UserDataDir`, so one installation can
-  keep several sets of cookies, logins and settings apart — no second copy of the app.
+- **`MyBrowser.exe /profile <name>`** picks a data folder for this run and remembers it, so
+  a shortcut can carry its own profile without touching the settings window:
 
-  ```ini
-  [Settings]
-  ActiveProfile=Work
+  ```powershell
+  MyBrowser.exe /profile Work
   ```
 
-  The folder is created on first use. Set the key by hand today; the settings window does
-  not offer it yet.
+  Data goes to `App\Profiles\Work`. Together with `ActiveProfile` in the ini, that is the
+  whole of the named-profile feature — no second copy of the launcher.
 
-Earlier: **3.9.26** added `/update`. **3.9.25** stopped truncating URLs in the self-test
-report.
+Earlier: **3.9.27** added `ActiveProfile`. **3.9.26** added `/update`.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases) ·
 [CHANGELOG.md](CHANGELOG.md)
@@ -206,7 +203,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.27_source.7z`.
+`MyBrowser_v3.9.28_source.7z`.
 
 ## Lineage
 

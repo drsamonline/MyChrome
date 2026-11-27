@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 62 of 75 done (83%), 3 partial, 10 open.** Updated for 3.9.27.
+**Progress: 63 of 75 done (84%), 2 partial, 10 open.** Updated for 3.9.28.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -73,7 +73,7 @@ How to read the columns:
 | E5 | Error dialogs with copy details | P1 | ✅ done | 3.9.12 |
 | E6 | Installed vs latest side by side | P1 | ✅ done | pre-existing |
 | E7 | Remember window position | P1 | ✅ done | 3.9.9 |
-| E8 | Multiple profiles — ActiveProfile in the ini | P2 | 🟡 partial | 3.9.27 |
+| E8 | Multiple profiles — ActiveProfile and /profile | P2 | ✅ done | 3.9.28 |
 | E9 | Keyboard nav and accessible names | P2 | ⬜ open | — |
 | E10 | Progress in taskbar button | P3 | ⬜ open | — |
 | F1 | CLI mode — /selftest and /update | P1 | ✅ done | 3.9.26 |
@@ -169,6 +169,7 @@ How to read the columns:
 | 3.9.25 | 2026-11-27 | The self-test report no longer truncates download URLs at 90 characters. |
 | 3.9.26 | 2026-11-27 | `/update` runs an update without a desktop; exit codes report the outcome. |
 | 3.9.27 | 2026-11-27 | Named profiles via `ActiveProfile`; verification tool documented. |
+| 3.9.28 | 2026-11-27 | `/profile <name>` selects and remembers a profile. |
 
 
 ### End-to-end launch is tested
