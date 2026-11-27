@@ -91,3 +91,33 @@ jobs:
           if (git diff --cached --quiet) { Write-Host 'nothing to commit'; exit 0 }
           git commit -m "chore: manifests for ${{ github.ref_name }} [skip ci]"
           git push origin HEAD:master
+
+  # I4: the same build and the same behavioural checks on the previous Windows
+  # generation. windows-latest is windows-2025 today; this proves the binary still
+  # starts and resolves every source on windows-2022.
+  compat:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Cache AutoIt SDK
+        uses: actions/cache@v4
+        with:
+          path: .build/autoit
+          key: autoit-3.3.16.1-v1
+
+      - name: Build with AutoIt3
+        shell: pwsh
+        run: ./build/build.ps1
+
+      - name: Documentation gate
+        shell: pwsh
+        run: ./build/check-docs.ps1
+
+      - name: Smoke test on windows-2022
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./build/smoke.ps1
