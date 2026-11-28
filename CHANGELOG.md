@@ -5,6 +5,7 @@ Every release, newest first. Full notes and downloads on the
 
 | Version | Highlights |
 |---|---|
+| [3.9.62](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.62) | The end-to-end install test runs again. |
 | [3.9.61](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.61) | Regression check for the first-install folder. |
 | [3.9.60](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.60) | A first install creates the browser folder. |
 | [3.9.59](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.59) | Privacy policy lists every endpoint. |
@@ -63,6 +64,10 @@ Every release, newest first. Full notes and downloads on the
 | [3.9.2](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.2) | Disk-space guard, temp cleanup, apply pre-flight, portable launch flags, HTTPS-only mirrors. |
 | [3.9.1](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.1) | Firefox, Chromium and Brave download sources repaired. |
 | [3.9.0](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.0) | Rebuilt from recovered source; Chrome via Chrome for Testing. |
+
+## 3.9.62
+
+- The deep suite installs a browser for real and asserts the version that lands.
 
 ## 3.9.61
 

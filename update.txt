@@ -1,8 +1,8 @@
 sha256_x64=a1a02c7087e808cd0823be1fbfd0532ba31e4a2f1e6b79e2e085ba1e0aee2268
 sha256=0f57492e20cbfc1469517a344912ab3d84d04ba0c31c28cac8efd799701e5d0e
-latest=3.9.61
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.61/MyBrowser_v3.9.61.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.61/MyBrowser_v3.9.61_x64.7z
-update=1. 新增首次安裝迴歸檢查；\n2. 3.9.61
-update_zh-TW=1. 新增首次安裝迴歸檢查；\n2. 3.9.61
-update_en-US=1. A regression check for the first-install folder;\n2. 3.9.61
+latest=3.9.62
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.62/MyBrowser_v3.9.62.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.62/MyBrowser_v3.9.62_x64.7z
+update=1. 完整安裝測試重新加入（下載加速後可完成）；\n2. 3.9.62
+update_zh-TW=1. 完整安裝測試重新加入（下載加速後可完成）；\n2. 3.9.62
+update_en-US=1. The end-to-end install test is back, now that the download is fast;\n2. 3.9.62

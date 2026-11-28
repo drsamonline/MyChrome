@@ -38,7 +38,7 @@ jobs:
 
       - name: Smoke test sources and binaries
         shell: pwsh
-        timeout-minutes: 20
+        timeout-minutes: 45
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MYBROWSER_LAUNCH_TEST: '1'
