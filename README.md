@@ -26,6 +26,22 @@ delete the folder to uninstall.
 
 ---
 
+## Code signing policy
+
+Windows binaries are unsigned today. Signing will be provided free by SignPath Foundation,
+whose certificate is issued in the foundation's name — a signed binary shows **SignPath
+Foundation** as the publisher.
+
+Free code signing provided by SignPath.io, certificate by SignPath Foundation.
+
+| Role | Who |
+| --- | --- |
+| Committers and reviewers | [Dr Sohil Momin](https://github.com/drsamonline) |
+| Approvers | [Dr Sohil Momin](https://github.com/drsamonline) |
+
+Full policy, including what a signature does and does not prove:
+[`docs/CODE-SIGNING.md`](docs/CODE-SIGNING.md).
+
 ## Download
 
 [**Latest release →**](https://github.com/drsamonline/MyChrome/releases/latest)

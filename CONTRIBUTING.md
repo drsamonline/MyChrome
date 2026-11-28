@@ -99,26 +99,28 @@ Version-prefixed for releases, plain otherwise. No emoji.
 `SUPPORT.md` has the checklist. In short: the version, what you expected, what happened,
 and the log — `MyBrowser.log` sits next to the executable.
 
-## Signing the binaries
+## Signing the binaries (free route)
 
-The build signs both executables when two repository secrets exist:
+Signing costs nothing through **SignPath Foundation**, which issues a certificate in the
+foundation's name to eligible open-source projects. [`docs/CODE-SIGNING.md`](docs/CODE-SIGNING.md)
+is the policy page they require, already written.
 
-| Secret | Value |
+| Step | Where |
 | --- | --- |
-| `SIGNING_PFX` | base64 of your code-signing `.pfx` |
-| `SIGNING_PFX_PASSWORD` | the password for that `.pfx` |
+| Apply | <https://signpath.org> — project URL, download page, description |
+| Then set | `vars.SIGNPATH_ORGANIZATION_ID`, `vars.SIGNPATH_PROJECT_SLUG`, `vars.SIGNPATH_SIGNING_POLICY_SLUG`, `secrets.SIGNPATH_API_TOKEN` |
+| CI | the `Sign with SignPath (optional)` step is already in the workflow and inert until those exist |
 
-```powershell
-[Convert]::ToBase64String([IO.File]::ReadAllBytes('codesign.pfx')) | Set-Clipboard
-```
+Without them the build stays unsigned and still ships. With them, each release needs one
+manual approval in SignPath before it is signed.
 
-With them set, `build.ps1` runs `signtool` and then **verifies the result**: each
-executable must report `Get-AuthenticodeSignature` status `Valid` with a timestamp, or the
-build fails. Without them the build warns and records "unsigned" in the job summary.
-
-Nothing else changes — the same artefacts, the same checksums, just signed.
+A paid certificate is the only way to have *your own* name as the publisher; it is not
+required for the warning to disappear.
 
 ## Running a mirror
+
+Free options and the Worker script: [`docs/MIRROR.md`](docs/MIRROR.md).
+
 
 `update.txt` can name a mirror, which the self-updater falls back to when the GitHub
 download is unusable:

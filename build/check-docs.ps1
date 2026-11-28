@@ -79,7 +79,7 @@ else {
 
 # 4. Every relative link in the docs must exist (fragments are not files)
 $broken = @()
-foreach ($doc in @('README.md','SUPPORT.md','SECURITY.md','PRIVACY.md','TERMS.md','CONTRIBUTING.md')) {
+foreach ($doc in @('README.md','SUPPORT.md','SECURITY.md','PRIVACY.md','TERMS.md','CONTRIBUTING.md','docs/CODE-SIGNING.md')) {
     $t = Get-Content (Join-Path $root $doc) -Raw
     foreach ($m in [regex]::Matches($t, '\]\(([^)]+)\)')) {
         $link = $m.Groups[1].Value
