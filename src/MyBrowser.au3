@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.32"
+Global Const $APPVERSION = "3.9.33"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -3543,9 +3543,14 @@ Func UPDATECHROME ( $CHROMEPATH , $CHANNEL , $STRURL = "" )
 					GUICtrlSetState ( $SETGC , $GUI_ENABLE )
 					IniWrite ( $INIFILE , "Settings" , "GreenChrome" , 0 )
 				EndIf
+				; Close the instance this launcher started first; only then fall back to the
+				; name, and say how many that was.
+				If $APPPID_BROWSER And ProcessExists ( $APPPID_BROWSER ) Then ProcessClose ( $APPPID_BROWSER )
 				If ProcessExists ( $CHROMEEXE ) Then
 					$FUGAI2 = _PROMPT ( 64 + 1 , StringFormat ( LANG ( "GUI" , "fugaigengxin3" , "检测到浏览器正在运行，是否关闭浏览器后更新？\n\n【确定】:关闭浏览后更新\n【取消】：不更新" ) ) , 2 )
 					If $FUGAI2 = 1 Then
+						Local $APROCLIST = ProcessList ( $CHROMEEXE )
+						_LOG ( "closing " & $APROCLIST [ 0 ] [ 0 ] & " " & $CHROMEEXE & " process(es) for the update" )
 						ProcessClose ( $CHROMEEXE )
 						Sleep ( 2000 )
 					EndIf

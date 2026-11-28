@@ -1,8 +1,8 @@
 sha256_x64=821066dfe3cf8e7c6e6f53beaec5c7756e7c39e6da00d45743fa25a3367d470f
 sha256=9743bc1c79032a4574b5ce9092c3a39e83a69c7b6a5876b7453c5d1ebe9627c2
-latest=3.9.32
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.32/MyBrowser_v3.9.32.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.32/MyBrowser_v3.9.32_x64.7z
-update=1. 修正 Firefox 路徑含空白時無法啟動；\n2. 設定檔名稱含非法字元會被拒絕；\n3. 3.9.32
-update_zh-TW=1. 修正 Firefox 路徑含空白時無法啟動；\n2. 設定檔名稱含非法字元會被拒絕；\n3. 3.9.32
-update_en-US=1. Firefox launches from a path with spaces;\n2. Unsafe profile names are refused;\n3. 3.9.32
+latest=3.9.33
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.33/MyBrowser_v3.9.33.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.33/MyBrowser_v3.9.33_x64.7z
+update=1. 拒絕在磁碟根目錄或單層資料夾進行替換；\n2. 更新時先關閉本程式啟動的實例；\n3. 3.9.33
+update_zh-TW=1. 拒絕在磁碟根目錄或單層資料夾進行替換；\n2. 更新時先關閉本程式啟動的實例；\n3. 3.9.33
+update_en-US=1. The swap refuses a drive root or a single folder;\n2. The instance this launcher started is closed first;\n3. 3.9.33
