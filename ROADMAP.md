@@ -192,6 +192,7 @@ How to read the columns:
 | 3.9.49 | 2026-11-28 | Brave ZIP installs; flag coverage check. |
 | 3.9.50 | 2026-11-28 | End-to-end install check. |
 | 3.9.51 | 2026-11-28 | Install check tightened against a false pass. |
+| 3.9.52 | 2026-11-28 | Install check seeds the profile folder. |
 
 
 ### End-to-end launch is tested

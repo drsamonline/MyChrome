@@ -571,6 +571,9 @@ Check 'A real /update replaces an installed browser end to end' {
         # install then has to replace it with a real Chrome.
         $work = Join-Path $env:TEMP ('install-' + [guid]::NewGuid().ToString('N'))
         New-Item -ItemType Directory -Force -Path (Join-Path $work 'App') | Out-Null
+        # The launcher treats a missing profile folder as an incomplete configuration
+        # and refuses to run in CLI mode, so it has to exist before /update starts.
+        New-Item -ItemType Directory -Force -Path (Join-Path $work 'Profile') | Out-Null
         try {
             Copy-Item (Join-Path $dist 'MyBrowser.exe') $work -Force
             Copy-Item (Join-Path $dist 'MyBrowser.exe') (Join-Path $work 'App\chrome.exe') -Force
