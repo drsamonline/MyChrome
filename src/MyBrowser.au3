@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.54"
+Global Const $APPVERSION = "3.9.55"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 ; The interface is English only. The Language key is still written so an older ini
@@ -4869,7 +4869,12 @@ Func __DOWNLOADCHROME ( $URL , $LOCALFILE , $HDLFILE , $DOWNLOADTHREADS , $HHTTP
 				Else
 					$BYTES = Default
 				EndIf
-				$DATA = _WINHTTPREADDATA ( $DOWNLOADINFO [ $I ] [ 3 ] , 2 , $BYTES )
+				; QueryDataAvailable reports what has landed so far - often 8 KB - and reading
+				; exactly that caps the whole download at loop-iteration speed. Ask for a real
+				; buffer; WinHttpReadData still returns as soon as data is available.
+				Local $IREAD = 65536
+				If $BYTES <> Default And $BYTES > $IREAD Then $IREAD = $BYTES
+				$DATA = _WINHTTPREADDATA ( $DOWNLOADINFO [ $I ] [ 3 ] , 2 , $IREAD )
 				$RECVERROR = @error
 				$RECVLEN = @extended
 			EndIf
@@ -4989,6 +4994,8 @@ Func CREATETHREAD ( $URL , $HHTTPOPEN , $RANGE = "" )
 	Else
 		$HHTTPREQUEST = _WINHTTPOPENREQUEST ( $HHTTPCONNECT , "GET" , $AURL [ 1 ] )
 	EndIf
+	; The default receive buffer is 8 KB; ask for 64 KB so each read moves real data.
+	_WINHTTPSETOPTION ( $HHTTPREQUEST , $WINHTTP_OPTION_READ_BUFFER_SIZE , 65536 )
 	If $RANGE Then
 		_WINHTTPSENDREQUEST ( $HHTTPREQUEST , "Range: bytes=" & $RANGE & @CRLF )
 	Else

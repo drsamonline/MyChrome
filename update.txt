@@ -1,8 +1,8 @@
 sha256_x64=9803bc743c8686a135a815df461156c2abfa48586ff419802ffd31d85c2ba0cc
 sha256=ad4daba5747b88277a93b4cbe5a23ae558d5fcef1bc9392f86130dbc23ce7381
-latest=3.9.54
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.54/MyBrowser_v3.9.54.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.54/MyBrowser_v3.9.54_x64.7z
-update=1. 修正 ZIP 版 Chrome 與 Brave 安裝；\n2. 3.9.54
-update_zh-TW=1. 修正 ZIP 版 Chrome 與 Brave 安裝；\n2. 3.9.54
-update_en-US=1. Chrome and Brave ZIP installs fixed;\n2. 3.9.54
+latest=3.9.55
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.55/MyBrowser_v3.9.55.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.55/MyBrowser_v3.9.55_x64.7z
+update=1. 大幅提升下載速度（每次讀取 64KB）；\n2. 3.9.55
+update_zh-TW=1. 大幅提升下載速度（每次讀取 64KB）；\n2. 3.9.55
+update_en-US=1. Much faster downloads (64 KB reads);\n2. 3.9.55
