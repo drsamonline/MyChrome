@@ -170,6 +170,7 @@ update.txt               self-update manifest read by the app
 
 | Document | What is in it |
 | --- | --- |
+| [`docs/REWRITE.md`](docs/REWRITE.md) | whether to rewrite in Go, Rust or .NET, and what each buys |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | how the resolve → download → extract → swap pipeline works |
 | [`ROADMAP.md`](ROADMAP.md) | 80-item enhancement list with priority, effort and risk |
 | [`SECURITY.md`](SECURITY.md) | how to report a vulnerability, scope, accepted risks |

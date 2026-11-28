@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 67 of 75 done (89%), 2 partial, 6 open.** Updated for 3.9.41.
+**Progress: 67 of 75 done (89%), 5 partial, 3 open.** Updated for 3.9.41.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -107,9 +107,9 @@ How to read the columns:
 | K1 | GPL-3.0 LICENSE and NOTICE | P0 | ✅ done | 3.9.1 |
 | K2 | licenses/ for bundled binaries | P1 | ✅ done | 3.9.3 |
 | K3 | Source archive on every release | P1 | ✅ done | 3.9.1 |
-| L1 | Rewrite in Go or Rust | P2 | ⬜ open | — |
-| L2 | Freeze AutoIt as maintenance branch | P2 | ⬜ open | — |
-| L3 | Or a .NET single-file tray app | P3 | ⬜ open | — |
+| L1 | Rewrite in Go or Rust — decision brief written: [`docs/REWRITE.md`](docs/REWRITE.md) | P2 | 🟡 partial | 3.9.41 |
+| L2 | Freeze AutoIt as maintenance branch — see [`docs/REWRITE.md`](docs/REWRITE.md) — option A | P2 | 🟡 partial | 3.9.41 |
+| L3 | Or a .NET single-file tray app — see [`docs/REWRITE.md`](docs/REWRITE.md) — option D | P3 | 🟡 partial | 3.9.41 |
 
 ### Shipped but not on the original list
 
