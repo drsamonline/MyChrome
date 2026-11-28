@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.29"
+Global Const $APPVERSION = "3.9.30"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -3065,7 +3065,10 @@ Func GUI_SHOWLATESTCHROMEVER ( )
 	GUICtrlSetData ( $HLATESTCHROMEVER , "" )
 	_SETVAR ( "DLInfo" , "|||||" )
 	_SETVAR ( "ResponseTimer" , _NOWCALC ( ) )
-	If $PROXYTYPE = "DIRECT" Or Not $PROXYSEVER Then
+	If $PROXYTYPE = "SYSTEM" Then
+		; "System" used to fall through to no proxy whenever no server was typed in.
+		$ITHREADPID = _STARTTHREAD ( @ScriptFullPath , $GET_LATEST_CHROME_VER , $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 , $INIFILE , "SYSTEM" )
+	ElseIf $PROXYTYPE = "DIRECT" Or Not $PROXYSEVER Then
 		$ITHREADPID = _STARTTHREAD ( @ScriptFullPath , $GET_LATEST_CHROME_VER , $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 , $INIFILE )
 	Else
 		$ITHREADPID = _STARTTHREAD ( @ScriptFullPath , $GET_LATEST_CHROME_VER , $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 , $INIFILE , "HTTP:" & $PROXYSEVER & ":" & $PROXYPORT )
@@ -3415,7 +3418,9 @@ Func UPDATECHROME ( $CHROMEPATH , $CHANNEL , $STRURL = "" )
 			_SETVAR ( "DLInfo" , "|||||" )
 			$RESPONSETIMER = _NOWCALC ( )
 			_SETVAR ( "ResponseTimer" , $RESPONSETIMER )
-			If $PROXYTYPE = "DIRECT" Or Not $PROXYSEVER Then
+			If $PROXYTYPE = "SYSTEM" Then
+				$ITHREADPID = _STARTTHREAD ( @ScriptFullPath , $GET_LATEST_CHROME_VER , $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 , $INIFILE , "SYSTEM" )
+			ElseIf $PROXYTYPE = "DIRECT" Or Not $PROXYSEVER Then
 				$ITHREADPID = _STARTTHREAD ( @ScriptFullPath , $GET_LATEST_CHROME_VER , $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 , $INIFILE )
 			Else
 				$ITHREADPID = _STARTTHREAD ( @ScriptFullPath , $GET_LATEST_CHROME_VER , $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 , $INIFILE , "HTTP:" & $PROXYSEVER & ":" & $PROXYPORT )
@@ -3947,7 +3952,10 @@ Func GET_LATEST_CHROME_VER ( $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 = 0 , $I
 		$SPROXY = $PROXYSEVER & ":" & $PROXYPORT
 	EndIf
 	Local $HHTTPOPEN , $HCONNECT , $NAME , $A , $HREQUEST , $SHEADER , $ERROR
-	If Not $SPROXY Then
+	If $PROXY = "SYSTEM" Then
+		; Use whatever Windows is configured with - the setting the user picked.
+		$HHTTPOPEN = _WINHTTPOPEN ( $USERAGENT , $WINHTTP_ACCESS_TYPE_DEFAULT_PROXY )
+	ElseIf Not $SPROXY Then
 		$HHTTPOPEN = _WINHTTPOPEN ( $USERAGENT )
 	Else
 		$HHTTPOPEN = _WINHTTPOPEN ( $USERAGENT , $WINHTTP_ACCESS_TYPE_NAMED_PROXY , $SPROXY , "localhost" )

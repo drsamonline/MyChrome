@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 63 of 75 done (84%), 2 partial, 10 open.** Updated for 3.9.29.
+**Progress: 63 of 75 done (84%), 2 partial, 10 open.** Updated for 3.9.30.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -171,6 +171,7 @@ How to read the columns:
 | 3.9.27 | 2026-11-27 | Named profiles via `ActiveProfile`; verification tool documented. |
 | 3.9.28 | 2026-11-27 | `/profile <name>` selects and remembers a profile. |
 | 3.9.29 | 2026-11-28 | TLS 1.2 forced; failed lookups logged. |
+| 3.9.30 | 2026-11-28 | System proxy setting honoured. |
 
 
 ### End-to-end launch is tested

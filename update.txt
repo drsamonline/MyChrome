@@ -1,8 +1,8 @@
 sha256_x64=97e8e9b583b2c6646b9f34f4d95b8dfdbc7321e99e1a8d6e9718e536f5e68543
 sha256=e31aa4db83ca8553de5d8b298689f120e30aa36578530ef31993aa3d19016edf
-latest=3.9.29
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.29/MyBrowser_v3.9.29.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.29/MyBrowser_v3.9.29_x64.7z
-update=1. 修正舊版 Windows 上 TLS 1.2 未啟用導致查詢失敗；\n2. 失敗時會寫入記錄檔；\n3. 3.9.29
-update_zh-TW=1. 修正舊版 Windows 上 TLS 1.2 未啟用導致查詢失敗；\n2. 失敗時會寫入記錄檔；\n3. 3.9.29
-update_en-US=1. Fixes lookups failing on Windows without TLS 1.2 enabled;\n2. Failures are written to the log;\n3. 3.9.29
+latest=3.9.30
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.30/MyBrowser_v3.9.30.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.30/MyBrowser_v3.9.30_x64.7z
+update=1. 修正「系統代理」設定未被採用；\n2. 3.9.30
+update_zh-TW=1. 修正「系統代理」設定未被採用；\n2. 3.9.30
+update_en-US=1. The System proxy setting is now honoured;\n2. 3.9.30
