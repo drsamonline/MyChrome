@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.33_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.33.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.33_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.34_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.34.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.34_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -44,7 +44,7 @@ warn on first run.
 Verify a download before running it — one command, both checks:
 
 ```powershell
-./build/verify-release.ps1 -Path .\MyBrowser_v3.9.33_x64.7z
+./build/verify-release.ps1 -Path .\MyBrowser_v3.9.34_x64.7z
 ```
 
 It compares the file's SHA256 with the published manifest and asks the GitHub CLI to
@@ -101,17 +101,16 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.33
+## What's new in 3.9.34
 
-- **The folder swap refuses dangerous targets.** It already skipped when the profile or
-  the app lived inside the browser folder; it now also refuses a drive root (`C:\`) or a
-  single-level folder, which would have meant renaming far more than a browser.
-- **The update closes the browser it started first.** It used to close every process with
-  that name; now the instance this launcher launched goes first, and if others remain the
-  log records how many were closed.
+- **A partial download from an older version is discarded.** The resume file was called
+  `installer.exe` regardless of version, so a download interrupted at Chrome 158 could be
+  resumed against Chrome 159's URL. The result was an archive that failed the integrity
+  test for no visible reason. The version is now recorded and a mismatch deletes the part
+  file before downloading.
 
-Earlier: **3.9.32** quoted the Firefox path and validated profile names. **3.9.31** made the
-System proxy cover downloads and PAC.
+Earlier: **3.9.33** stopped the swap reaching a drive root. **3.9.32** quoted the Firefox
+path and validated profile names.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases) ·
 [CHANGELOG.md](CHANGELOG.md)
@@ -201,7 +200,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.33_source.7z`.
+`MyBrowser_v3.9.34_source.7z`.
 
 ## Lineage
 

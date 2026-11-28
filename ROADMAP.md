@@ -175,6 +175,7 @@ How to read the columns:
 | 3.9.31 | 2026-11-28 | System proxy with PAC, for downloads too. |
 | 3.9.32 | 2026-11-28 | Firefox path quoted; profile names validated. |
 | 3.9.33 | 2026-11-28 | Swap refuses drive roots; closes its own browser first. |
+| 3.9.34 | 2026-11-28 | Partial downloads are tied to a version. |
 
 
 ### End-to-end launch is tested

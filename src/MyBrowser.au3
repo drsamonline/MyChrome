@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.33"
+Global Const $APPVERSION = "3.9.34"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -3581,6 +3581,16 @@ Func UPDATECHROME ( $CHROMEPATH , $CHANNEL , $STRURL = "" )
 	$ISUPDATING = $LATESTCHROMEURLS
 	$TEMPDIR = $CHROMEDIR & "\~update"
 	Local $LOCALFILE = $TEMPDIR & "\installer.exe"
+	; A partial download belongs to one version. Resuming it against a newer one
+	; produces an archive that fails the integrity test for no visible reason.
+	Local $SRESUMEVER = IniRead ( $INIFILE , "Settings" , "ResumeVersion" , "" )
+	If $SRESUMEVER <> $LATESTCHROMEVER Then
+		If FileExists ( $LOCALFILE ) Then
+			_LOG ( "discarding a partial download for " & $SRESUMEVER & ", now fetching " & $LATESTCHROMEVER )
+			FileDelete ( $LOCALFILE )
+		EndIf
+		IniWrite ( $INIFILE , "Settings" , "ResumeVersion" , $LATESTCHROMEVER )
+	EndIf
 	If Not FileExists ( $TEMPDIR ) Then
 		DirCreate ( $TEMPDIR )
 	EndIf

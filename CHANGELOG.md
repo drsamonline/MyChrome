@@ -5,6 +5,7 @@ Every release, newest first. Full notes and downloads on the
 
 | Version | Highlights |
 |---|---|
+| [3.9.34](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.34) | A partial download from another version is discarded. |
 | [3.9.33](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.33) | Swap refuses drive roots; closes its own browser first. |
 | [3.9.32](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.32) | Firefox launch path quoted; unsafe profile names refused. |
 | [3.9.31](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.31) | System proxy, including PAC, for downloads too. |
@@ -39,6 +40,10 @@ Every release, newest first. Full notes and downloads on the
 | [3.9.2](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.2) | Disk-space guard, temp cleanup, apply pre-flight, portable launch flags, HTTPS-only mirrors. |
 | [3.9.1](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.1) | Firefox, Chromium and Brave download sources repaired. |
 | [3.9.0](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.0) | Rebuilt from recovered source; Chrome via Chrome for Testing. |
+
+## 3.9.34
+
+- `ResumeVersion` in the ini records which version a partial download belongs to; a mismatch deletes it.
 
 ## 3.9.33
 

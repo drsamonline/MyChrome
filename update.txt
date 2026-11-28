@@ -1,8 +1,8 @@
 sha256_x64=446186cbf4d90558d79eec5dba987ed04b60916d2a191d46f440acc0b5a0cc2f
 sha256=1247d2b2b907e30593530979508a7902ef8ce975f4d8c123d8e0c66bc964752b
-latest=3.9.33
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.33/MyBrowser_v3.9.33.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.33/MyBrowser_v3.9.33_x64.7z
-update=1. 拒絕在磁碟根目錄或單層資料夾進行替換；\n2. 更新時先關閉本程式啟動的實例；\n3. 3.9.33
-update_zh-TW=1. 拒絕在磁碟根目錄或單層資料夾進行替換；\n2. 更新時先關閉本程式啟動的實例；\n3. 3.9.33
-update_en-US=1. The swap refuses a drive root or a single folder;\n2. The instance this launcher started is closed first;\n3. 3.9.33
+latest=3.9.34
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.34/MyBrowser_v3.9.34.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.34/MyBrowser_v3.9.34_x64.7z
+update=1. 換版本時捨棄舊版未完成的下載；\n2. 3.9.34
+update_zh-TW=1. 換版本時捨棄舊版未完成的下載；\n2. 3.9.34
+update_en-US=1. A partial download from an older version is discarded;\n2. 3.9.34
