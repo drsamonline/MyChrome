@@ -139,7 +139,7 @@ Opt ( "GUIOnEventMode" , 1 )
 Opt ( "WinTitleMatchMode" , 4 )
 Global $FIRSTRUN = 0 , $CHROMEPATH , $CHROMEDIR , $CHROMEEXE , $USERDATADIR , $PARAMS
 Global $CACHEDIR , $CACHESIZE , $PORTABLEPARAM
-Global $CHROMESOURCE , $GET_LATEST_CHROME_VER = "get_latest_chrome_ver" , $SLOOKUPERR = ""
+Global $CHROMESOURCE , $GET_LATEST_CHROME_VER = "get_latest_chrome_ver" , $SLOOKUPERR = "" , $SLOOKUPPROXY = ""
 Global $LASTCHECKUPDATE , $UPDATEINTERVAL , $CHANNEL , $ISUPDATING = 0 , $X86 = 0
 Global $APPUPDATE , $APPUPDATELASTCHECK , $CLIMODE = 0
 Global $RUNINBACKGROUND , $EXAPP , $EXAPPAUTOEXIT , $EXAPP2 , $APPPID_BROWSER , $EXAPPPID
@@ -4013,6 +4013,16 @@ Func _CFT_GETLATEST ( $HHTTPOPEN , $CHANNEL , $NEED_X86 )
 		; transfer-encoding in particular. WinINet is a different stack and copes - the
 		; same fallback that fixed the Firefox lookup.
 		_LOG ( "cft: winhttp returned nothing (win32 " & $IWINERR & "), retrying with InetRead" )
+		; InetRead uses WinINet, whose proxy comes from its own settings, so apply the
+		; same choice before falling back - otherwise the retry silently goes direct.
+		If StringLeft ( $SLOOKUPPROXY , 5 ) = "HTTP:" Then
+			Local $AINET = StringSplit ( StringTrimLeft ( $SLOOKUPPROXY , 5 ) , ":" , 2 )
+			If UBound ( $AINET ) = 2 Then HttpSetProxy ( 2 , $AINET [ 0 ] & ":" & $AINET [ 1 ] )
+		ElseIf $SLOOKUPPROXY = "SYSTEM" Then
+			HttpSetProxy ( 0 )
+		Else
+			HttpSetProxy ( 1 )
+		EndIf
 		$SBODY = BinaryToString ( InetRead ( "https://" & $SHOST & $SPATH , 1 ) , 4 )
 		If $SBODY = "" Then
 			_LOOKUPFAIL ( "cft request for " & $SPATH , $IWINERR )
@@ -4049,6 +4059,7 @@ Func GET_LATEST_CHROME_VER ( $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 = 0 , $I
 	EndIf
 	Local $HHTTPOPEN , $HCONNECT , $NAME , $A , $HREQUEST , $SHEADER , $ERROR
 	Local $SSYSPROXY = ""
+	$SLOOKUPPROXY = $PROXY
 	If $PROXY = "SYSTEM" Then
 		; Ask Windows what proxy it would use for a URL - this covers both a fixed
 		; proxy and a PAC script, which the registry default alone does not.
