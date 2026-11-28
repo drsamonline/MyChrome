@@ -1,8 +1,8 @@
 sha256_x64=dd4bf98d7c5e820c4f34406676f3b489cb4fe70363fd1ea95e373c2bcde6da4a
 sha256=01ca0a6db9f303281c0a0b35f06533eeb5dd0bc22c00f4cb1b936e5810adce59
-latest=3.9.59
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.59/MyBrowser_v3.9.59.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.59/MyBrowser_v3.9.59_x64.7z
-update=1. 隱私權政策補齊所有連線伺服器；\n2. 3.9.59
-update_zh-TW=1. 隱私權政策補齊所有連線伺服器；\n2. 3.9.59
-update_en-US=1. The privacy policy lists every server the app contacts;\n2. 3.9.59
+latest=3.9.60
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.60/MyBrowser_v3.9.60.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.60/MyBrowser_v3.9.60_x64.7z
+update=1. 修正首次安裝時 App 資料夾不存在導致安裝失敗；\n2. 3.9.60
+update_zh-TW=1. 修正首次安裝時 App 資料夾不存在導致安裝失敗；\n2. 3.9.60
+update_en-US=1. A first install no longer fails when App does not exist;\n2. 3.9.60

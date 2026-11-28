@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.59"
+Global Const $APPVERSION = "3.9.60"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 ; The interface is English only. The Language key is still written so an older ini
@@ -5373,6 +5373,10 @@ Func INSTALLCHROME ( $CHROMEINSTALLER = "" )
 		WEnd
 		FileClose ( $SEARCH )
 	EndIf
+	; A first install has no browser folder yet. Every branch below moves into
+	; <browser>\~updated, and DirMove fails when the parent does not exist - which is
+	; exactly the fresh-folder case, and it used to fail silently.
+	If Not FileExists ( $CHROMEDIR ) Then DirCreate ( $CHROMEDIR )
 	If $ISEDGE = 1 Then
 		If Not FileExists ( $TEMPDIR & "\Chrome-bin\" & $LATEST & "\msedge.exe" ) Or Not FileExists ( $TEMPDIR & "\Chrome-bin\" & $LATEST & "\msedge.dll" ) Then
 			MsgBox ( 64 , "MyBrowser" , LANG ( "Update" , "ExtractEdgeFailed" , "提取 MicroSoft Edge 程序文件失败！" ) , 0 , $HSETTINGS )
@@ -5450,7 +5454,9 @@ Func INSTALLCHROME ( $CHROMEINSTALLER = "" )
 			$BROWSERTYPE = "Chrome"
 		EndIf
 		DirRemove ( $CHROMEDIR & "\~updated" , 1 )
-		DirMove ( $TEMPDIR & "\" & $CFTDIR , $CHROMEDIR & "\~updated" , 1 )
+		If Not DirMove ( $TEMPDIR & "\" & $CFTDIR , $CHROMEDIR & "\~updated" , 1 ) Then
+			_LOG ( "could not move " & $CFTDIR & " into " & $CHROMEDIR & "\~updated" )
+		EndIf
 	Else
 		If Not FileExists ( $TEMPDIR & "\Chrome-bin\chrome.exe" ) Then
 			If $ISCHROME = 1 Then

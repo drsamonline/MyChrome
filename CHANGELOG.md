@@ -5,6 +5,7 @@ Every release, newest first. Full notes and downloads on the
 
 | Version | Highlights |
 |---|---|
+| [3.9.60](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.60) | A first install creates the browser folder. |
 | [3.9.59](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.59) | Privacy policy lists every endpoint. |
 | [3.9.58](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.58) | The GreenChrome switch is dropped when the DLL is absent. |
 | [3.9.57](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.57) | White dialog, semibold captions; size logged after close. |
@@ -61,6 +62,10 @@ Every release, newest first. Full notes and downloads on the
 | [3.9.2](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.2) | Disk-space guard, temp cleanup, apply pre-flight, portable launch flags, HTTPS-only mirrors. |
 | [3.9.1](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.1) | Firefox, Chromium and Brave download sources repaired. |
 | [3.9.0](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.0) | Rebuilt from recovered source; Chrome via Chrome for Testing. |
+
+## 3.9.60
+
+- The browser folder is created before the unpacked files are moved into it, so a fresh install works.
 
 ## 3.9.59
 
