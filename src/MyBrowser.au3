@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.34"
+Global Const $APPVERSION = "3.9.35"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -302,6 +302,11 @@ $PROXYTYPE = IniRead ( $INIFILE , "Settings" , "ProxyType" , "" )
 $PROXYSEVER = IniRead ( $INIFILE , "Settings" , "UpdateProxy" , "" )
 $PROXYPORT = IniRead ( $INIFILE , "Settings" , "UpdatePort" , "" )
 $DOWNLOADTHREADS = IniRead ( $INIFILE , "Settings" , "DownloadThreads" , "" )
+; D3: the segmented downloader is happiest between one and four connections. The ini
+; can hold anything, including an empty string from a hand-edited file.
+$DOWNLOADTHREADS = Int ( $DOWNLOADTHREADS )
+If $DOWNLOADTHREADS < 1 Then $DOWNLOADTHREADS = 1
+If $DOWNLOADTHREADS > 4 Then $DOWNLOADTHREADS = 4
 $PARAMS = IniRead ( $INIFILE , "Settings" , "Params" , "" )
 $RUNINBACKGROUND = IniRead ( $INIFILE , "Settings" , "RunInBackground" , "" )
 $FIRSTUPDATECHECK = IniRead ( $INIFILE , "Settings" , "FirstUpdateCheck" , "" )
@@ -348,6 +353,28 @@ EndIf
 $CHROMEPATH = FULLPATH ( $CHROMEPATH )
 SPLITPATH ( $CHROMEPATH , $CHROMEDIR , $CHROMEEXE )
 $USERDATADIR = FULLPATH ( $USERDATADIR )
+If _HASPARAM ( "/rollback" ) Then
+	; D4: put the previous build back and exit. Nothing else runs.
+	Local $SROLLDIR = $CHROMEDIR & ".previous"
+	If Not FileExists ( $SROLLDIR ) Then
+		_LOG ( "/rollback: no previous build at " & $SROLLDIR )
+		Exit ( 4 )
+	EndIf
+	Local $SBADDIR2 = $CHROMEDIR & ".bad"
+	If FileExists ( $SBADDIR2 ) Then DirRemove ( $SBADDIR2 , 1 )
+	If Not DirMove ( $CHROMEDIR , $SBADDIR2 , 1 ) Then
+		_LOG ( "/rollback: could not move the current build aside" )
+		Exit ( 5 )
+	EndIf
+	If DirMove ( $SROLLDIR , $CHROMEDIR , 1 ) Then
+		DirRemove ( $SBADDIR2 , 1 )
+		_LOG ( "/rollback: restored " & $CHROMEDIR )
+		Exit ( 0 )
+	EndIf
+	DirMove ( $SBADDIR2 , $CHROMEDIR , 1 )
+	_LOG ( "/rollback: restore failed, current build put back" )
+	Exit ( 6 )
+EndIf
 If $CLIMODE Then
 	; Nobody to click: every prompt answers itself, the outcome is the exit code.
 	Local $ICLIUPDATED = UPDATECHROME ( $CHROMEPATH , $CHANNEL )

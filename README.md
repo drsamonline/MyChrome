@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.34_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.34.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.34_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.35_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.35.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.35_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -44,7 +44,7 @@ warn on first run.
 Verify a download before running it — one command, both checks:
 
 ```powershell
-./build/verify-release.ps1 -Path .\MyBrowser_v3.9.34_x64.7z
+./build/verify-release.ps1 -Path .\MyBrowser_v3.9.35_x64.7z
 ```
 
 It compares the file's SHA256 with the published manifest and asks the GitHub CLI to
@@ -101,16 +101,24 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.34
+## What's new in 3.9.35
 
-- **A partial download from an older version is discarded.** The resume file was called
-  `installer.exe` regardless of version, so a download interrupted at Chrome 158 could be
-  resumed against Chrome 159's URL. The result was an archive that failed the integrity
-  test for no visible reason. The version is now recorded and a mismatch deletes the part
-  file before downloading.
+- **The previous build is kept, and `/rollback` puts it back.**
 
-Earlier: **3.9.33** stopped the swap reaching a drive root. **3.9.32** quoted the Firefox
-path and validated profile names.
+  ```powershell
+  MyBrowser.exe /rollback
+  ```
+
+  The swap already renamed the old folder out of the way; it is now kept as
+  `<browser>.previous` instead of deleted, so undoing a bad update costs a second rather
+  than a 170 MB download. Exit codes: `0` restored, `4` nothing to roll back, `5`/`6` the
+  move failed and the current build is still in place.
+
+- **Download connections are clamped to 1–4.** `DownloadThreads` came straight from the
+  ini, so an empty or hand-edited value went to the segmenter as-is.
+
+Earlier: **3.9.34** tied partial downloads to a version. **3.9.33** stopped the swap
+reaching a drive root.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases) ·
 [CHANGELOG.md](CHANGELOG.md)
@@ -200,7 +208,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.34_source.7z`.
+`MyBrowser_v3.9.35_source.7z`.
 
 ## Lineage
 

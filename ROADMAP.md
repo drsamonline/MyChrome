@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 63 of 75 done (84%), 2 partial, 10 open.** Updated for 3.9.30.
+**Progress: 65 of 75 done (87%), 2 partial, 8 open.** Updated for 3.9.35.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -64,8 +64,8 @@ How to read the columns:
 | C8 | Document no telemetry | P2 | ✅ done | 3.9.3 |
 | D1 | Strip unused UDFs | P2 | ✅ done — none: 242 functions, 0 unreferenced (checked by name, string and event registration) | verified |
 | D2 | Split the file into includes | P2 | ✅ done | 3.9.11 + 3.9.19 |
-| D3 | Adaptive segment count | P3 | ⬜ open | — |
-| D4 | Keep previous build for rollback | P3 | ⬜ open | — |
+| D3 | Adaptive segment count | P3 | ✅ done | 3.9.35 |
+| D4 | Keep previous build for rollback | P3 | ✅ done | 3.9.35 |
 | E1 | First-run wizard | P1 | ✅ done | pre-existing |
 | E2 | DPI awareness | P1 | ✅ done | 3.9.3 |
 | E3 | Strings out of code into language files | P1 | ✅ done | 3.9.10 |
@@ -176,6 +176,7 @@ How to read the columns:
 | 3.9.32 | 2026-11-28 | Firefox path quoted; profile names validated. |
 | 3.9.33 | 2026-11-28 | Swap refuses drive roots; closes its own browser first. |
 | 3.9.34 | 2026-11-28 | Partial downloads are tied to a version. |
+| 3.9.35 | 2026-11-28 | Previous build kept; `/rollback` restores it. |
 
 
 ### End-to-end launch is tested
