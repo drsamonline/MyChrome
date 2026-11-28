@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.56"
+Global Const $APPVERSION = "3.9.57"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 ; The interface is English only. The Language key is still written so an older ini
@@ -1569,7 +1569,7 @@ Case Else
 	$HSETTINGS = GUICreate ( LANG ( "GUI" , "Title" , "MyBrowser" ) , 500 , 530 , $IWINX , $IWINY )
 	; A single font and a flat light background, applied before any control is made.
 	GUISetFont ( 9 , 400 , 0 , "Segoe UI" , $HSETTINGS )
-	GUISetBkColor ( 0xF7F7F7 , $HSETTINGS )
+	GUISetBkColor ( 0xFFFFFF , $HSETTINGS )
 	GUISetOnEvent ( $GUI_EVENT_CLOSE , "ExitApp" )
 	Local $LANGCOPYRIGHT = LANG ( "GUI" , "Copyright" , "MyBrowser %s" )
 	$LANGCOPYRIGHT = StringFormat ( $LANGCOPYRIGHT , $APPVERSION )
@@ -1585,6 +1585,8 @@ Case Else
 	GUICtrlCreateTab ( 5 , 35 , 492 , 430 )
 	GUICtrlCreateTabItem ( LANG ( "GUI" , "TabGeneral" , "常规" ) )
 	GUICtrlCreateGroup ( LANG ( "GUI" , "GroupChromeApp" , "浏览器程序文件" ) , 10 , 80 , 480 , 190 )
+	; A semibold caption distinguishes each section without a heavy border.
+	GUICtrlSetFont ( - 1 , 10 , 600 , 0 , "Segoe UI" )
 	GUICtrlCreateLabel ( LANG ( "GUI" , "ChromePath" , "浏览器路径：" ) , 20 , 110 , - 1 , 20 )
 	$HCHROMEPATH = GUICtrlCreateEdit ( $CHROMEPATH , 100 , 106 , 320 , 20 , $ES_AUTOHSCROLL )
 	$HGETCHROMEPATH = GUICtrlCreateButton ( LANG ( "GUI" , "Browse" , "浏览" ) , 430 , 106 , 50 , 20 )
@@ -1656,6 +1658,8 @@ Case Else
 	$HCURRENTVER = GUICtrlCreateLabel ( "" , 380 , 235 , 90 , 20 )
 	GUICtrlSetData ( - 1 , $CHROMEFILEVERSION )
 	GUICtrlCreateGroup ( LANG ( "GUI" , "ChromeUserData" , "浏览器用户数据文件" ) , 10 , 290 , 480 , 80 )
+	; A semibold caption distinguishes each section without a heavy border.
+	GUICtrlSetFont ( - 1 , 10 , 600 , 0 , "Segoe UI" )
 	GUICtrlCreateLabel ( LANG ( "GUI" , "UserDataDir" , "用户数据文件夹：" ) , 20 , 320 , 110 , 20 )
 	$HUSERDATADIR = GUICtrlCreateEdit ( $USERDATADIR , 130 , 315 , 290 , 20 , $ES_AUTOHSCROLL )
 	GUICtrlCreateButton ( LANG ( "GUI" , "Browse" , "浏览" ) , 430 , 315 , 50 , 20 )
@@ -4981,8 +4985,10 @@ Func __DOWNLOADCHROME ( $URL , $LOCALFILE , $HDLFILE , $DOWNLOADTHREADS , $HHTTP
 	; and shows whether the segments overlapped.
 	Local $IELAPSED = Int ( TimerDiff ( $TIMEINIT ) / 1000 )
 	If $IELAPSED < 1 Then $IELAPSED = 1
-	_LOG ( "download: " & FileGetSize ( $LOCALFILE ) & " bytes in " & $IELAPSED & "s (" & Int ( FileGetSize ( $LOCALFILE ) / 1024 / $IELAPSED ) & " KB/s, " & $THREADS & " segments)" )
 	FileClose ( $HDLFILE )
+	; Measure after the close: the size is not on disk until the handle is released.
+	Local $IDONE = FileGetSize ( $LOCALFILE )
+	_LOG ( "download: " & $IDONE & " bytes in " & $IELAPSED & "s (" & Int ( $IDONE / 1024 / $IELAPSED ) & " KB/s, " & $THREADS & " segments)" )
 	FileSetAttrib ( $LOCALFILE , "+A" )
 	If $REMOTESIZE And $REMOTESIZE <> FileGetSize ( $LOCALFILE ) Then
 		Return SetError ( 3 , 0 , $SIZE & "|" & $REMOTESIZE & "|1||3|" & LANG ( "Update" , "InstallerSizeError" , "已下载的浏览器安装包大小不正确" ) )

@@ -1,8 +1,8 @@
 sha256_x64=54b97d70970c565f9c7c75132211e3859c4426aa0a83f73f363c2464dc5889b0
 sha256=ef41fb4e66e9e324cf0aa7342d19c736553e39ddd059074b06888b9a9f6ea631
-latest=3.9.56
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.56/MyBrowser_v3.9.56.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.56/MyBrowser_v3.9.56_x64.7z
-update=1. 記錄實際下載速度；\n2. 3.9.56
-update_zh-TW=1. 記錄實際下載速度；\n2. 3.9.56
-update_en-US=1. The download speed is logged;\n2. 3.9.56
+latest=3.9.57
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.57/MyBrowser_v3.9.57.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.57/MyBrowser_v3.9.57_x64.7z
+update=1. 介面改為白底與粗體標題；\n2. 下載速度記錄修正；\n3. 3.9.57
+update_zh-TW=1. 介面改為白底與粗體標題；\n2. 下載速度記錄修正；\n3. 3.9.57
+update_en-US=1. White background and semibold section captions;\n2. Download size measured after close;\n3. 3.9.57

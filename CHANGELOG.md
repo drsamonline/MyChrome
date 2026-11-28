@@ -5,6 +5,7 @@ Every release, newest first. Full notes and downloads on the
 
 | Version | Highlights |
 |---|---|
+| [3.9.57](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.57) | White dialog, semibold captions; size logged after close. |
 | [3.9.56](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.56) | The download logs its real throughput. |
 | [3.9.55](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.55) | Downloads read 64 KB at a time. |
 | [3.9.54](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.54) | Chrome and Brave ZIP installs fixed. |
@@ -58,6 +59,11 @@ Every release, newest first. Full notes and downloads on the
 | [3.9.2](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.2) | Disk-space guard, temp cleanup, apply pre-flight, portable launch flags, HTTPS-only mirrors. |
 | [3.9.1](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.1) | Firefox, Chromium and Brave download sources repaired. |
 | [3.9.0](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.0) | Rebuilt from recovered source; Chrome via Chrome for Testing. |
+
+## 3.9.57
+
+- The settings window is white with semibold section captions.
+- The download size is read after the file handle is closed.
 
 ## 3.9.56
 

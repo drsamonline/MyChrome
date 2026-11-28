@@ -197,6 +197,7 @@ How to read the columns:
 | 3.9.54 | 2026-11-28 | ZIP installs fixed; install check withdrawn. |
 | 3.9.55 | 2026-11-28 | Download reads 64 KB per call. |
 | 3.9.56 | 2026-11-28 | Download throughput is logged. |
+| 3.9.57 | 2026-11-28 | White dialog, semibold captions. |
 
 
 ### End-to-end launch is tested
