@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.40"
+Global Const $APPVERSION = "3.9.41"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -1491,7 +1491,18 @@ Func UPDATEAPP ( $EXE = @ScriptFullPath , $URL = "" , $MIRROR = "" , $SHA256 = "
 			If FileExists ( $EXE ) Then
 				FileMove ( $EXE , $EXE & ".bak" , 9 )
 			EndIf
-			FileMove ( $TEMP & "\MyBrowser.exe" , $EXE , 9 )
+			If Not FileMove ( $TEMP & "\MyBrowser.exe" , $EXE , 9 ) Then
+				; The old exe has already been moved aside. If the new one cannot take its
+				; place the user is left with no launcher at all, so put the backup back.
+				_LOG ( "self-update: could not place the new exe, restoring the backup" )
+				If FileExists ( $EXE & ".bak" ) Then FileMove ( $EXE & ".bak" , $EXE , 9 )
+				TrayItemDelete ( $ICANCEL )
+				TraySetState ( 2 )
+				DirRemove ( $TEMP , 1 )
+				_ShowError ( LANG ( "AppUpdate" , "ReplaceFailed" , "無法寫入新版本，已還原原本的程式。" ) )
+				Return 0
+			EndIf
+			FileDelete ( $EXE & ".bak" )
 			FileDelete ( $TEMP & "\7z.exe" )
 			FileDelete ( $TEMP & "\7z.dll" )
 			FileDelete ( $FILE )

@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 66 of 75 done (88%), 2 partial, 7 open.** Updated for 3.9.38.
+**Progress: 67 of 75 done (89%), 2 partial, 6 open.** Updated for 3.9.41.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -79,7 +79,7 @@ How to read the columns:
 | F1 | CLI mode — /selftest and /update | P1 | ✅ done | 3.9.26 |
 | F2 | Scoop manifest | P2 | ✅ done | 3.9.17 |
 | F3 | winget manifest | P2 | ✅ done | 3.9.18 |
-| F4 | ARM64 build | P2 | ⬜ open | — |
+| F4 | ARM64 build — not viable natively; x64 runs under emulation | P2 | ✅ done | 3.9.41 |
 | F5 | Fully portable settings | P2 | ✅ done | verified |
 | G1 | Real source for Edge (proxy-aware WinHTTP) | P0 | ✅ done | 3.9.8 |
 | G2 | Real source for Vivaldi | P1 | ✅ done | 3.9.5 |
@@ -182,6 +182,7 @@ How to read the columns:
 | 3.9.38 | 2026-11-28 | Supermium added for Windows 7 / 8.1. |
 | 3.9.39 | 2026-11-28 | Cromite added. |
 | 3.9.40 | 2026-11-28 | Profile import no longer overwrites. |
+| 3.9.41 | 2026-11-28 | Failed self-update restores the backup. |
 
 
 ### End-to-end launch is tested

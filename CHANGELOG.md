@@ -5,6 +5,7 @@ Every release, newest first. Full notes and downloads on the
 
 | Version | Highlights |
 |---|---|
+| [3.9.41](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.41) | A failed self-update restores the original program. |
 | [3.9.40](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.40) | Profile import no longer overwrites. |
 | [3.9.39](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.39) | Cromite added — ninth source. |
 | [3.9.38](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.38) | Supermium added — the Windows 7 / 8.1 path. |
@@ -46,6 +47,10 @@ Every release, newest first. Full notes and downloads on the
 | [3.9.2](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.2) | Disk-space guard, temp cleanup, apply pre-flight, portable launch flags, HTTPS-only mirrors. |
 | [3.9.1](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.1) | Firefox, Chromium and Brave download sources repaired. |
 | [3.9.0](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.0) | Rebuilt from recovered source; Chrome via Chrome for Testing. |
+
+## 3.9.41
+
+- The self-update checks that the new executable landed, and restores the backup if not.
 
 ## 3.9.40
 

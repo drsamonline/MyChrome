@@ -1,8 +1,8 @@
 sha256_x64=af25bafc340795a150a470fb14f6591aa19df973cf99c6df6a26734c2211fe83
 sha256=0774723752f8e87e64f230464f38c6659249fd17a777f2036d611014570e6ee6
-latest=3.9.40
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.40/MyBrowser_v3.9.40.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.40/MyBrowser_v3.9.40_x64.7z
-update=1. 匯入系統設定檔時不再覆寫既有資料；\n2. 3.9.40
-update_zh-TW=1. 匯入系統設定檔時不再覆寫既有資料；\n2. 3.9.40
-update_en-US=1. Importing a system profile no longer overwrites;\n2. 3.9.40
+latest=3.9.41
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.41/MyBrowser_v3.9.41.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.41/MyBrowser_v3.9.41_x64.7z
+update=1. 自我更新失敗時會還原原本的程式；\n2. 3.9.41
+update_zh-TW=1. 自我更新失敗時會還原原本的程式；\n2. 3.9.41
+update_en-US=1. A failed self-update restores the original program;\n2. 3.9.41
