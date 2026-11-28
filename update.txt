@@ -1,8 +1,8 @@
 sha256_x64=aa75cd3971992d794090773f229189d2b67a53ab20fd3a9e0d40e612e596090b
 sha256=42a7c46728d2f6d06196d8c4d0616c01366778ce003250654329eeb53e75db87
-latest=3.9.45
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.45/MyBrowser_v3.9.45.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.45/MyBrowser_v3.9.45_x64.7z
-update=1. 解壓後資料夾搜尋改為遞迴並記錄；\n2. 介面改為全英文並更新樣式；\n3. 3.9.45
-update_zh-TW=1. 解壓後資料夾搜尋改為遞迴並記錄；\n2. 介面改為全英文並更新樣式；\n3. 3.9.45
-update_en-US=1. Extraction layout search is recursive and logged;\n2. English-only interface, refreshed styling;\n3. 3.9.45
+latest=3.9.46
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.46/MyBrowser_v3.9.46.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.46/MyBrowser_v3.9.46_x64.7z
+update=1. 修正 ZIP 版 Chrome 安裝時誤判為不相容；\n2. 3.9.46
+update_zh-TW=1. 修正 ZIP 版 Chrome 安裝時誤判為不相容；\n2. 3.9.46
+update_en-US=1. A ZIP Chrome install no longer reports itself incompatible;\n2. 3.9.46

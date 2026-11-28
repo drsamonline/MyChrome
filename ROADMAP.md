@@ -186,6 +186,7 @@ How to read the columns:
 | 3.9.42 | 2026-11-28 | Releases ship the desktop check. |
 | 3.9.43 | 2026-11-28 | Extraction checked, with a Windows unzip fallback. |
 | 3.9.45 | 2026-11-28 | Recursive layout search; English-only UI. |
+| 3.9.46 | 2026-11-28 | ZIP Chrome installs accepted. |
 
 
 ### End-to-end launch is tested

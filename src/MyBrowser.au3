@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.45"
+Global Const $APPVERSION = "3.9.46"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 ; The interface is English only. The Language key is still written so an older ini
@@ -5196,6 +5196,13 @@ Func INSTALLCHROME ( $CHROMEINSTALLER = "" )
 		$CHROMEPATH = ".\App\" & $CHROMEEXE
 		GUICtrlSetData ( $HCHROMEPATH , $CHROMEPATH )
 		GUICtrlSetData ( $HCHROMESOURCE , "|" & $GUANFANG & "|" & $LANGCHROMESOURCEINSTALLER , $CHROMESOURCE )
+	ElseIf $ISCHROME = 1 Or $ISCHROMIUM = 1 Then
+		; Chrome for Testing and Chromium snapshots. The first pass already found the
+		; folder and wrote the paths; this chain only knew the Omaha installer layout,
+		; so every ZIP install ended in "not compatible".
+		Local $SDET = _FINDBROWSEREXE ( $TEMPDIR , "chrome.exe" )
+		If $SDET <> "" Then $LATEST = FileGetVersion ( $TEMPDIR & "\" & $SDET & "\chrome.exe" )
+		If $LATEST = "" Then $LATEST = $LATESTCHROMEVER
 	ElseIf $ISFIREFOX = 1 Then
 		$LATEST = FileGetVersion ( $TEMPDIR & "\core\firefox.exe" )
 		GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent|Supermium|Cromite" , "Firefox" )
@@ -5406,8 +5413,8 @@ Func INSTALLCHROME ( $CHROMEINSTALLER = "" )
 			DirRemove ( $CHROMEDIR & "\~updated" , 1 )
 			DirMove ( $TEMPDIR & "\Chrome-bin\" & $LATEST , $CHROMEDIR & "\~updated" , 1 )
 		EndIf
-	ElseIf _ZIPBROWSERDIR ( $TEMPDIR , "chrome.exe" ) <> "" Then
-		Local $CFTDIR = _ZIPBROWSERDIR ( $TEMPDIR , "chrome.exe" )
+	ElseIf _FINDBROWSEREXE ( $TEMPDIR , "chrome.exe" ) <> "" Then
+		Local $CFTDIR = _FINDBROWSEREXE ( $TEMPDIR , "chrome.exe" )
 		If $ISCHROMIUM = 1 Then
 			$BROWSERTYPE = "Chromium"
 		Else
