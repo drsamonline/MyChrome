@@ -185,6 +185,7 @@ How to read the columns:
 | 3.9.41 | 2026-11-28 | Failed self-update restores the backup. |
 | 3.9.42 | 2026-11-28 | Releases ship the desktop check. |
 | 3.9.43 | 2026-11-28 | Extraction checked, with a Windows unzip fallback. |
+| 3.9.45 | 2026-11-28 | Recursive layout search; English-only UI. |
 
 
 ### End-to-end launch is tested

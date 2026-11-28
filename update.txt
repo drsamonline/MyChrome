@@ -1,8 +1,8 @@
 sha256_x64=722e8e86569dc767dc3af19bdb5b41dc63873a8f033c53d3794609367dc13c37
 sha256=b22394752853e25aa7bfe19b7da75a2de958963688c7f487d1a92909b1309d2a
-latest=3.9.43
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.43/MyBrowser_v3.9.43.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.43/MyBrowser_v3.9.43_x64.7z
-update=1. 解壓失敗時改用 Windows 內建解壓並記錄錯誤碼；\n2. 3.9.43
-update_zh-TW=1. 解壓失敗時改用 Windows 內建解壓並記錄錯誤碼；\n2. 3.9.43
-update_en-US=1. Extraction logs its exit code and falls back to the Windows unzip;\n2. 3.9.43
+latest=3.9.45
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.45/MyBrowser_v3.9.45.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.45/MyBrowser_v3.9.45_x64.7z
+update=1. 解壓後資料夾搜尋改為遞迴並記錄；\n2. 介面改為全英文並更新樣式；\n3. 3.9.45
+update_zh-TW=1. 解壓後資料夾搜尋改為遞迴並記錄；\n2. 介面改為全英文並更新樣式；\n3. 3.9.45
+update_en-US=1. Extraction layout search is recursive and logged;\n2. English-only interface, refreshed styling;\n3. 3.9.45

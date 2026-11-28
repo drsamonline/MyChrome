@@ -2,10 +2,12 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.43"
+Global Const $APPVERSION = "3.9.45"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
-Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
+; The interface is English only. The Language key is still written so an older ini
+; does not look corrupt, but it no longer selects anything.
+Global $LANGUAGE = "en-US"
 Global $LANGFILE = LANGCHECK ( )
 Global $PROXYTYPE , $PROXYSEVER , $PROXYPORT
 Global $USERAGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36"
@@ -219,7 +221,7 @@ $CHROMESOURCE = $GUANFANG
 If Not FileExists ( $INIFILE ) Then
 	$FIRSTRUN = 1
 	IniWrite ( $INIFILE , "Settings" , "AppVersion" , $APPVERSION )
-	IniWrite ( $INIFILE , "Settings" , "Language" , "Auto" )
+	IniWrite ( $INIFILE , "Settings" , "Language" , "en-US" )
 	IniWrite ( $INIFILE , "Settings" , "ChromePath" , ".\App\chrome.exe" )
 	IniWrite ( $INIFILE , "Settings" , "UserDataDir" , ".\Data" )
 	IniWrite ( $INIFILE , "Settings" , "PluginsDir" , "" )
@@ -1565,6 +1567,9 @@ Case Else
 		$IWINY = - 1
 	EndIf
 	$HSETTINGS = GUICreate ( LANG ( "GUI" , "Title" , "MyBrowser" ) , 500 , 530 , $IWINX , $IWINY )
+	; A single font and a flat light background, applied before any control is made.
+	GUISetFont ( 9 , 400 , 0 , "Segoe UI" , $HSETTINGS )
+	GUISetBkColor ( 0xF7F7F7 , $HSETTINGS )
 	GUISetOnEvent ( $GUI_EVENT_CLOSE , "ExitApp" )
 	Local $LANGCOPYRIGHT = LANG ( "GUI" , "Copyright" , "MyBrowser %s" )
 	$LANGCOPYRIGHT = StringFormat ( $LANGCOPYRIGHT , $APPVERSION )
@@ -1657,28 +1662,8 @@ Case Else
 	GUICtrlSetOnEvent ( - 1 , "GUI_GetUserDataDir" )
 	$HCOPYDATA = GUICtrlCreateCheckbox ( LANG ( "GUI" , "CopyDataFromeSys" , "从系统中提取用户数据文件" ) , 20 , 340 , - 1 , 20 )
 	If Not $LANGFILE Then
-		$LANGSTR = "显示语言："
 	Else
-		$LANGSTR = "Language: "
 	EndIf
-	GUICtrlCreateLabel ( $LANGSTR , 20 , 390 , 110 , 20 )
-	$HLANGUAGE = GUICtrlCreateCombo ( "" , 130 , 386 , 130 , 20 , $CBS_DROPDOWNLIST )
-	If $LANGUAGE = "zh-CN" Then
-		$SLANG = "简体中文"
-	ElseIf $LANGUAGE = "zh-TW" Then
-		$SLANG = "繁體中文"
-	ElseIf $LANGUAGE = "en-US" Then
-		$SLANG = "English"
-	Else
-		$SLANG = "Auto"
-	EndIf
-	GUICtrlSetData ( - 1 , "Auto|简体中文|繁體中文|English" , $SLANG )
-	GUICtrlSetOnEvent ( - 1 , "GUI_LanguageEvent" )
-	GUICtrlCreateLabel ( LANG ( "GUI" , "LangSupport" , "语言支持：" ) , 280 , 390 , 110 , 20 )
-	GUICtrlCreateLabel ( IniRead ( $LANGFILE , "Lang" , "LangSupport" , "" ) , 390 , 390 , 100 , 40 )
-	GUICtrlSetCursor ( - 1 , 0 )
-	GUICtrlSetColor ( - 1 , 255 )
-	GUICtrlSetOnEvent ( - 1 , "GUI_LangSupport" )
 	$HAPPUPDATE = GUICtrlCreateCheckbox ( LANG ( "GUI" , "NotifyMyBrowserUpdate" , "MyBrowser 发布新版时通知我" ) , 20 , 415 , - 1 , 20 )
 	GUICtrlSetTip ( - 1 , LANG ( "GUI" , "NotifyMyBrowserUpdateTips" , "每24小时检查更新一次" ) )
 	If $APPUPDATE = 1 Then
@@ -2355,16 +2340,8 @@ Func GUI_LANGUAGEEVENT ( )
 	Exit
 EndFunc
 Func GUI_SAVELANG ( )
-	$SLANG = GUICtrlRead ( $HLANGUAGE )
-	If $SLANG = "简体中文" Then
-		$LANGUAGE = "zh-CN"
-	ElseIf $SLANG = "繁體中文" Then
-		$LANGUAGE = "zh-TW"
-	ElseIf $SLANG = "English" Then
-		$LANGUAGE = "en-US"
-	Else
-		$LANGUAGE = "Auto"
-	EndIf
+	; Kept so an older ini still has something to call. The interface is English only.
+	$LANGUAGE = "en-US"
 	IniWrite ( $INIFILE , "Settings" , "Language" , $LANGUAGE )
 EndFunc
 Func GUI_SETPROXY ( )
@@ -3910,6 +3887,32 @@ Func _UNZIPWITHWINDOWS ( $SZIP , $SDEST )
 	_LOG ( "unzip fallback finished after " & $IWAIT & " half-seconds" )
 	Return 1
 EndFunc
+Func _FINDBROWSEREXE ( $SDIR , $SEXE , $IDEPTH = 3 )
+	; Returns the relative folder holding $SEXE, searching down to $IDEPTH levels.
+	; Vendors nest differently - chrome-win64\, Brave\Application\, Bin\ - and a
+	; one-level guess is what turned a good extraction into "unsupported".
+	If $IDEPTH < 1 Then Return ""
+	Local $H = FileFindFirstFile ( $SDIR & "\*.*" )
+	If $H = - 1 Then Return ""
+	Local $SN , $SSUB , $SFOUND
+	While 1
+		$SN = FileFindNextFile ( $H )
+		If @error Then ExitLoop
+		If $SN = "." Or $SN = ".." Then ContinueLoop
+		If Not StringInStr ( FileGetAttrib ( $SDIR & "\" & $SN ) , "D" ) Then ContinueLoop
+		If FileExists ( $SDIR & "\" & $SN & "\" & $SEXE ) Then
+			FileClose ( $H )
+			Return $SN
+		EndIf
+		$SSUB = _FINDBROWSEREXE ( $SDIR & "\" & $SN , $SEXE , $IDEPTH - 1 )
+		If $SSUB <> "" Then
+			FileClose ( $H )
+			Return $SN & "\" & $SSUB
+		EndIf
+	WEnd
+	FileClose ( $H )
+	Return ""
+EndFunc
 Func _ZIPBROWSERDIR ( $SDIR , $SEXE )
 	; Returns the single subfolder of $SDIR that holds $SEXE, or "" if there is none.
 	Local $H = FileFindFirstFile ( $SDIR & "\*.*" )
@@ -5058,6 +5061,22 @@ Func INSTALLCHROME ( $CHROMEINSTALLER = "" )
 		If StringRight ( $CHROMEINSTALLER , 4 ) = ".zip" Then _UNZIPWITHWINDOWS ( $CHROMEINSTALLER , $TEMPDIR )
 	Else
 		_LOG ( "7z extraction ok" )
+		Local $ALOGH = FileFindFirstFile ( $TEMPDIR & "\*.*" )
+		If $ALOGH <> - 1 Then
+			Local $SENTRIES = "" , $SENTRY
+			While 1
+				$SENTRY = FileFindNextFile ( $ALOGH )
+				If @error Then ExitLoop
+				Local $SATTRIB = FileGetAttrib ( $TEMPDIR & "\" & $SENTRY )
+				If StringInStr ( $SATTRIB , "D" ) Then
+					$SENTRIES &= $SENTRY & "\ "
+				Else
+					$SENTRIES &= $SENTRY & " "
+				EndIf
+			WEnd
+			FileClose ( $ALOGH )
+			_LOG ( "extracted entries: " & $SENTRIES )
+		EndIf
 	EndIf
 	If FileExists ( $TEMPDIR & "\Chrome-bin\" ) Then
 		$CHROMEEXE = "chrome.exe"
@@ -5070,10 +5089,11 @@ Func INSTALLCHROME ( $CHROMEINSTALLER = "" )
 		IniWrite ( $INIFILE , "Settings" , "ChromePath" , ".\App\chrome.exe" )
 		$CHROMEPATH = RELATIVEPATH ( $CHROMEDIR & "\" & $CHROMEEXE )
 		GUICtrlSetData ( $HCHROMEPATH , $CHROMEPATH )
-	ElseIf _ZIPBROWSERDIR ( $TEMPDIR , "chrome.exe" ) <> "" Then
+	ElseIf _FINDBROWSEREXE ( $TEMPDIR , "chrome.exe" ) <> "" Then
+		_LOG ( "extracted layout: " & _FINDBROWSEREXE ( $TEMPDIR , "chrome.exe" ) )
 		; Chrome for Testing (chrome-win64 / chrome-win32) and Chromium snapshots
 		; (chrome-win) both ship a plain ZIP with the browser in one subfolder.
-		Local $ZD = _ZIPBROWSERDIR ( $TEMPDIR , "chrome.exe" )
+		Local $ZD = _FINDBROWSEREXE ( $TEMPDIR , "chrome.exe" )
 		$LATEST = FileGetVersion ( $TEMPDIR & "\" & $ZD & "\chrome.exe" )
 		Local $ZCO = FileGetVersion ( $TEMPDIR & "\" & $ZD & "\chrome.exe" , "CompanyName" )
 		If StringInStr ( $ZCO , "Chromium" , 2 ) Then
