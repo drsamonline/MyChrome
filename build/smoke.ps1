@@ -199,6 +199,25 @@ if ($Deep) {
         } finally { Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue }
     }
 
+    Check 'Supermium ZIP unpacks with chrome.exe' {
+        if (-not (Test-Path $seven)) { throw '7-Zip is not available on this runner' }
+        $h = @{ 'User-Agent' = 'MyBrowser-ci' }
+        if ($env:GITHUB_TOKEN) { $h['Authorization'] = "Bearer $env:GITHUB_TOKEN" }
+        $rel = Invoke-RestMethod 'https://api.github.com/repos/win32ss/supermium/releases/latest' -Headers $h
+        $asset = $rel.assets | Where-Object { $_.name -match 'supermium_\d+_64_nonsetup\.zip$' } | Select-Object -First 1
+        if (-not $asset) { throw "no 64-bit nonsetup zip in Supermium $($rel.tag_name)" }
+        $dir = Join-Path $env:TEMP ('supermium-' + [guid]::NewGuid().ToString('N'))
+        New-Item -ItemType Directory -Force -Path $dir | Out-Null
+        try {
+            $zip = Join-Path $dir 'supermium.zip'
+            Invoke-WebRequest $asset.browser_download_url -OutFile $zip -UseBasicParsing
+            & $seven x $zip "-o$dir\out" -y | Out-Null
+            $found = Get-ChildItem (Join-Path $dir 'out') -Recurse -Filter 'chrome.exe' -ErrorAction SilentlyContinue | Select-Object -First 1
+            if (-not $found) { throw 'chrome.exe not found in the Supermium zip' }
+            ($found.FullName -replace '^.*\\out\\', '') + " ($($rel.tag_name))"
+        } finally { Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue }
+    }
+
     Check 'Cent installer unpacks to Chrome-bin\safemode.bat' {
         if (-not (Test-Path $seven)) { throw '7-Zip is not available on this runner' }
         $page = (Invoke-WebRequest 'https://www.centbrowser.com/' -UseBasicParsing).Content
