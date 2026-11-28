@@ -48,9 +48,9 @@ Full policy, including what a signature does and does not prove:
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.60_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.60.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.60_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.61_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.61.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.61_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -60,7 +60,7 @@ warn on first run.
 Verify a download before running it — one command, both checks:
 
 ```powershell
-./build/verify-release.ps1 -Path .\MyBrowser_v3.9.60_x64.7z
+./build/verify-release.ps1 -Path .\MyBrowser_v3.9.61_x64.7z
 ```
 
 It compares the file's SHA256 with the published manifest and asks the GitHub CLI to
@@ -119,15 +119,14 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.60
+## What's new in 3.9.61
 
-- **A first install no longer fails because `App\` does not exist.** Every install branch
-  moves the unpacked browser into `<browser>\~updated`, and `DirMove` fails when the parent
-  folder is missing — which is exactly the fresh-folder case. The result was never checked,
-  so the install ended with nothing placed and nothing said. The folder is now created
-  first, and a failed move is logged.
+- **A regression check for the first-install bug.** 3.9.60 created the browser folder before
+  the unpacked files are moved into it; a fresh install had been failing silently for want
+  of that folder. The build now fails if the guard is missing or appears after the first
+  move.
 
-Earlier: **3.9.59** corrected the privacy policy. **3.9.58** dropped an absent-feature switch.
+Earlier: **3.9.60** fixed the first install. **3.9.59** corrected the privacy policy.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases) ·
 [CHANGELOG.md](CHANGELOG.md)
@@ -218,7 +217,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.60_source.7z`.
+`MyBrowser_v3.9.61_source.7z`.
 
 ## Lineage
 

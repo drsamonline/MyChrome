@@ -1,8 +1,8 @@
 sha256_x64=198133d063ca89835f39e2af1acf147f339619a47108b528c65c3c1e25eb6bc5
 sha256=9c3c57502a4219f34bd2053a73361fe14d2f6a16463a2eb882f1425fc59523c8
-latest=3.9.60
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.60/MyBrowser_v3.9.60.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.60/MyBrowser_v3.9.60_x64.7z
-update=1. 修正首次安裝時 App 資料夾不存在導致安裝失敗；\n2. 3.9.60
-update_zh-TW=1. 修正首次安裝時 App 資料夾不存在導致安裝失敗；\n2. 3.9.60
-update_en-US=1. A first install no longer fails when App does not exist;\n2. 3.9.60
+latest=3.9.61
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.61/MyBrowser_v3.9.61.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.61/MyBrowser_v3.9.61_x64.7z
+update=1. 新增首次安裝迴歸檢查；\n2. 3.9.61
+update_zh-TW=1. 新增首次安裝迴歸檢查；\n2. 3.9.61
+update_en-US=1. A regression check for the first-install folder;\n2. 3.9.61

@@ -201,6 +201,7 @@ How to read the columns:
 | 3.9.58 | 2026-11-28 | GreenChrome switch dropped when absent. |
 | 3.9.59 | 2026-11-28 | Privacy policy lists every endpoint. |
 | 3.9.60 | 2026-11-29 | First install creates the browser folder. |
+| 3.9.61 | 2026-11-29 | Regression check for the first-install folder. |
 
 
 ### End-to-end launch is tested

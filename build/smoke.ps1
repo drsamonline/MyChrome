@@ -535,6 +535,21 @@ if ($Deep -and $env:MYBROWSER_LAUNCH_TEST -eq '1') {
         }
     }
 
+Check 'The install creates the browser folder before moving into it' {
+        # The bug this guards: DirMove into <browser>\~updated fails when <browser>
+        # does not exist, which is every fresh install. It failed silently for months.
+        $au3 = Join-Path $root 'src\MyBrowser.au3'
+        $text = Get-Content $au3 -Raw
+        $guard = 'If Not FileExists ( $CHROMEDIR ) Then DirCreate ( $CHROMEDIR )'
+        $guardAt = $text.IndexOf($guard)
+        if ($guardAt -lt 0) { throw 'no guard creating the browser folder before the moves' }
+        $moveAt = $text.IndexOf('DirMove ( $TEMPDIR')
+        if ($moveAt -lt 0) { throw 'could not find the move into the staging folder' }
+        if ($guardAt -gt $moveAt) { throw 'the folder is created after the first move, not before' }
+        $moves = ([regex]::Matches($text, 'DirMove \( \$TEMPDIR')).Count
+        "folder created before all $moves moves"
+    }
+
 Check 'Every browser flag is handled by both detection passes' {
         # The bug class this catches: a flag set by the first detection pass and never
         # tested by the second, which is how a Chrome ZIP install reported "not
