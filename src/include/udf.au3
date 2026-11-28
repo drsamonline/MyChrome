@@ -1043,6 +1043,13 @@ Func _WINHTTPOPEN ( $SUSERAGENT = Default , $IACCESSTYPE = Default , $SPROXYNAME
 	Local $ACALL = DllCall ( $HWINHTTPDLL__WINHTTP , "handle" , "WinHttpOpen" , "wstr" , $SUSERAGENT , "dword" , $IACCESSTYPE , "wstr" , $SPROXYNAME , "wstr" , $SPROXYBYPASS , "dword" , $IFLAG )
 	If @error Or Not $ACALL [ 0 ] Then Return SetError ( 1 , 0 , 0 )
 	If $IFLAG = $WINHTTP_FLAG_ASYNC Then _WINHTTPSETOPTION ( $ACALL [ 0 ] , $WINHTTP_OPTION_CONTEXT_VALUE , $WINHTTP_FLAG_ASYNC )
+	; WinHTTP on Windows 7 and 8.1 defaults to TLS 1.0, which every modern vendor feed
+	; refuses. Ask for TLS 1.2 explicitly; fall back to TLS 1.2 only if the bitmask is
+	; rejected.
+	Local $ITLS = BitOR ( 0x0800 , 0x0200 , 0x0080 )
+	If Not _WINHTTPSETOPTION ( $ACALL [ 0 ] , $WINHTTP_OPTION_SECURE_PROTOCOLS , $ITLS ) Then
+		_WINHTTPSETOPTION ( $ACALL [ 0 ] , $WINHTTP_OPTION_SECURE_PROTOCOLS , 0x0800 )
+	EndIf
 	Return $ACALL [ 0 ]
 EndFunc
 Func _WINHTTPOPENREQUEST ( $HCONNECT , $SVERB = Default , $SOBJECTNAME = Default , $SVERSION = Default , $SREFERRER = Default , $SACCEPTTYPES = Default , $IFLAGS = Default )

@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.28"
+Global Const $APPVERSION = "3.9.29"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -322,6 +322,7 @@ $LASTCHROMEPATH = IniRead ( $INIFILE , "Settings" , "LastChromePath" , "" )
 $LASTUSERDATADIR = IniRead ( $INIFILE , "Settings" , "LastUserDataDir" , "" )
 ; F1: /update runs the update without a desktop and exits.
 If _HASPARAM ( "/update" ) Then $CLIMODE = 1
+_LOG ( "start v" & $APPVERSION & " browser=" & IniRead ( $INIFILE , "Settings" , "BrowserType" , "" ) & " channel=" & IniRead ( $INIFILE , "Settings" , "Channel" , "" ) & " os=" & @OSVersion & " tls=" & RegRead ( "HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client" , "Enabled" ) )
 
 If $APPVERSION <> IniRead ( $INIFILE , "Settings" , "AppVersion" , "" ) Then
 	$FIRSTRUN = 1
@@ -3445,6 +3446,7 @@ Func UPDATECHROME ( $CHROMEPATH , $CHANNEL , $STRURL = "" )
 				If $ADLINFO [ 4 ] Then
 					$ERROR = $ADLINFO [ 5 ]
 				EndIf
+				_LOG ( "update info failed: browser=" & $BROWSERTYPE & " channel=" & $CHANNEL & " platform=" & $PLATFORM & " x86=" & $X86 & " proxy=" & $PROXYTYPE & " detail=" & $ERROR )
 				If IsHWnd ( $HSETTINGS ) Then
 					_GUICTRLSTATUSBAR_SETTEXT ( $HSTAUSBAR , LANG ( "GUI" , "GetUpdateInfoFailed" , "获取更新信息失败" ) & " " & $ERROR )
 				EndIf
