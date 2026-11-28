@@ -562,7 +562,10 @@ Check 'Every browser flag is handled by both detection passes' {
         "$($flags.Count) flags covered"
     }
 
-Check 'A real /update replaces an installed browser end to end' {
+if ($Deep) {
+    # A full install downloads about 170 MB and unpacks it; that is minutes, not seconds,
+    # so it belongs in the deep run and not in the fast one.
+    Check 'A real /update replaces an installed browser end to end' {
         # The check that was missing. Every earlier test looked at the lookup or the
         # archive, never at the install - which is how a Chrome ZIP install reported
         # "not compatible" for months.
@@ -595,7 +598,7 @@ Check 'A real /update replaces an installed browser end to end' {
             )
             Set-Content (Join-Path $work 'MyBrowser.ini') ($lines -join "`r`n") -Encoding ASCII
             $p = Start-Process (Join-Path $work 'MyBrowser.exe') -ArgumentList '/update' -WorkingDirectory $work -PassThru
-            if (-not $p.WaitForExit(600000)) { Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue; throw '/update did not finish in ten minutes' }
+            if (-not $p.WaitForExit(1800000)) { Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue; throw '/update did not finish in thirty minutes' }
             $log = Join-Path $work 'MyBrowser.log'
             $text = if (Test-Path $log) { Get-Content $log -Raw } else { '' }
             $short = ($text -replace "`r?`n", ' | ')
@@ -611,6 +614,7 @@ Check 'A real /update replaces an installed browser end to end' {
             "Chrome $fileVer at $($installed.FullName -replace [regex]::Escape($work), '')"
         } finally { Remove-Item $work -Recurse -Force -ErrorAction SilentlyContinue }
     }
+}
 
 Check 'Launcher starts a real browser from App\' {
         # The end-to-end path: a configured ini, a real browser on disk, and the launcher

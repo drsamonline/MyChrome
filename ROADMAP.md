@@ -193,6 +193,7 @@ How to read the columns:
 | 3.9.50 | 2026-11-28 | End-to-end install check. |
 | 3.9.51 | 2026-11-28 | Install check tightened against a false pass. |
 | 3.9.52 | 2026-11-28 | Install check seeds the profile folder. |
+| 3.9.53 | 2026-11-28 | Install check moved to the deep suite. |
 
 
 ### End-to-end launch is tested

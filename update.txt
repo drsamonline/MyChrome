@@ -1,8 +1,8 @@
 sha256_x64=600d8ca97e9c3883f0b2b39f75c5315d298f5c5ebd63fed0b1d54c286ecc0ab1
 sha256=d8969ab20481963a33ec6b9ef29a424807111487c390b7ce158bf8592cfa6c6a
-latest=3.9.52
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.52/MyBrowser_v3.9.52.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.52/MyBrowser_v3.9.52_x64.7z
+latest=3.9.53
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.53/MyBrowser_v3.9.53.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.53/MyBrowser_v3.9.53_x64.7z
 update=1. 新增完整安裝測試；\n2. 3.9.50
 update_zh-TW=1. 新增完整安裝測試；\n2. 3.9.50
 update_en-US=1. A real install is now tested end to end;\n2. 3.9.50

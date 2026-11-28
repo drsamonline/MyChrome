@@ -56,6 +56,10 @@ Every release, newest first. Full notes and downloads on the
 | [3.9.1](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.1) | Firefox, Chromium and Brave download sources repaired. |
 | [3.9.0](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.0) | Rebuilt from recovered source; Chrome via Chrome for Testing. |
 
+## 3.9.53
+
+- The end-to-end install check runs in the deep suite with a 30-minute budget, because a real download is minutes of work.
+
 ## 3.9.52
 
 - The end-to-end install check creates the profile folder the launcher requires.
