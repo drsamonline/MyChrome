@@ -1,8 +1,8 @@
 sha256_x64=796c252a93081b5b1823a4bb97ff2264e2bcb70f9055f9d0926f00029d9e741f
 sha256=c8ebadc9152b1bf972113491dad82f682579d25889c3bdcaae2dc92960260b44
-latest=3.9.30
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.30/MyBrowser_v3.9.30.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.30/MyBrowser_v3.9.30_x64.7z
-update=1. 修正「系統代理」設定未被採用；\n2. 3.9.30
-update_zh-TW=1. 修正「系統代理」設定未被採用；\n2. 3.9.30
-update_en-US=1. The System proxy setting is now honoured;\n2. 3.9.30
+latest=3.9.31
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.31/MyBrowser_v3.9.31.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.31/MyBrowser_v3.9.31_x64.7z
+update=1. 系統代理（含 PAC）套用於查詢與下載；\n2. 記錄實際使用的代理；\n3. 3.9.31
+update_zh-TW=1. 系統代理（含 PAC）套用於查詢與下載；\n2. 記錄實際使用的代理；\n3. 3.9.31
+update_en-US=1. System proxy (including PAC) applies to lookups and downloads;\n2. The proxy actually used is logged;\n3. 3.9.31

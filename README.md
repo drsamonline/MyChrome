@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.30_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.30.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.30_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.31_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.31.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.31_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -44,7 +44,7 @@ warn on first run.
 Verify a download before running it — one command, both checks:
 
 ```powershell
-./build/verify-release.ps1 -Path .\MyBrowser_v3.9.30_x64.7z
+./build/verify-release.ps1 -Path .\MyBrowser_v3.9.31_x64.7z
 ```
 
 It compares the file's SHA256 with the published manifest and asks the GitHub CLI to
@@ -101,16 +101,14 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.30
+## What's new in 3.9.31
 
-- **The System proxy setting is honoured.** Choosing *System* did nothing unless you also
-  typed a server address: the lookup fell through to "no proxy" and connected directly. On
-  a network that needs a proxy — a company laptop, a VPN, a filtered connection — every
-  lookup failed with *"Remote server no response"* no matter what the setting said. It now
-  asks WinHTTP to use the Windows proxy configuration.
+- **The System proxy now covers PAC scripts, and covers downloads too.** 3.9.30 fixed the
+  lookup; the downloader had the same bug and still connected directly. Both now ask
+  Windows for the proxy it would use — a fixed server *or* a PAC script — and the choice is
+  written to `MyBrowser.log` as `proxy: system -> host:port`.
 
-Earlier: **3.9.29** forced TLS 1.2 and started logging failed lookups. **3.9.28** added
-`/profile`.
+Earlier: **3.9.30** made the System setting apply to lookups. **3.9.29** forced TLS 1.2.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases) ·
 [CHANGELOG.md](CHANGELOG.md)
@@ -200,7 +198,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.30_source.7z`.
+`MyBrowser_v3.9.31_source.7z`.
 
 ## Lineage
 

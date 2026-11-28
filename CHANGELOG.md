@@ -5,6 +5,7 @@ Every release, newest first. Full notes and downloads on the
 
 | Version | Highlights |
 |---|---|
+| [3.9.31](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.31) | System proxy, including PAC, for downloads too. |
 | [3.9.30](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.30) | The System proxy setting now applies to lookups. |
 | [3.9.29](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.29) | TLS 1.2 forced on WinHTTP; failed lookups are logged. |
 | [3.9.28](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.28) | `/profile <name>` selects and remembers a profile. |
@@ -36,6 +37,11 @@ Every release, newest first. Full notes and downloads on the
 | [3.9.2](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.2) | Disk-space guard, temp cleanup, apply pre-flight, portable launch flags, HTTPS-only mirrors. |
 | [3.9.1](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.1) | Firefox, Chromium and Brave download sources repaired. |
 | [3.9.0](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.0) | Rebuilt from recovered source; Chrome via Chrome for Testing. |
+
+## 3.9.31
+
+- The downloader honours the System proxy; both paths resolve PAC through `GETIEPROXY`.
+- The proxy actually used is logged.
 
 ## 3.9.30
 

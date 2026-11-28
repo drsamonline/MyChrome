@@ -172,6 +172,7 @@ How to read the columns:
 | 3.9.28 | 2026-11-27 | `/profile <name>` selects and remembers a profile. |
 | 3.9.29 | 2026-11-28 | TLS 1.2 forced; failed lookups logged. |
 | 3.9.30 | 2026-11-28 | System proxy setting honoured. |
+| 3.9.31 | 2026-11-28 | System proxy with PAC, for downloads too. |
 
 
 ### End-to-end launch is tested

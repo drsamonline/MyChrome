@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.30"
+Global Const $APPVERSION = "3.9.31"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -3601,7 +3601,9 @@ Func UPDATECHROME ( $CHROMEPATH , $CHANNEL , $STRURL = "" )
 				_GUICTRLSTATUSBAR_SETTEXT ( $HSTAUSBAR , LANG ( "Update" , "RestoringDownload" , "尝试恢复下载" ) & " ..." )
 			EndIf
 		Else
-			If $PROXYTYPE = "DIRECT" Or Not $PROXYSEVER Then
+			If $PROXYTYPE = "SYSTEM" Then
+				$ITHREADPID = _STARTTHREAD ( @ScriptFullPath , "download_chrome" , $URLS , $LOCALFILE , $DOWNLOADTHREADS , $INIFILE , "SYSTEM" )
+			ElseIf $PROXYTYPE = "DIRECT" Or Not $PROXYSEVER Then
 				$ITHREADPID = _STARTTHREAD ( @ScriptFullPath , "download_chrome" , $URLS , $LOCALFILE , $DOWNLOADTHREADS , $INIFILE )
 			Else
 				$ITHREADPID = _STARTTHREAD ( @ScriptFullPath , "download_chrome" , $URLS , $LOCALFILE , $DOWNLOADTHREADS , $INIFILE , "HTTP:" & $PROXYSEVER & ":" & $PROXYPORT )
@@ -3952,13 +3954,27 @@ Func GET_LATEST_CHROME_VER ( $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 = 0 , $I
 		$SPROXY = $PROXYSEVER & ":" & $PROXYPORT
 	EndIf
 	Local $HHTTPOPEN , $HCONNECT , $NAME , $A , $HREQUEST , $SHEADER , $ERROR
+	Local $SSYSPROXY = ""
 	If $PROXY = "SYSTEM" Then
-		; Use whatever Windows is configured with - the setting the user picked.
+		; Ask Windows what proxy it would use for a URL - this covers both a fixed
+		; proxy and a PAC script, which the registry default alone does not.
+		Local $SSYSSERVER = "" , $SSYSPORT = ""
+		GETIEPROXY ( $SSYSSERVER , $SSYSPORT )
+		If $SSYSSERVER <> "" Then $SSYSPROXY = $SSYSSERVER & ":" & $SSYSPORT
+	EndIf
+	If $SSYSPROXY <> "" Then
+		$HHTTPOPEN = _WINHTTPOPEN ( $USERAGENT , $WINHTTP_ACCESS_TYPE_NAMED_PROXY , $SSYSPROXY , "localhost" )
+	ElseIf $PROXY = "SYSTEM" Then
 		$HHTTPOPEN = _WINHTTPOPEN ( $USERAGENT , $WINHTTP_ACCESS_TYPE_DEFAULT_PROXY )
 	ElseIf Not $SPROXY Then
 		$HHTTPOPEN = _WINHTTPOPEN ( $USERAGENT )
 	Else
 		$HHTTPOPEN = _WINHTTPOPEN ( $USERAGENT , $WINHTTP_ACCESS_TYPE_NAMED_PROXY , $SPROXY , "localhost" )
+	EndIf
+	If $PROXY = "SYSTEM" Then
+		_LOG ( "proxy: system -> " & $SSYSPROXY )
+	ElseIf $SPROXY <> "" Then
+		_LOG ( "proxy: manual -> " & $SPROXY )
 	EndIf
 	_WINHTTPSETTIMEOUTS ( $HHTTPOPEN , 0 , 3000 , 3000 , 3000 )
 	$LANGGETCHROMECHANCES = LANG ( "Update" , "GetChromeChances" , "从服务器获取 %s 更新信息... 第 %d 次尝试" )
@@ -4408,7 +4424,17 @@ Func DOWNLOAD_CHROME ( $URLS , $LOCALFILE , $DOWNLOADTHREADS = 3 , $INIFILE = "M
 		$PROXYPORT = $ARR [ 2 ]
 	EndIf
 	Local $HHTTPOPEN , $RET , $ERROR
-	If $PROXYSEVER = "" Or $PROXYPORT = "" Then
+	Local $SSYSDPROXY = ""
+	If $PROXY = "SYSTEM" Then
+		Local $SSYSDNS = "" , $SSYSDPT = ""
+		GETIEPROXY ( $SSYSDNS , $SSYSDPT )
+		If $SSYSDNS <> "" Then $SSYSDPROXY = $SSYSDNS & ":" & $SSYSDPT
+	EndIf
+	If $SSYSDPROXY <> "" Then
+		$HHTTPOPEN = _WINHTTPOPEN ( $USERAGENT , $WINHTTP_ACCESS_TYPE_NAMED_PROXY , $SSYSDPROXY , "localhost" )
+	ElseIf $PROXY = "SYSTEM" Then
+		$HHTTPOPEN = _WINHTTPOPEN ( $USERAGENT , $WINHTTP_ACCESS_TYPE_DEFAULT_PROXY )
+	ElseIf $PROXYSEVER = "" Or $PROXYPORT = "" Then
 		$HHTTPOPEN = _WINHTTPOPEN ( $USERAGENT )
 	Else
 		$HHTTPOPEN = _WINHTTPOPEN ( $USERAGENT , $WINHTTP_ACCESS_TYPE_NAMED_PROXY , $PROXYSEVER & ":" & $PROXYPORT , "localhost" )
