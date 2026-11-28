@@ -5,6 +5,7 @@ Every release, newest first. Full notes and downloads on the
 
 | Version | Highlights |
 |---|---|
+| [3.9.48](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.48) | `/update` installs into an empty folder. |
 | [3.9.47](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.47) | Brave ZIP installs fixed; CI runs a full install. |
 | [3.9.46](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.46) | ZIP Chrome installs are no longer rejected as incompatible. |
 | [3.9.45](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.45) | Recursive layout search · English-only interface · refreshed styling. |
@@ -52,6 +53,10 @@ Every release, newest first. Full notes and downloads on the
 | [3.9.2](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.2) | Disk-space guard, temp cleanup, apply pre-flight, portable launch flags, HTTPS-only mirrors. |
 | [3.9.1](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.1) | Firefox, Chromium and Brave download sources repaired. |
 | [3.9.0](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.0) | Rebuilt from recovered source; Chrome via Chrome for Testing. |
+
+## 3.9.48
+
+- In CLI mode a missing browser no longer counts as an incomplete configuration, so `/update` can perform a first install.
 
 ## 3.9.47
 
