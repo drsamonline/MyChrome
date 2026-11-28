@@ -1,8 +1,8 @@
 sha256_x64=822be6a008bc9043517fb4aca73412ddc3439edfb142860873f828f6255c4062
 sha256=16cdcd204ad531b2d60636dc4048fdc7407b8d391bdb43153e78a0deabd66fcb
-latest=3.9.57
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.57/MyBrowser_v3.9.57.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.57/MyBrowser_v3.9.57_x64.7z
-update=1. 介面改為白底與粗體標題；\n2. 下載速度記錄修正；\n3. 3.9.57
-update_zh-TW=1. 介面改為白底與粗體標題；\n2. 下載速度記錄修正；\n3. 3.9.57
-update_en-US=1. White background and semibold section captions;\n2. Download size measured after close;\n3. 3.9.57
+latest=3.9.58
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.58/MyBrowser_v3.9.58.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.58/MyBrowser_v3.9.58_x64.7z
+update=1. 未注入 GreenChrome 時不再傳遞該參數；\n2. 3.9.58
+update_zh-TW=1. 未注入 GreenChrome 時不再傳遞該參數；\n2. 3.9.58
+update_en-US=1. The GreenChrome switch is dropped when the DLL is absent;\n2. 3.9.58

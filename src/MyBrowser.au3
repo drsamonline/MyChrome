@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.57"
+Global Const $APPVERSION = "3.9.58"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 ; The interface is English only. The Language key is still written so an older ini
@@ -636,6 +636,12 @@ Else
 	Else
 		If FileExists ( $CHROMEDIR & "\TabPlus.exe" ) Then FileDelete ( $CHROMEDIR & "\TabPlus.exe" )
 		If FileExists ( $CHROMEDIR & "\TabPlus.ini" ) Then FileDelete ( $CHROMEDIR & "\TabPlus.ini" )
+	EndIf
+	; --with-greenchrome only means something when the DLL was injected. The default
+	; parameters carry the switch even for a browser that never had it, so drop it
+	; rather than claim a feature that is not there.
+	If StringInStr ( $PARAMS , "--with-greenchrome" ) And Not FileExists ( $CHROMEDIR & "\GreenChrome.dll" ) Then
+		$PARAMS = StringStripWS ( StringRegExpReplace ( $PARAMS , "(?i)--with-greenchrome\s*" , "" ) , 3 )
 	EndIf
 	$APPPID_BROWSER = Run ( """" & $CHROMEPATH & """ " & $PORTABLEPARAM & " " & $PARAMS , $CHROMEDIR )
 	FileChangeDir ( @ScriptDir )
