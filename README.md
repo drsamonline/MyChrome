@@ -48,9 +48,9 @@ Full policy, including what a signature does and does not prove:
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.54_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.54.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.54_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.55_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.55.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.55_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -60,7 +60,7 @@ warn on first run.
 Verify a download before running it — one command, both checks:
 
 ```powershell
-./build/verify-release.ps1 -Path .\MyBrowser_v3.9.54_x64.7z
+./build/verify-release.ps1 -Path .\MyBrowser_v3.9.55_x64.7z
 ```
 
 It compares the file's SHA256 with the published manifest and asks the GitHub CLI to
@@ -119,18 +119,16 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.49
+## What's new in 3.9.55
 
-- **Brave ZIP installs had the same bug as Chrome.** `$ISBRAVEZIP` was set by the first
-  detection pass and had no branch in the second, so a Brave install fell through to *"The
-  program is not compatible"* — and Brave's portable ZIP is its primary source.
+- **Downloads were capped at loop speed.** Each segment read only the bytes
+  `QueryDataAvailable` reported — typically 8 KB — so throughput was
+  *chunks per second × 8 KB*, not *bandwidth*. The same 170 MB took 8½ minutes on a normal
+  machine and over 20 minutes on a CI runner. Reads now ask for 64 KB, and the receive
+  buffer is raised from its 8 KB default to 64 KB.
 
-- **A check now proves both passes cover every flag.** It reads the source, finds the two
-  detection passes and fails if any browser flag set by the first has no branch in the
-  second. That is the bug class, caught statically instead of by a user.
-
-Earlier: **3.9.46** fixed the Chrome ZIP install. **3.9.45** made the folder search
-recursive.
+Earlier: **3.9.54** fixed the Chrome and Brave ZIP installs. **3.9.49** added the flag
+coverage check.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases) ·
 [CHANGELOG.md](CHANGELOG.md)
@@ -221,7 +219,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.54_source.7z`.
+`MyBrowser_v3.9.55_source.7z`.
 
 ## Lineage
 
