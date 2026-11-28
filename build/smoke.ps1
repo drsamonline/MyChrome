@@ -600,8 +600,12 @@ Check 'A real /update replaces an installed browser end to end' {
             $installed = Get-ChildItem (Join-Path $work 'App') -Recurse -Filter 'chrome.exe' -ErrorAction SilentlyContinue | Select-Object -First 1
             if (-not $installed) { throw "no chrome.exe under App after /update: $short" }
             $fileVer = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($installed.FullName).FileVersion
+            # A blank version is not a pass: it means nothing was installed and this check
+            # would otherwise succeed on an empty string.
+            if (-not $fileVer) { throw "the installed chrome.exe reports no version, so nothing was installed: $short" }
+            if ($fileVer -notmatch '^\d+\.\d+\.\d+\.\d+$') { throw "the installed chrome.exe reports '$fileVer', which is not a browser version: $short" }
             if ($fileVer -eq $ver) { throw "/update left the stand-in in place, nothing was installed: $short" }
-            "installed $fileVer at $($installed.FullName -replace [regex]::Escape($work), '')"
+            "Chrome $fileVer at $($installed.FullName -replace [regex]::Escape($work), '')"
         } finally { Remove-Item $work -Recurse -Force -ErrorAction SilentlyContinue }
     }
 

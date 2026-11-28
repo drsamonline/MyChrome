@@ -56,6 +56,10 @@ Every release, newest first. Full notes and downloads on the
 | [3.9.1](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.1) | Firefox, Chromium and Brave download sources repaired. |
 | [3.9.0](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.0) | Rebuilt from recovered source; Chrome via Chrome for Testing. |
 
+## 3.9.51
+
+- The end-to-end install check fails on a blank or non-numeric version; it could pass on an empty string.
+
 ## 3.9.50
 
 - A smoke check seeds an installed browser, runs `/update`, and fails unless a real Chrome replaces it.
