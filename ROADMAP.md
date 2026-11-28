@@ -187,6 +187,7 @@ How to read the columns:
 | 3.9.43 | 2026-11-28 | Extraction checked, with a Windows unzip fallback. |
 | 3.9.45 | 2026-11-28 | Recursive layout search; English-only UI. |
 | 3.9.46 | 2026-11-28 | ZIP Chrome installs accepted. |
+| 3.9.47 | 2026-11-28 | Brave ZIP installs; end-to-end install test. |
 
 
 ### End-to-end launch is tested

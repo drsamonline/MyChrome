@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.46"
+Global Const $APPVERSION = "3.9.47"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 ; The interface is English only. The Language key is still written so an older ini
@@ -5196,6 +5196,11 @@ Func INSTALLCHROME ( $CHROMEINSTALLER = "" )
 		$CHROMEPATH = ".\App\" & $CHROMEEXE
 		GUICtrlSetData ( $HCHROMEPATH , $CHROMEPATH )
 		GUICtrlSetData ( $HCHROMESOURCE , "|" & $GUANFANG & "|" & $LANGCHROMESOURCEINSTALLER , $CHROMESOURCE )
+	ElseIf $ISBRAVEZIP = 1 Then
+		; Brave ships a ZIP with brave.exe at the root. Same shape of bug as Chrome:
+		; pass 1 found it, pass 2 had no branch and fell through to "not compatible".
+		$LATEST = FileGetVersion ( $TEMPDIR & "\brave.exe" )
+		If $LATEST = "" Then $LATEST = $LATESTCHROMEVER
 	ElseIf $ISCHROME = 1 Or $ISCHROMIUM = 1 Then
 		; Chrome for Testing and Chromium snapshots. The first pass already found the
 		; folder and wrote the paths; this chain only knew the Omaha installer layout,

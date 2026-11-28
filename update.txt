@@ -1,8 +1,8 @@
 sha256_x64=94a15dacbb929cccc462890e64a20abfe4a24bd7f017452af13fc4ee20bea33b
 sha256=99e3219b854f131ba887f1fdbb1600096b2b183eb3977a5c7ce1e9d590fed59f
-latest=3.9.46
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.46/MyBrowser_v3.9.46.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.46/MyBrowser_v3.9.46_x64.7z
-update=1. 修正 ZIP 版 Chrome 安裝時誤判為不相容；\n2. 3.9.46
-update_zh-TW=1. 修正 ZIP 版 Chrome 安裝時誤判為不相容；\n2. 3.9.46
-update_en-US=1. A ZIP Chrome install no longer reports itself incompatible;\n2. 3.9.46
+latest=3.9.47
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.47/MyBrowser_v3.9.47.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.47/MyBrowser_v3.9.47_x64.7z
+update=1. 修正 Brave ZIP 安裝誤判；\n2. 新增完整安裝測試；\n3. 3.9.47
+update_zh-TW=1. 修正 Brave ZIP 安裝誤判；\n2. 新增完整安裝測試；\n3. 3.9.47
+update_en-US=1. Brave ZIP installs fixed;\n2. A full install is now tested in CI;\n3. 3.9.47

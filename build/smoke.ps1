@@ -535,6 +535,43 @@ if ($Deep -and $env:MYBROWSER_LAUNCH_TEST -eq '1') {
         }
     }
 
+Check 'A full /update installs Chrome end to end' {
+        # The check that was missing: every earlier test looked at the lookup or the
+        # archive, never at the install. Chrome for Testing installs were rejected as
+        # "not compatible" for months because pass two of the detection only knew the
+        # installer layout, and nothing ran the whole path.
+        $work = Join-Path $env:TEMP ('install-' + [guid]::NewGuid().ToString('N'))
+        New-Item -ItemType Directory -Force -Path $work | Out-Null
+        try {
+            Copy-Item (Join-Path $dist 'MyBrowser.exe') $work -Force
+            $au3 = Join-Path $root 'src\MyBrowser.au3'
+            $ver = ([regex]::Match((Get-Content $au3 -Raw), 'APPVERSION = "([\d.]+)"')).Groups[1].Value
+            $ini = Join-Path $work 'MyBrowser.ini'
+            $lines = @(
+                '[Settings]'
+                "AppVersion=$ver"
+                'Platform=win'
+                'BrowserType=Chrome'
+                'Channel=Stable'
+                'ChromeSource=Official'
+                'x86=0'
+                'ProxyType=DIRECT'
+                'UpdateInterval=-1'
+                'AppUpdate=0'
+            )
+            Set-Content $ini ($lines -join "`r`n") -Encoding ASCII
+            $p = Start-Process (Join-Path $work 'MyBrowser.exe') -ArgumentList '/update' -WorkingDirectory $work -PassThru
+            if (-not $p.WaitForExit(600000)) { Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue; throw '/update did not finish in ten minutes' }
+            $log = Join-Path $work 'MyBrowser.log'
+            $text = if (Test-Path $log) { Get-Content $log -Raw } else { '' }
+            if ($p.ExitCode -ne 0) { throw "/update exited $($p.ExitCode): $($text -replace "`r?`n", ' | ')" }
+            $installed = Get-ChildItem (Join-Path $work 'App') -Recurse -Filter 'chrome.exe' -ErrorAction SilentlyContinue | Select-Object -First 1
+            if (-not $installed) { throw "no chrome.exe under App after /update: $($text -replace "`r?`n", ' | ')" }
+            if ($text -match 'not compatible') { throw 'the install reported "not compatible" even though it exited 0' }
+            "$($installed.FullName -replace [regex]::Escape($work), '') ($([System.Diagnostics.FileVersionInfo]::GetVersionInfo($installed.FullName).FileVersion))"
+        } finally { Remove-Item $work -Recurse -Force -ErrorAction SilentlyContinue }
+    }
+
 Check 'Launcher starts a real browser from App\' {
         # The end-to-end path: a configured ini, a real browser on disk, and the launcher
         # expected to start it. Nothing here is mocked.
