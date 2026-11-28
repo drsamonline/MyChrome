@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.6.0.schema.json
 PackageIdentifier: drsamonline.MyBrowser
-PackageVersion: 3.9.54
+PackageVersion: 3.9.55
 InstallerLocale: en-US
 Platform:
   - Windows.Desktop
@@ -16,10 +16,10 @@ InstallModes:
 UpgradeBehavior: install
 Installers:
   - Architecture: x64
-    InstallerUrl: https://github.com/drsamonline/MyChrome/releases/download/v3.9.54/MyBrowser_v3.9.54_x64.zip
-    InstallerSha256: afed022c268daf556be52d887f162ff5517254e937de0049b245466df0c62395
+    InstallerUrl: https://github.com/drsamonline/MyChrome/releases/download/v3.9.55/MyBrowser_v3.9.55_x64.zip
+    InstallerSha256: e5db3e79208373f2f86eed2f8277ed0c4a374a6bce865876b4368745129bd5d6
   - Architecture: x86
-    InstallerUrl: https://github.com/drsamonline/MyChrome/releases/download/v3.9.54/MyBrowser_v3.9.54.zip
-    InstallerSha256: c020a9cae13141ceb9ab0a9f0d12651902b6cb73957bf0ba751c8c71136c4dd0
+    InstallerUrl: https://github.com/drsamonline/MyChrome/releases/download/v3.9.55/MyBrowser_v3.9.55.zip
+    InstallerSha256: 6f0aa33a2772f5eb5d50c9f721a467d4f3ec149abb3e73f900d41edea2026a34
 ManifestType: installer
 ManifestVersion: 1.6.0
