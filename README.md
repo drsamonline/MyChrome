@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.37_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.37.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.37_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.38_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.38.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.38_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -44,7 +44,7 @@ warn on first run.
 Verify a download before running it — one command, both checks:
 
 ```powershell
-./build/verify-release.ps1 -Path .\MyBrowser_v3.9.37_x64.7z
+./build/verify-release.ps1 -Path .\MyBrowser_v3.9.38_x64.7z
 ```
 
 It compares the file's SHA256 with the published manifest and asks the GitHub CLI to
@@ -74,6 +74,7 @@ from the vendor's own feed and installs the build itself.
 | **Vivaldi** | Chromium | ✅ Wired — verified (3.9.5) | Sparkle appcast, x64 and x86 |
 | **Edge** | Chromium | ✅ Lookup + unpack verified | Microsoft CDP API over WinHTTP |
 | **Cent Browser** | Chromium | ✅ Lookup + unpack verified | Vendor page → static.centbrowser.com |
+| **Supermium** | Chromium | ✅ Lookup verified — Windows 7 / 8.1 | GitHub release ZIP (`_nonsetup`) |
 | **ungoogled-chromium** | Chromium | 🔜 Not wired — archive inspected | GitHub release ZIP, `chrome.exe` in one folder |
 | **Supermium** | Chromium (Win 7+) | 🔜 Not wired — archive inspected | GitHub release ZIP, flat `chrome.exe` |
 | **Thorium** | Chromium | 🔜 Not wired | GitHub releases, Windows ZIP |
@@ -101,22 +102,19 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.37
+## What's new in 3.9.38
 
-- **The Chrome lookup falls back to WinINet.** On some machines the inlined WinHTTP reader
-  returns an empty body — a chunked response it cannot read — and the app reported *"Remote
-  server no response"* with no Win32 error, because nothing had failed at the network layer.
-  The same fallback that fixed the Firefox lookup is now applied to the Chrome for Testing
-  feed: if WinHTTP returns nothing, the JSON is fetched with `InetRead`.
+- **Supermium, for Windows 7 and 8.1.** It publishes a portable ZIP per release
+  (`supermium_<build>_64_nonsetup.zip`), so it fits the launcher's model exactly: resolve
+  the tag from the GitHub API, download the ZIP, unpack it beside the exe. Chrome for
+  Testing has no Windows 7 build at all, so this is the only current option for those
+  machines.
 
-  The log says which path worked:
+- **A flat ZIP now installs.** Some forks unpack the browser at the archive root instead of
+  a subfolder; that layout is detected and used.
 
-  ```
-  cft: winhttp returned nothing (win32 0), retrying with InetRead
-  cft: InetRead returned 41207 bytes
-  ```
-
-Earlier: **3.9.36** made failures explain themselves. **3.9.35** added `/rollback`.
+Earlier: **3.9.37** gave the Chrome lookup a second path. **3.9.36** made failures explain
+themselves.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases) ·
 [CHANGELOG.md](CHANGELOG.md)
@@ -206,7 +204,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.37_source.7z`.
+`MyBrowser_v3.9.38_source.7z`.
 
 ## Lineage
 

@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.37"
+Global Const $APPVERSION = "3.9.38"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -1604,7 +1604,7 @@ Case Else
 	GUICtrlSetData ( - 1 , "win|mac|linux|android" , $PLATFORM )
 	GUICtrlSetOnEvent ( - 1 , "GUI_CheckPlatform" )
 	$HBROWSERTYPE = GUICtrlCreateCombo ( "" , 145 , 170 , 75 , 20 , $CBS_DROPDOWNLIST )
-	GUICtrlSetData ( - 1 , "Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent" , $BROWSERTYPE )
+	GUICtrlSetData ( - 1 , "Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent|Supermium" , $BROWSERTYPE )
 	GUICtrlSetOnEvent ( - 1 , "GUI_CheckBrowserType" )
 	$HCHANNEL = GUICtrlCreateCombo ( "" , 225 , 170 , 70 , 20 , $CBS_DROPDOWNLIST )
 	GUICtrlSetData ( - 1 , "Stable|Beta|Dev|Canary" , $CHANNEL )
@@ -2784,7 +2784,7 @@ Func GUI_CHECKPLATFORM ( )
 		If $BROWSERTYPE <> "Firefox" Then
 			GUICtrlSetData ( $HCHROMESOURCE , "|" & $GUANFANG & "|" & $LANGCHROMESOURCESYS & "|" & $LANGCHROMESOURCEINSTALLER , $CHROMESOURCE )
 		EndIf
-		GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent" , $BROWSERTYPE )
+		GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent|Supermium" , $BROWSERTYPE )
 		If $BROWSERTYPE = "Firefox" Then
 			If $CHANNEL = "" Then
 				GUICtrlSetState ( $HCHANNEL , $GUI_ENABLE )
@@ -3736,14 +3736,15 @@ EndFunc
 Func _SELFTEST ( )
 	; Probes each wired source in a child process, exactly as the updater does, and kills
 	; it after 20 s. An in-process probe can block forever; a child cannot.
-	Local $ABROWSER [ 7 ] [ 3 ] = [ _
+	Local $ABROWSER [ 8 ] [ 3 ] = [ _
 		[ "Chrome" , "Stable" , 1 ] , _
 		[ "Chromium" , "" , 1 ] , _
 		[ "Brave" , "Release" , 1 ] , _
 		[ "Firefox" , "Release" , 1 ] , _
 		[ "Vivaldi" , "" , 1 ] , _
 		[ "Edge" , "Stable" , 0 ] , _
-		[ "Cent" , "" , 0 ] ]
+		[ "Cent" , "" , 0 ] , _
+		[ "Supermium" , "" , 0 ] ]
 	Local $I , $SINFO , $AINFO , $SLINES = "" , $IFAIL = 0 , $IPID , $ITICKS
 	; I3: Settings\SelfTestProxy lets CI point every probe at a dead endpoint.
 	Local $STESTPROXY = IniRead ( $INIFILE , "Settings" , "SelfTestProxy" , "" )
@@ -3988,6 +3989,37 @@ Func _VIVALDI_LATEST ( $HHTTPOPEN , $NEED_X86 )
 		Local $AFROMFILE = StringRegExp ( $AURL [ 0 ] , 'Vivaldi\.([\d.]+)\.exe' , 1 )
 		If Not @error Then $SVER = $AFROMFILE [ 0 ]
 	EndIf
+	Return $SVER & "|" & $AURL [ 0 ]
+EndFunc
+Func _SUPERMIUM_LATEST ( $HHTTPOPEN , $NEED_X86 )
+	; Supermium publishes a portable ZIP per release: supermium_<build>_64_nonsetup.zip.
+	; It is the current option for Windows 7 and 8.1.
+	Local $SHOST = "api.github.com"
+	Local $SPATH = "/repos/win32ss/supermium/releases/latest"
+	Local $HCONNECT = _WINHTTPCONNECT ( $HHTTPOPEN , $SHOST )
+	If @error Then
+		_LOOKUPFAIL ( "supermium connect" )
+		Return ""
+	EndIf
+	Local $SBODY = _WINHTTPSIMPLESSLREQUEST ( $HCONNECT , "GET" , $SPATH , Default , Default , "User-Agent: MyBrowser" )
+	Local $IERR = @error
+	Local $IWINERR = _WINAPI_GETLASTERROR ( )
+	_WINHTTPCLOSEHANDLE ( $HCONNECT )
+	If $IERR Or $SBODY = "" Then
+		_LOOKUPFAIL ( "supermium release api" , $IWINERR )
+		Return ""
+	EndIf
+	Local $STAG = ""
+	Local $ATAG = StringRegExp ( $SBODY , '"tag_name"\s*:\s*"([^"]+)"' , 1 )
+	If Not @error Then $STAG = $ATAG [ 0 ]
+	Local $SSUFFIX = "_64"
+	If $NEED_X86 Then $SSUFFIX = "_32"
+	Local $AURL = StringRegExp ( $SBODY , '"browser_download_url"\s*:\s*"([^"]*supermium_\d+' & $SSUFFIX & '_nonsetup\.zip)"' , 1 )
+	If @error Then
+		_LOG ( "supermium: no " & $SSUFFIX & " nonsetup zip in " & $STAG )
+		Return ""
+	EndIf
+	Local $SVER = StringRegExpReplace ( $STAG , "^[vV]" , "" )
 	Return $SVER & "|" & $AURL [ 0 ]
 EndFunc
 Func _CFT_GETLATEST ( $HHTTPOPEN , $CHANNEL , $NEED_X86 )
@@ -4399,6 +4431,24 @@ Func GET_LATEST_CHROME_VER ( $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 = 0 , $I
 		Else
 			If $SLOOKUPERR <> "" Then $ERROR = $ERROR & " (" & $SLOOKUPERR & ")"
 			_SETVAR ( "DLInfo" , "||1||1|" & $ERROR )
+		EndIf
+	EndIf
+	If $BROWSERTYPE = "Supermium" Then
+		If $PLATFORM = "win" Then
+			; A portable ZIP per release; nothing to unpack twice.
+			Local $SM = _SUPERMIUM_LATEST ( $HHTTPOPEN , $NEED_X86 )
+			If $SM <> "" Then
+				Local $ASM = StringSplit ( $SM , "|" , 2 )
+				If UBound ( $ASM ) = 2 Then
+					_WINHTTPCLOSEHANDLE ( $HHTTPOPEN )
+					_SETVAR ( "DLInfo" , $ASM [ 0 ] & "|" & $ASM [ 1 ] & "|1|1||" & StringFormat ( $LANGUPDATEGOT , "Supermium" ) )
+					Return
+				EndIf
+			EndIf
+			_WINHTTPCLOSEHANDLE ( $HHTTPOPEN )
+			If $SLOOKUPERR <> "" Then $ERROR = $ERROR & " (" & $SLOOKUPERR & ")"
+			_SETVAR ( "DLInfo" , "||1||1|" & $ERROR )
+			Return
 		EndIf
 	EndIf
 	If $BROWSERTYPE = "Brave" Then
@@ -4907,6 +4957,13 @@ Func INSTALLCHROME ( $CHROMEINSTALLER = "" )
 		$CHROMEEXE = "chrome.exe"
 		$CHROMEPATH = RELATIVEPATH ( $CHROMEDIR & "\" & $CHROMEEXE )
 		GUICtrlSetData ( $HCHROMEPATH , $CHROMEPATH )
+	ElseIf FileExists ( $TEMPDIR & "\chrome.exe" ) Then
+		; A flat ZIP - Supermium and some forks unpack the browser at the root.
+		$LATEST = FileGetVersion ( $TEMPDIR & "\chrome.exe" )
+		$CHROMEEXE = "chrome.exe"
+		IniWrite ( $INIFILE , "Settings" , "ChromePath" , ".\App\chrome.exe" )
+		$CHROMEPATH = RELATIVEPATH ( $CHROMEDIR & "\" & $CHROMEEXE )
+		GUICtrlSetData ( $HCHROMEPATH , $CHROMEPATH )
 	ElseIf _ZIPBROWSERDIR ( $TEMPDIR , "chrome.exe" ) <> "" Then
 		; Chrome for Testing (chrome-win64 / chrome-win32) and Chromium snapshots
 		; (chrome-win) both ship a plain ZIP with the browser in one subfolder.
@@ -4927,7 +4984,7 @@ Func INSTALLCHROME ( $CHROMEINSTALLER = "" )
 	ElseIf FileExists ( $TEMPDIR & "\brave.exe" ) Then
 		$ISBRAVEZIP = 1
 		$LATEST = FileGetVersion ( $TEMPDIR & "\brave.exe" )
-		GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent" , "Brave" )
+		GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent|Supermium" , "Brave" )
 		IniWrite ( $INIFILE , "Settings" , "BrowserType" , "Brave" )
 		If $CHANNEL = "Release" Or $CHANNEL = "Beta" Or $CHANNEL = "Dev" Or $CHANNEL = "Nightly" Then
 			GUICtrlSetData ( $HCHANNEL , "|Release|Beta|Dev|Nightly" , $CHANNEL )
@@ -4996,7 +5053,7 @@ Func INSTALLCHROME ( $CHROMEINSTALLER = "" )
 			DirRemove ( $TEMPDIR , 1 )
 			Return SetError ( 1 , 0 , 0 )
 		EndIf
-		GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent" , "Edge" )
+		GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent|Supermium" , "Edge" )
 		IniWrite ( $INIFILE , "Settings" , "BrowserType" , "Edge" )
 		If $CHANNEL = "Stable" Or $CHANNEL = "Beta" Or $CHANNEL = "Dev" Or $CHANNEL = "Canary" Then
 			GUICtrlSetData ( $HCHANNEL , "|Stable|Beta|Dev|Canary" , $CHANNEL )
@@ -5015,7 +5072,7 @@ Func INSTALLCHROME ( $CHROMEINSTALLER = "" )
 		GUICtrlSetData ( $HCHROMESOURCE , "|" & $GUANFANG & "|" & $LANGCHROMESOURCEINSTALLER , $CHROMESOURCE )
 	ElseIf $ISFIREFOX = 1 Then
 		$LATEST = FileGetVersion ( $TEMPDIR & "\core\firefox.exe" )
-		GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent" , "Firefox" )
+		GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent|Supermium" , "Firefox" )
 		IniWrite ( $INIFILE , "Settings" , "BrowserType" , "Firefox" )
 		If $CHANNEL = "Release" Or $CHANNEL = "Esr" Or $CHANNEL = "Beta" Or $CHANNEL = "Dev" Or $CHANNEL = "Nightly" Then
 			GUICtrlSetData ( $HCHANNEL , "|Release|Esr|Beta|Dev|Nightly" , $CHANNEL )
@@ -5036,7 +5093,7 @@ Func INSTALLCHROME ( $CHROMEINSTALLER = "" )
 		GUICtrlSetData ( $HCHROMESOURCE , "|" & $GUANFANG & "|" & $LANGCHROMESOURCEINSTALLER , $CHROMESOURCE )
 	ElseIf $ISCENT = 1 Then
 		$LATEST = FileGetVersion ( $TEMPDIR & "\Chrome-bin\chrome.exe" )
-		GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent" , "Cent" )
+		GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent|Supermium" , "Cent" )
 		IniWrite ( $INIFILE , "Settings" , "BrowserType" , "Cent" )
 		GUICtrlSetData ( $HCHANNEL , "" )
 		IniWrite ( $INIFILE , "Settings" , "Channel" , "" )
@@ -5053,7 +5110,7 @@ Func INSTALLCHROME ( $CHROMEINSTALLER = "" )
 		GUICtrlSetData ( $HCHROMESOURCE , "|" & $GUANFANG & "|" & $LANGCHROMESOURCEINSTALLER , $CHROMESOURCE )
 	ElseIf $ISCENTPRO = 1 Then
 		$LATEST = FileGetVersion ( $TEMPDIR & "\chrome.exe" )
-		GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent" , "Cent" )
+		GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent|Supermium" , "Cent" )
 		IniWrite ( $INIFILE , "Settings" , "BrowserType" , "Cent" )
 		GUICtrlSetData ( $HCHANNEL , "" )
 		IniWrite ( $INIFILE , "Settings" , "Channel" , "" )
@@ -5070,7 +5127,7 @@ Func INSTALLCHROME ( $CHROMEINSTALLER = "" )
 		GUICtrlSetData ( $HCHROMESOURCE , "|" & $GUANFANG & "|" & $LANGCHROMESOURCEINSTALLER , $CHROMESOURCE )
 	ElseIf $ISVIVALDI = 1 Then
 		$LATEST = FileGetVersion ( $TEMPDIR & "\Vivaldi-bin\vivaldi.exe" )
-		GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent" , "Vivaldi" )
+		GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent|Supermium" , "Vivaldi" )
 		IniWrite ( $INIFILE , "Settings" , "BrowserType" , "Vivaldi" )
 		GUICtrlSetData ( $HCHANNEL , "" )
 		IniWrite ( $INIFILE , "Settings" , "Channel" , "" )
@@ -5090,7 +5147,7 @@ Func INSTALLCHROME ( $CHROMEINSTALLER = "" )
 			Local $DESCRIPTION = FileGetVersion ( $TEMPDIR & "\Chrome-bin\chrome.exe" , "FileDescription" )
 			If StringInStr ( $COMPANY , "Google" , 2 ) Or StringInStr ( $DESCRIPTION , "Google" , 2 ) Then
 				$ISCHROME = 1
-				GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent" , "Chrome" )
+				GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent|Supermium" , "Chrome" )
 				IniWrite ( $INIFILE , "Settings" , "BrowserType" , "Chrome" )
 				GUICtrlSetState ( $HCHANNEL , $GUI_ENABLE )
 				If $CHANNEL = "Stable" Or $CHANNEL = "Beta" Or $CHANNEL = "Dev" Or $CHANNEL = "Canary" Then
@@ -5101,7 +5158,7 @@ Func INSTALLCHROME ( $CHROMEINSTALLER = "" )
 				EndIf
 			ElseIf StringInStr ( $COMPANY , "Chromium" , 2 ) Or StringInStr ( $DESCRIPTION , "Chromium" , 2 ) Then
 				$ISCHROMIUM = 1
-				GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent" , "Chromium" )
+				GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent|Supermium" , "Chromium" )
 				IniWrite ( $INIFILE , "Settings" , "BrowserType" , "Chromium" )
 				GUICtrlSetData ( $HCHANNEL , "" )
 				IniWrite ( $INIFILE , "Settings" , "Channel" , "" )
@@ -5118,7 +5175,7 @@ Func INSTALLCHROME ( $CHROMEINSTALLER = "" )
 		ElseIf FileExists ( $TEMPDIR & "\Chrome-bin\brave.exe" ) Then
 			$LATEST = FileGetVersion ( $TEMPDIR & "\Chrome-bin\brave.exe" )
 			$ISBRAVE = 1
-			GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent" , "Brave" )
+			GUICtrlSetData ( $HBROWSERTYPE , "|Chrome|Chromium|Edge|Brave|Firefox|Vivaldi|Cent|Supermium" , "Brave" )
 			IniWrite ( $INIFILE , "Settings" , "BrowserType" , "Brave" )
 			If $CHANNEL = "Release" Or $CHANNEL = "Beta" Or $CHANNEL = "Dev" Or $CHANNEL = "Nightly" Then
 				GUICtrlSetData ( $HCHANNEL , "|Release|Beta|Dev|Nightly" , $CHANNEL )

@@ -15,7 +15,7 @@ How to read the columns:
 
 ## Status board
 
-**Progress: 65 of 75 done (87%), 2 partial, 8 open.** Updated for 3.9.35.
+**Progress: 66 of 75 done (88%), 2 partial, 7 open.** Updated for 3.9.38.
 
 | | Category | Done | Partial | Open | Total |
 |---|---|---|---|---|---|
@@ -85,7 +85,7 @@ How to read the columns:
 | G2 | Real source for Vivaldi | P1 | ✅ done | 3.9.5 |
 | G3 | Real source for Cent | P2 | ✅ done | 3.9.20 |
 | G4 | Chrome Extended Stable | P2 | ⬜ open | — |
-| G5 | Chrome 109 for Windows 7/8 | P3 | ⬜ open | — |
+| G5 | Chrome 109 for Windows 7 — solved with Supermium | P2 | ✅ done | 3.9.38 |
 | G6 | Warn if win32 Chrome retired | P2 | ✅ done | 3.9.16 |
 | G7 | Firefox channel naming check | P3 | ✅ done | verified |
 | H1 | Restore include-based structure | P1 | ✅ done | 3.9.11 |
@@ -179,6 +179,7 @@ How to read the columns:
 | 3.9.35 | 2026-11-28 | Previous build kept; `/rollback` restores it. |
 | 3.9.36 | 2026-11-28 | Failed lookups report the Win32 code. |
 | 3.9.37 | 2026-11-28 | Chrome lookup falls back to InetRead. |
+| 3.9.38 | 2026-11-28 | Supermium added for Windows 7 / 8.1. |
 
 
 ### End-to-end launch is tested

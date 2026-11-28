@@ -1,8 +1,8 @@
 sha256_x64=c4277b8fe59b316634bb9805034c653bf5b666f22c2472eea7066f6b636e7697
 sha256=1a8b694a9182d983100bec48580920f34e48bdb63ec25bf3fdfc073fc5cc5dd1
-latest=3.9.37
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.37/MyBrowser_v3.9.37.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.37/MyBrowser_v3.9.37_x64.7z
-update=1. Chrome 版本查詢在 WinHTTP 空回應時改用 InetRead；\n2. 3.9.37
-update_zh-TW=1. Chrome 版本查詢在 WinHTTP 空回應時改用 InetRead；\n2. 3.9.37
-update_en-US=1. The Chrome lookup falls back to InetRead on an empty WinHTTP body;\n2. 3.9.37
+latest=3.9.38
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.38/MyBrowser_v3.9.38.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.38/MyBrowser_v3.9.38_x64.7z
+update=1. 新增 Supermium（支援 Windows 7 / 8.1）；\n2. 3.9.38
+update_zh-TW=1. 新增 Supermium（支援 Windows 7 / 8.1）；\n2. 3.9.38
+update_en-US=1. Supermium added, for Windows 7 and 8.1;\n2. 3.9.38

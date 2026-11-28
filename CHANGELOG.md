@@ -5,6 +5,7 @@ Every release, newest first. Full notes and downloads on the
 
 | Version | Highlights |
 |---|---|
+| [3.9.38](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.38) | Supermium added — the Windows 7 / 8.1 path. |
 | [3.9.37](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.37) | Chrome lookup falls back to InetRead on an empty body. |
 | [3.9.36](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.36) | A failed lookup reports the Win32 code and stage. |
 | [3.9.35](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.35) | Previous build kept; `/rollback` restores it. |
@@ -43,6 +44,11 @@ Every release, newest first. Full notes and downloads on the
 | [3.9.2](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.2) | Disk-space guard, temp cleanup, apply pre-flight, portable launch flags, HTTPS-only mirrors. |
 | [3.9.1](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.1) | Firefox, Chromium and Brave download sources repaired. |
 | [3.9.0](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.0) | Rebuilt from recovered source; Chrome via Chrome for Testing. |
+
+## 3.9.38
+
+- Supermium resolves from the GitHub API and installs from `supermium_<build>_64_nonsetup.zip`.
+- A ZIP that unpacks the browser at its root is now detected.
 
 ## 3.9.37
 
