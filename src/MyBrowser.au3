@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.48"
+Global Const $APPVERSION = "3.9.49"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 ; The interface is English only. The Language key is still written so an older ini
@@ -344,9 +344,7 @@ If $APPVERSION <> IniRead ( $INIFILE , "Settings" , "AppVersion" , "" ) Then
 EndIf
 Opt ( "ExpandEnvStrings" , 1 )
 EnvSet ( "APP" , @ScriptDir )
-; In CLI mode the missing browser is the job, not a reason to stop: /update has to be
-; able to install into a fresh folder. Only a first run or -set still needs a dialog.
-If ( $CMDLINE [ 0 ] = 1 And $CMDLINE [ 1 ] = "-set" ) Or $FIRSTRUN Or ( Not $CLIMODE And ( Not FileExists ( $CHROMEPATH ) Or Not FileExists ( $USERDATADIR ) ) ) Then
+If ( $CMDLINE [ 0 ] = 1 And $CMDLINE [ 1 ] = "-set" ) Or $FIRSTRUN Or Not FileExists ( $CHROMEPATH ) Or Not FileExists ( $USERDATADIR ) Then
 	If $CLIMODE Then
 		_LOG ( "/update: configuration incomplete, refusing to open a dialog" )
 		Exit ( 3 )

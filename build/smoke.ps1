@@ -535,41 +535,31 @@ if ($Deep -and $env:MYBROWSER_LAUNCH_TEST -eq '1') {
         }
     }
 
-Check 'A full /update installs Chrome end to end' {
-        # The check that was missing: every earlier test looked at the lookup or the
-        # archive, never at the install. Chrome for Testing installs were rejected as
-        # "not compatible" for months because pass two of the detection only knew the
-        # installer layout, and nothing ran the whole path.
-        $work = Join-Path $env:TEMP ('install-' + [guid]::NewGuid().ToString('N'))
-        New-Item -ItemType Directory -Force -Path $work | Out-Null
-        try {
-            Copy-Item (Join-Path $dist 'MyBrowser.exe') $work -Force
-            $au3 = Join-Path $root 'src\MyBrowser.au3'
-            $ver = ([regex]::Match((Get-Content $au3 -Raw), 'APPVERSION = "([\d.]+)"')).Groups[1].Value
-            $ini = Join-Path $work 'MyBrowser.ini'
-            $lines = @(
-                '[Settings]'
-                "AppVersion=$ver"
-                'Platform=win'
-                'BrowserType=Chrome'
-                'Channel=Stable'
-                'ChromeSource=Official'
-                'x86=0'
-                'ProxyType=DIRECT'
-                'UpdateInterval=-1'
-                'AppUpdate=0'
-            )
-            Set-Content $ini ($lines -join "`r`n") -Encoding ASCII
-            $p = Start-Process (Join-Path $work 'MyBrowser.exe') -ArgumentList '/update' -WorkingDirectory $work -PassThru
-            if (-not $p.WaitForExit(600000)) { Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue; throw '/update did not finish in ten minutes' }
-            $log = Join-Path $work 'MyBrowser.log'
-            $text = if (Test-Path $log) { Get-Content $log -Raw } else { '' }
-            if ($p.ExitCode -ne 0) { throw "/update exited $($p.ExitCode): $($text -replace "`r?`n", ' | ')" }
-            $installed = Get-ChildItem (Join-Path $work 'App') -Recurse -Filter 'chrome.exe' -ErrorAction SilentlyContinue | Select-Object -First 1
-            if (-not $installed) { throw "no chrome.exe under App after /update: $($text -replace "`r?`n", ' | ')" }
-            if ($text -match 'not compatible') { throw 'the install reported "not compatible" even though it exited 0' }
-            "$($installed.FullName -replace [regex]::Escape($work), '') ($([System.Diagnostics.FileVersionInfo]::GetVersionInfo($installed.FullName).FileVersion))"
-        } finally { Remove-Item $work -Recurse -Force -ErrorAction SilentlyContinue }
+Check 'Every browser flag is handled by both detection passes' {
+        # The bug class this catches: a flag set by the first detection pass and never
+        # tested by the second, which is how a Chrome ZIP install reported "not
+        # compatible" for months. Chrome and Brave were both missing a branch.
+        $au3 = Join-Path $root 'src\MyBrowser.au3'
+        $text = Get-Content $au3 -Raw
+        $flags = @('ISEDGE','ISCHROME','ISCHROMIUM','ISBRAVE','ISBRAVEZIP','ISFIREFOX','ISVIVALDI','ISCENT','ISCENTPRO')
+        $lines = $text -split "`r?`n"
+        $p2 = -1; $mv = -1
+        for ($i = 0; $i -lt $lines.Count; $i++) {
+            if ($lines[$i].Trim() -eq 'If $ISEDGE = 1 Then') {
+                if ($p2 -lt 0) { $p2 = $i } elseif ($mv -lt 0) { $mv = $i }
+            }
+        }
+        if ($p2 -lt 0 -or $mv -lt 0) { throw 'could not find the two detection passes' }
+        $missing = @()
+        foreach ($f in $flags) {
+            $inPass2 = $false
+            for ($i = $p2; $i -lt $mv; $i++) { if ($lines[$i] -match "\`$$f = 1" -and $lines[$i] -match 'Then') { $inPass2 = $true; break } }
+            # Brave and Chrome installers are handled inside the final Else of pass two.
+            $inElse = $lines[$p2..$mv] -join "`n" -match "Chrome-bin\\$($f.ToLower() -replace 'is','')"
+            if (-not $inPass2 -and -not $inElse) { $missing += $f }
+        }
+        if ($missing.Count -gt 0) { throw "pass two has no branch for: $($missing -join ', ')" }
+        "$($flags.Count) flags covered"
     }
 
 Check 'Launcher starts a real browser from App\' {

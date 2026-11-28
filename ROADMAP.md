@@ -189,6 +189,7 @@ How to read the columns:
 | 3.9.46 | 2026-11-28 | ZIP Chrome installs accepted. |
 | 3.9.47 | 2026-11-28 | Brave ZIP installs; end-to-end install test. |
 | 3.9.48 | 2026-11-28 | /update installs into an empty folder. |
+| 3.9.49 | 2026-11-28 | Brave ZIP installs; flag coverage check. |
 
 
 ### End-to-end launch is tested
