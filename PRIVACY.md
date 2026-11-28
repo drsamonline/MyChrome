@@ -33,14 +33,17 @@ file names and no browsing data. Requests are ordinary HTTP(S) GET or POST.
 | `storage.googleapis.com` | Chrome / Chromium download | nothing beyond the request |
 | `tools.google.com` | Chrome fallback check | a fixed update-check XML: OS platform and version, CPU architecture, language. The session and request IDs in it are **hardcoded constants**, identical for every user |
 | `dl.google.com`, `edgedl.me.gvt1.com` | Chrome fallback download | nothing beyond the request |
-| `api.github.com` | Brave update check | nothing beyond the request |
+| `api.github.com` | Brave, Supermium and Cromite update checks | nothing beyond the request |
+| `objects.githubusercontent.com` | Brave, Supermium and Cromite downloads | nothing beyond the request |
+| `update.vivaldi.com` | Vivaldi update check | nothing beyond the request |
+| `static.centbrowser.com`, `www.centbrowser.com` | Cent version page and download | nothing beyond the request |
 | `updates.bravesoftware.com` | Brave fallback check | a fixed update-check XML, same shape as the Google one |
 | `msedge.api.cdp.microsoft.com` | Edge update check | a fixed JSON body: OS platform, version, architecture |
 | `product-details.mozilla.org` | Firefox version check | nothing beyond the request |
 | `download.mozilla.org` | Firefox download | nothing beyond the request |
 | `raw.githubusercontent.com` | app self-update check | nothing beyond the request |
 | `github.com` | app self-update download | nothing beyond the request |
-| `xixiranran.github.io` | only when you click a "download page" link for Vivaldi or Cent | nothing — the launcher opens the page in your default browser, it does not fetch it |
+| `vivaldi.com`, `www.centbrowser.com` | only when you click a "download page" link | nothing — the launcher opens the page in your default browser, it does not fetch it |
 
 Any server sees your IP address and the time of the request, as with any download.
 That is inherent to fetching a file, not something this program adds.

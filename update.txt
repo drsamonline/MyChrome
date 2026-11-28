@@ -1,8 +1,8 @@
 sha256_x64=255a8e389e78520a5607ceb05302599e8c067698de8b9cbc415dcdb8325045c0
 sha256=f3042eb7cb6abc9867881e6696c2dc3a54118752a3781b55bd9e1569f7e01e17
-latest=3.9.58
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.58/MyBrowser_v3.9.58.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.58/MyBrowser_v3.9.58_x64.7z
-update=1. 未注入 GreenChrome 時不再傳遞該參數；\n2. 3.9.58
-update_zh-TW=1. 未注入 GreenChrome 時不再傳遞該參數；\n2. 3.9.58
-update_en-US=1. The GreenChrome switch is dropped when the DLL is absent;\n2. 3.9.58
+latest=3.9.59
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.59/MyBrowser_v3.9.59.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.59/MyBrowser_v3.9.59_x64.7z
+update=1. 隱私權政策補齊所有連線伺服器；\n2. 3.9.59
+update_zh-TW=1. 隱私權政策補齊所有連線伺服器；\n2. 3.9.59
+update_en-US=1. The privacy policy lists every server the app contacts;\n2. 3.9.59

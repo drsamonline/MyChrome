@@ -199,6 +199,7 @@ How to read the columns:
 | 3.9.56 | 2026-11-28 | Download throughput is logged. |
 | 3.9.57 | 2026-11-28 | White dialog, semibold captions. |
 | 3.9.58 | 2026-11-28 | GreenChrome switch dropped when absent. |
+| 3.9.59 | 2026-11-28 | Privacy policy lists every endpoint. |
 
 
 ### End-to-end launch is tested
