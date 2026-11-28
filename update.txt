@@ -1,8 +1,8 @@
 sha256_x64=1d851a8de310e892bd6fe66a8e382c5ac9851fd1679e55ff7100d897dd712749
 sha256=576427435321adcacffed68bfc240fb6f03f18c1143d204dbf13c0e52051a515
-latest=3.9.42
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.42/MyBrowser_v3.9.42.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.42/MyBrowser_v3.9.42_x64.7z
-update=1. 壓縮檔內附 tools\desktop-check.ps1；\n2. 3.9.42
-update_zh-TW=1. 壓縮檔內附 tools\desktop-check.ps1；\n2. 3.9.42
-update_en-US=1. The release now ships tools\desktop-check.ps1;\n2. 3.9.42
+latest=3.9.43
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.43/MyBrowser_v3.9.43.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.43/MyBrowser_v3.9.43_x64.7z
+update=1. 解壓失敗時改用 Windows 內建解壓並記錄錯誤碼；\n2. 3.9.43
+update_zh-TW=1. 解壓失敗時改用 Windows 內建解壓並記錄錯誤碼；\n2. 3.9.43
+update_en-US=1. Extraction logs its exit code and falls back to the Windows unzip;\n2. 3.9.43

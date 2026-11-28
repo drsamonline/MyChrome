@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.42"
+Global Const $APPVERSION = "3.9.43"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -3877,6 +3877,39 @@ Func _LOG ( $SMSG )
 	FileClose ( $H )
 	Return 1
 EndFunc
+Func _UNZIPWITHWINDOWS ( $SZIP , $SDEST )
+	; Explorer can unzip a .zip without 7-Zip. Some machines block the bundled 7z.exe
+	; outright - antivirus quarantine is the usual reason - and this path still works.
+	Local $OSHELL = ObjCreate ( "Shell.Application" )
+	If Not IsObj ( $OSHELL ) Then
+		_LOG ( "unzip fallback: Shell.Application is not available" )
+		Return 0
+	EndIf
+	Local $OSRC = $OSHELL.NameSpace ( $SZIP )
+	If Not IsObj ( $OSRC ) Then
+		_LOG ( "unzip fallback: cannot open " & $SZIP )
+		Return 0
+	EndIf
+	Local $ODST = $OSHELL.NameSpace ( $SDEST )
+	If Not IsObj ( $ODST ) Then
+		_LOG ( "unzip fallback: cannot open " & $SDEST )
+		Return 0
+	EndIf
+	; 4 no progress box, 16 yes to all, 512 no directory confirm, 1024 quiet on error
+	$ODST.CopyHere ( $OSRC.Items ( ) , 4 + 16 + 512 + 1024 )
+	; CopyHere is asynchronous: wait for the archive to stop growing.
+	Local $IWAIT = 0
+	While $IWAIT < 120
+		Sleep ( 500 )
+		$IWAIT += 1
+		If $OSRC.Items ( ).Count = 0 Then ExitLoop
+		If FileExists ( $SDEST & "\chrome.exe" ) Then ExitLoop
+		Local $AHIT = _ZIPBROWSERDIR ( $SDEST , "chrome.exe" )
+		If $AHIT <> "" Then ExitLoop
+	WEnd
+	_LOG ( "unzip fallback finished after " & $IWAIT & " half-seconds" )
+	Return 1
+EndFunc
 Func _ZIPBROWSERDIR ( $SDIR , $SEXE )
 	; Returns the single subfolder of $SDIR that holds $SEXE, or "" if there is none.
 	Local $H = FileFindFirstFile ( $SDIR & "\*.*" )
@@ -5019,7 +5052,13 @@ Func INSTALLCHROME ( $CHROMEINSTALLER = "" )
 		DirRemove ( $TEMPDIR , 1 )
 		Return SetError ( 1 , 0 , 0 )
 	EndIf
-	RunWait ( $TEMPDIR & "\7z.exe x """ & $CHROMEINSTALLER & """ -y" , $TEMPDIR , @SW_HIDE )
+	Local $IEXTRACT = RunWait ( $TEMPDIR & "\7z.exe x """ & $CHROMEINSTALLER & """ -y" , $TEMPDIR , @SW_HIDE )
+	If $IEXTRACT <> 0 Then
+		_LOG ( "7z extraction failed with exit code " & $IEXTRACT )
+		If StringRight ( $CHROMEINSTALLER , 4 ) = ".zip" Then _UNZIPWITHWINDOWS ( $CHROMEINSTALLER , $TEMPDIR )
+	Else
+		_LOG ( "7z extraction ok" )
+	EndIf
 	If FileExists ( $TEMPDIR & "\Chrome-bin\" ) Then
 		$CHROMEEXE = "chrome.exe"
 		$CHROMEPATH = RELATIVEPATH ( $CHROMEDIR & "\" & $CHROMEEXE )
