@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.31"
+Global Const $APPVERSION = "3.9.32"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -276,8 +276,15 @@ For $I = 1 To $CMDLINE [ 0 ] - 1
 	EndIf
 Next
 If $SACTIVEPROFILE <> "" Then
-	$USERDATADIR = @ScriptDir & "\App\Profiles\" & $SACTIVEPROFILE
-	If Not FileExists ( $USERDATADIR ) Then DirCreate ( $USERDATADIR )
+	; A profile name becomes a folder name: refuse anything that could climb out of
+	; App\Profiles, or that Windows cannot use as a folder.
+	If StringRegExp ( $SACTIVEPROFILE , "[\\/:*?\"<>|]" ) Or StringInStr ( $SACTIVEPROFILE , ".." ) Then
+		_LOG ( "profile name rejected: " & $SACTIVEPROFILE )
+		$SACTIVEPROFILE = ""
+	Else
+		$USERDATADIR = @ScriptDir & "\App\Profiles\" & $SACTIVEPROFILE
+		If Not FileExists ( $USERDATADIR ) Then DirCreate ( $USERDATADIR )
+	EndIf
 EndIf
 $PLUGINSDIR = IniRead ( $INIFILE , "Settings" , "PluginsDir" , "" )
 $CACHEDIR = IniRead ( $INIFILE , "Settings" , "CacheDir" , "" )
@@ -420,7 +427,7 @@ If StringInStr ( IniRead ( $INIFILE , "Settings" , "BrowserType" , "" ) , "Firef
 		If FileExists ( $CHROMEDIR & "\TabPlus.exe" ) Then FileDelete ( $CHROMEDIR & "\TabPlus.exe" )
 		If FileExists ( $CHROMEDIR & "\TabPlus.ini" ) Then FileDelete ( $CHROMEDIR & "\TabPlus.ini" )
 	EndIf
-	$APPPID_BROWSER = Run ( $CHROMEPATH & " -profile """ & $USERDATADIR & """ " & $PARAMS , $CHROMEDIR )
+	$APPPID_BROWSER = Run ( """" & $CHROMEPATH & """ -profile """ & $USERDATADIR & """ " & $PARAMS , $CHROMEDIR )
 	FileChangeDir ( @ScriptDir )
 	CREATESETTINGSSHORTCUT ( @ScriptDir & "\" & $APPNAME & ".vbs" )
 	If $CHROMEISRUNNING Then

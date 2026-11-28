@@ -1,8 +1,8 @@
 sha256_x64=81a6bde7a104fd409511911ba1815a668a1d54a35ab22119e9c1c0a2a40189b4
 sha256=3ae5fcb49df50d4143705cfd87d8ff499a22770dc87bd87242bb25a4375dd419
-latest=3.9.31
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.31/MyBrowser_v3.9.31.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.31/MyBrowser_v3.9.31_x64.7z
-update=1. 系統代理（含 PAC）套用於查詢與下載；\n2. 記錄實際使用的代理；\n3. 3.9.31
-update_zh-TW=1. 系統代理（含 PAC）套用於查詢與下載；\n2. 記錄實際使用的代理；\n3. 3.9.31
-update_en-US=1. System proxy (including PAC) applies to lookups and downloads;\n2. The proxy actually used is logged;\n3. 3.9.31
+latest=3.9.32
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.32/MyBrowser_v3.9.32.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.32/MyBrowser_v3.9.32_x64.7z
+update=1. 修正 Firefox 路徑含空白時無法啟動；\n2. 設定檔名稱含非法字元會被拒絕；\n3. 3.9.32
+update_zh-TW=1. 修正 Firefox 路徑含空白時無法啟動；\n2. 設定檔名稱含非法字元會被拒絕；\n3. 3.9.32
+update_en-US=1. Firefox launches from a path with spaces;\n2. Unsafe profile names are refused;\n3. 3.9.32

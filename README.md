@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.31_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.31.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.31_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.32_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.32.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.32_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -44,7 +44,7 @@ warn on first run.
 Verify a download before running it — one command, both checks:
 
 ```powershell
-./build/verify-release.ps1 -Path .\MyBrowser_v3.9.31_x64.7z
+./build/verify-release.ps1 -Path .\MyBrowser_v3.9.32_x64.7z
 ```
 
 It compares the file's SHA256 with the published manifest and asks the GitHub CLI to
@@ -101,14 +101,17 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.31
+## What's new in 3.9.32
 
-- **The System proxy now covers PAC scripts, and covers downloads too.** 3.9.30 fixed the
-  lookup; the downloader had the same bug and still connected directly. Both now ask
-  Windows for the proxy it would use — a fixed server *or* a PAC script — and the choice is
-  written to `MyBrowser.log` as `proxy: system -> host:port`.
+- **Firefox starts from a path containing spaces.** The launcher passed the executable
+  unquoted on the Firefox branch, so pointing at `C:\Program Files\Mozilla Firefox\`
+  did nothing. The Chromium branch was already quoted.
+- **Unsafe profile names are refused.** `ActiveProfile` becomes a folder name under
+  `App\Profiles`, so a name containing `\`, `/`, `:`, `..` or any character Windows
+  forbids is rejected and logged instead of being used.
 
-Earlier: **3.9.30** made the System setting apply to lookups. **3.9.29** forced TLS 1.2.
+Earlier: **3.9.31** made the System proxy cover downloads and PAC. **3.9.30** fixed the
+lookup.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases) ·
 [CHANGELOG.md](CHANGELOG.md)
@@ -198,7 +201,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.31_source.7z`.
+`MyBrowser_v3.9.32_source.7z`.
 
 ## Lineage
 

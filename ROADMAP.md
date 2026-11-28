@@ -173,6 +173,7 @@ How to read the columns:
 | 3.9.29 | 2026-11-28 | TLS 1.2 forced; failed lookups logged. |
 | 3.9.30 | 2026-11-28 | System proxy setting honoured. |
 | 3.9.31 | 2026-11-28 | System proxy with PAC, for downloads too. |
+| 3.9.32 | 2026-11-28 | Firefox path quoted; profile names validated. |
 
 
 ### End-to-end launch is tested
