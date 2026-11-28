@@ -5,6 +5,7 @@ Every release, newest first. Full notes and downloads on the
 
 | Version | Highlights |
 |---|---|
+| [3.9.42](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.42) | Releases ship `tools\desktop-check.ps1`. |
 | [3.9.41](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.41) | A failed self-update restores the original program. |
 | [3.9.40](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.40) | Profile import no longer overwrites. |
 | [3.9.39](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.39) | Cromite added — ninth source. |
@@ -47,6 +48,10 @@ Every release, newest first. Full notes and downloads on the
 | [3.9.2](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.2) | Disk-space guard, temp cleanup, apply pre-flight, portable launch flags, HTTPS-only mirrors. |
 | [3.9.1](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.1) | Firefox, Chromium and Brave download sources repaired. |
 | [3.9.0](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.0) | Rebuilt from recovered source; Chrome via Chrome for Testing. |
+
+## 3.9.42
+
+- Both release archives carry `tools\desktop-check.ps1`, so the desktop check runs from the unzipped release.
 
 ## 3.9.41
 

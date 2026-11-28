@@ -183,6 +183,7 @@ How to read the columns:
 | 3.9.39 | 2026-11-28 | Cromite added. |
 | 3.9.40 | 2026-11-28 | Profile import no longer overwrites. |
 | 3.9.41 | 2026-11-28 | Failed self-update restores the backup. |
+| 3.9.42 | 2026-11-28 | Releases ship the desktop check. |
 
 
 ### End-to-end launch is tested

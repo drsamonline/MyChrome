@@ -128,9 +128,14 @@ foreach ($pkg in @(
     if (Test-Path $stage) { Remove-Item $stage -Recurse -Force }
     New-Item -ItemType Directory -Force -Path $stage | Out-Null
     Copy-Item $pkg.Source (Join-Path $stage 'MyBrowser.exe') -Force
+    # Ship the desktop check with the app: it is the only way a user on a real machine
+    # can collect the evidence CI cannot produce, and the source tree is not in the zip.
+    $toolsDir = Join-Path $stage 'tools'
+    New-Item -ItemType Directory -Force -Path $toolsDir | Out-Null
+    Copy-Item (Join-Path $PSScriptRoot 'desktop-check.ps1') (Join-Path $toolsDir 'desktop-check.ps1') -Force
     Remove-Item $pkg.Archive -Force -ErrorAction SilentlyContinue
     Push-Location $stage
-    & $sevenZip a -t7z -mx=9 $pkg.Archive 'MyBrowser.exe' | Out-Null
+    & $sevenZip a -t7z -mx=9 $pkg.Archive 'MyBrowser.exe' 'tools' | Out-Null
     $code = $LASTEXITCODE
     Pop-Location
     if ($code -ne 0) { throw "7z packaging failed for $($pkg.Archive)" }
@@ -139,7 +144,7 @@ foreach ($pkg in @(
     # user has 7-Zip.
     $zip = [IO.Path]::ChangeExtension($pkg.Archive, '.zip')
     Remove-Item $zip -Force -ErrorAction SilentlyContinue
-    Compress-Archive -Path (Join-Path $stage 'MyBrowser.exe') -DestinationPath $zip -CompressionLevel Optimal
+    Compress-Archive -Path (Join-Path $stage 'MyBrowser.exe'), (Join-Path $stage 'tools') -DestinationPath $zip -CompressionLevel Optimal
 }
 
 # ---------------------------------------------------------------- checksums

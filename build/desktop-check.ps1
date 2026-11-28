@@ -2,8 +2,9 @@
 # MyBrowser. It exercises the paths that cannot be tested in CI and writes a report you
 # can attach to an issue.
 #
-#   ./build/desktop-check.ps1                  # everything, one browser after another
-#   ./build/desktop-check.ps1 -SkipVisual      # automated parts only
+#   .\tools\desktop-check.ps1                 # from the unzipped release
+#   .\tools\desktop-check.ps1 -SkipVisual     # automated parts only
+#   .\build\desktop-check.ps1 -App C:\MyBrowser   # from the source tree
 #
 # Nothing here is mocked: it starts the launcher with a real configuration and looks for
 # the browser process it should have started.
