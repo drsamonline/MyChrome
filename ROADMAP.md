@@ -181,6 +181,7 @@ How to read the columns:
 | 3.9.37 | 2026-11-28 | Chrome lookup falls back to InetRead. |
 | 3.9.38 | 2026-11-28 | Supermium added for Windows 7 / 8.1. |
 | 3.9.39 | 2026-11-28 | Cromite added. |
+| 3.9.40 | 2026-11-28 | Profile import no longer overwrites. |
 
 
 ### End-to-end launch is tested

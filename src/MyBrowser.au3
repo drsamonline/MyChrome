@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.39"
+Global Const $APPVERSION = "3.9.40"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -2753,7 +2753,10 @@ Case Else
 						$LANGCOPYINGUSERDATA = LANG ( "GUI" , "CopyingUserData" , "正在复制浏览器用户数据文件..." )
 						_GUICTRLSTATUSBAR_SETTEXT ( $HSTAUSBAR , $LANGCOPYINGUSERDATA )
 						SplashTextOn ( "MyBrowser" , $LANGCOPYINGUSERDATA , 300 , 100 )
-						Local $VAR = DirCopy ( $DEFAULTUSERDATADIR , $USERDATADIR , 1 )
+						; Import only what is missing. Overwriting wholesale would replace the
+						; portable profile - logins, cookies, extensions - with the system one.
+						Local $VAR = DirCopy ( $DEFAULTUSERDATADIR , $USERDATADIR , 0 )
+						_LOG ( "profile import from " & $DEFAULTUSERDATADIR & " (no overwrite): " & $VAR )
 						SplashOff ( )
 						If $VAR Then
 							_GUICTRLSTATUSBAR_SETTEXT ( $HSTAUSBAR , LANG ( "GUI" , "CopyDataSuccess" , "提取配置文件成功！" ) )

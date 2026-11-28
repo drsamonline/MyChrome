@@ -1,8 +1,8 @@
 sha256_x64=c1a88d6cbacb865cda5b4a50b1e10510f234621b9379bec4f8a8410a2b0f8eef
 sha256=4a3bcab0d828259132bb9bcc0cb46e04c86bf8a88899ce734c7ac0a4a96b1493
-latest=3.9.39
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.39/MyBrowser_v3.9.39.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.39/MyBrowser_v3.9.39_x64.7z
-update=1. 新增 Cromite；\n2. 3.9.39
-update_zh-TW=1. 新增 Cromite；\n2. 3.9.39
-update_en-US=1. Cromite added;\n2. 3.9.39
+latest=3.9.40
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.40/MyBrowser_v3.9.40.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.40/MyBrowser_v3.9.40_x64.7z
+update=1. 匯入系統設定檔時不再覆寫既有資料；\n2. 3.9.40
+update_zh-TW=1. 匯入系統設定檔時不再覆寫既有資料；\n2. 3.9.40
+update_en-US=1. Importing a system profile no longer overwrites;\n2. 3.9.40

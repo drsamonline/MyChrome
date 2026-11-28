@@ -5,6 +5,7 @@ Every release, newest first. Full notes and downloads on the
 
 | Version | Highlights |
 |---|---|
+| [3.9.40](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.40) | Profile import no longer overwrites. |
 | [3.9.39](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.39) | Cromite added — ninth source. |
 | [3.9.38](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.38) | Supermium added — the Windows 7 / 8.1 path. |
 | [3.9.37](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.37) | Chrome lookup falls back to InetRead on an empty body. |
@@ -45,6 +46,10 @@ Every release, newest first. Full notes and downloads on the
 | [3.9.2](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.2) | Disk-space guard, temp cleanup, apply pre-flight, portable launch flags, HTTPS-only mirrors. |
 | [3.9.1](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.1) | Firefox, Chromium and Brave download sources repaired. |
 | [3.9.0](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.0) | Rebuilt from recovered source; Chrome via Chrome for Testing. |
+
+## 3.9.40
+
+- Importing the system browser profile copies only missing files instead of overwriting the portable one.
 
 ## 3.9.39
 

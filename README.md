@@ -48,9 +48,9 @@ Full policy, including what a signature does and does not prove:
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.39_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.39.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.39_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.40_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.40.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.40_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -60,7 +60,7 @@ warn on first run.
 Verify a download before running it — one command, both checks:
 
 ```powershell
-./build/verify-release.ps1 -Path .\MyBrowser_v3.9.39_x64.7z
+./build/verify-release.ps1 -Path .\MyBrowser_v3.9.40_x64.7z
 ```
 
 It compares the file's SHA256 with the published manifest and asks the GitHub CLI to
@@ -119,20 +119,13 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.39
+## What's new in 3.9.40
 
-- **Cromite** — the ninth wired source. It publishes one Windows ZIP per release
-  (`chrome-win.zip`), which unpacks to the same shape as Chromium's, so the installer
-  needed no new branch. x64 only; there is no 32-bit Windows build, and the launcher says
-  so in the log rather than failing silently.
+- **Importing a system profile no longer overwrites yours.** "Copy user data" from an
+  existing Chrome replaced the portable profile wholesale — logins, cookies, extensions —
+  with the system one. It now copies only what is missing, and logs what it did.
 
-  ```
-  PASS  Cromite  <version>  https://github.com/uazo/cromite/releases/download/…/chrome-win.zip
-  PASS  Cromite ZIP unpacks with chrome-win\chrome.exe
-  ```
-
-Earlier: **3.9.38** added Supermium for Windows 7/8.1. **3.9.37** gave the Chrome lookup a
-second path.
+Earlier: **3.9.39** added Cromite. **3.9.38** added Supermium for Windows 7/8.1.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases) ·
 [CHANGELOG.md](CHANGELOG.md)
@@ -222,7 +215,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.39_source.7z`.
+`MyBrowser_v3.9.40_source.7z`.
 
 ## Lineage
 
