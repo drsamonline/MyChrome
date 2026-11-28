@@ -5,6 +5,7 @@ Every release, newest first. Full notes and downloads on the
 
 | Version | Highlights |
 |---|---|
+| [3.9.50](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.50) | CI runs a real install and asserts Chrome lands. |
 | [3.9.49](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.49) | Brave ZIP installs fixed; both passes checked for every flag. |
 | [3.9.48](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.48) | `/update` installs into an empty folder. |
 | [3.9.47](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.47) | Brave ZIP installs fixed; CI runs a full install. |
@@ -54,6 +55,10 @@ Every release, newest first. Full notes and downloads on the
 | [3.9.2](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.2) | Disk-space guard, temp cleanup, apply pre-flight, portable launch flags, HTTPS-only mirrors. |
 | [3.9.1](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.1) | Firefox, Chromium and Brave download sources repaired. |
 | [3.9.0](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.0) | Rebuilt from recovered source; Chrome via Chrome for Testing. |
+
+## 3.9.50
+
+- A smoke check seeds an installed browser, runs `/update`, and fails unless a real Chrome replaces it.
 
 ## 3.9.49
 

@@ -562,6 +562,49 @@ Check 'Every browser flag is handled by both detection passes' {
         "$($flags.Count) flags covered"
     }
 
+Check 'A real /update replaces an installed browser end to end' {
+        # The check that was missing. Every earlier test looked at the lookup or the
+        # archive, never at the install - which is how a Chrome ZIP install reported
+        # "not compatible" for months.
+        #
+        # /update needs a browser to already exist, so a stand-in is placed first; the
+        # install then has to replace it with a real Chrome.
+        $work = Join-Path $env:TEMP ('install-' + [guid]::NewGuid().ToString('N'))
+        New-Item -ItemType Directory -Force -Path (Join-Path $work 'App') | Out-Null
+        try {
+            Copy-Item (Join-Path $dist 'MyBrowser.exe') $work -Force
+            Copy-Item (Join-Path $dist 'MyBrowser.exe') (Join-Path $work 'App\chrome.exe') -Force
+            $au3 = Join-Path $root 'src\MyBrowser.au3'
+            $ver = ([regex]::Match((Get-Content $au3 -Raw), 'APPVERSION = "([\d.]+)"')).Groups[1].Value
+            $lines = @(
+                '[Settings]'
+                "AppVersion=$ver"
+                'Platform=win'
+                'BrowserType=Chrome'
+                'Channel=Stable'
+                'ChromeSource=Official'
+                'x86=0'
+                'ProxyType=DIRECT'
+                'UpdateInterval=-1'
+                'AppUpdate=0'
+                'ChromePath=.\App\chrome.exe'
+                'UserDataDir=.\Profile'
+            )
+            Set-Content (Join-Path $work 'MyBrowser.ini') ($lines -join "`r`n") -Encoding ASCII
+            $p = Start-Process (Join-Path $work 'MyBrowser.exe') -ArgumentList '/update' -WorkingDirectory $work -PassThru
+            if (-not $p.WaitForExit(600000)) { Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue; throw '/update did not finish in ten minutes' }
+            $log = Join-Path $work 'MyBrowser.log'
+            $text = if (Test-Path $log) { Get-Content $log -Raw } else { '' }
+            $short = ($text -replace "`r?`n", ' | ')
+            if ($text -match 'not compatible') { throw "the install reported 'not compatible': $short" }
+            $installed = Get-ChildItem (Join-Path $work 'App') -Recurse -Filter 'chrome.exe' -ErrorAction SilentlyContinue | Select-Object -First 1
+            if (-not $installed) { throw "no chrome.exe under App after /update: $short" }
+            $fileVer = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($installed.FullName).FileVersion
+            if ($fileVer -eq $ver) { throw "/update left the stand-in in place, nothing was installed: $short" }
+            "installed $fileVer at $($installed.FullName -replace [regex]::Escape($work), '')"
+        } finally { Remove-Item $work -Recurse -Force -ErrorAction SilentlyContinue }
+    }
+
 Check 'Launcher starts a real browser from App\' {
         # The end-to-end path: a configured ini, a real browser on disk, and the launcher
         # expected to start it. Nothing here is mocked.

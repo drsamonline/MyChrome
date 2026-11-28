@@ -1,8 +1,8 @@
 sha256_x64=a1446506e2c644b5203b42d8cf1c6d3ccd577ce736d01b3c89dc5380abc95c95
 sha256=e065405d2bf9fe12c67848feb29be20534bb2dddc063c177e056a03cffc7018c
-latest=3.9.49
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.49/MyBrowser_v3.9.49.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.49/MyBrowser_v3.9.49_x64.7z
-update=1. Brave ZIP 安裝修正；\n2. 新增兩段偵測一致性檢查；\n3. 3.9.49
-update_zh-TW=1. Brave ZIP 安裝修正；\n2. 新增兩段偵測一致性檢查；\n3. 3.9.49
-update_en-US=1. Brave ZIP install fixed;\n2. A check that both detection passes cover every flag;\n3. 3.9.49
+latest=3.9.50
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.50/MyBrowser_v3.9.50.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.50/MyBrowser_v3.9.50_x64.7z
+update=1. 新增完整安裝測試；\n2. 3.9.50
+update_zh-TW=1. 新增完整安裝測試；\n2. 3.9.50
+update_en-US=1. A real install is now tested end to end;\n2. 3.9.50
