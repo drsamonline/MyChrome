@@ -1,5 +1,5 @@
-sha256_x64=c1a88d6cbacb865cda5b4a50b1e10510f234621b9379bec4f8a8410a2b0f8eef
-sha256=4a3bcab0d828259132bb9bcc0cb46e04c86bf8a88899ce734c7ac0a4a96b1493
+sha256_x64=af25bafc340795a150a470fb14f6591aa19df973cf99c6df6a26734c2211fe83
+sha256=0774723752f8e87e64f230464f38c6659249fd17a777f2036d611014570e6ee6
 latest=3.9.40
 url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.40/MyBrowser_v3.9.40.7z
 url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.40/MyBrowser_v3.9.40_x64.7z
