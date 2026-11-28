@@ -1,8 +1,8 @@
 sha256_x64=bde9dbb759d84804395dc6307ca4dcf3c21141eb1dca57a4542a71f270ba968e
 sha256=3226ac6a3c4075d246b74acf90dceb8ae49684feb38b5ea4bc55486c6cc1d65e
-latest=3.9.36
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.36/MyBrowser_v3.9.36.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.36/MyBrowser_v3.9.36_x64.7z
-update=1. 查詢失敗時顯示 Win32 錯誤碼與原因；\n2. 3.9.36
-update_zh-TW=1. 查詢失敗時顯示 Win32 錯誤碼與原因；\n2. 3.9.36
-update_en-US=1. A failed lookup now reports the Win32 code and cause;\n2. 3.9.36
+latest=3.9.37
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.37/MyBrowser_v3.9.37.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.37/MyBrowser_v3.9.37_x64.7z
+update=1. Chrome 版本查詢在 WinHTTP 空回應時改用 InetRead；\n2. 3.9.37
+update_zh-TW=1. Chrome 版本查詢在 WinHTTP 空回應時改用 InetRead；\n2. 3.9.37
+update_en-US=1. The Chrome lookup falls back to InetRead on an empty WinHTTP body;\n2. 3.9.37

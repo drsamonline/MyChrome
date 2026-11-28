@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.36_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.36.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.36_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.37_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.37.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.37_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -44,7 +44,7 @@ warn on first run.
 Verify a download before running it — one command, both checks:
 
 ```powershell
-./build/verify-release.ps1 -Path .\MyBrowser_v3.9.36_x64.7z
+./build/verify-release.ps1 -Path .\MyBrowser_v3.9.37_x64.7z
 ```
 
 It compares the file's SHA256 with the published manifest and asks the GitHub CLI to
@@ -101,26 +101,22 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.36
+## What's new in 3.9.37
 
-- **A failed lookup says why.** The dialog said *"Remote server no response"* whatever went
-  wrong. It now appends the stage and the Win32 code, and writes the same to
-  `MyBrowser.log`:
+- **The Chrome lookup falls back to WinINet.** On some machines the inlined WinHTTP reader
+  returns an empty body — a chunked response it cannot read — and the app reported *"Remote
+  server no response"* with no Win32 error, because nothing had failed at the network layer.
+  The same fallback that fixed the Firefox lookup is now applied to the Chrome for Testing
+  feed: if WinHTTP returns nothing, the JSON is fetched with `InetRead`.
+
+  The log says which path worked:
 
   ```
-  Get Browser update info failed! Remote server no response
-  (cft request for /chrome-for-testing/…json: win32 12029 (cannot connect))
+  cft: winhttp returned nothing (win32 0), retrying with InetRead
+  cft: InetRead returned 41207 bytes
   ```
 
-  | Code | Meaning |
-  |---|---|
-  | 12007 | name not resolved — DNS |
-  | 12029 | cannot connect — proxy, firewall, or the host is down |
-  | 12002 | timed out |
-  | 12175 | TLS/SSL handshake failed |
-  | 12169 / 12170 | certificate invalid |
-
-Earlier: **3.9.35** added `/rollback`. **3.9.34** tied partial downloads to a version.
+Earlier: **3.9.36** made failures explain themselves. **3.9.35** added `/rollback`.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases) ·
 [CHANGELOG.md](CHANGELOG.md)
@@ -210,7 +206,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.36_source.7z`.
+`MyBrowser_v3.9.37_source.7z`.
 
 ## Lineage
 

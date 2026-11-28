@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.36"
+Global Const $APPVERSION = "3.9.37"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -3800,9 +3800,10 @@ Func _SHA256FILE ( $SFILE )
 	If Not @error Then Return StringLower ( StringReplace ( $AM2 [ 0 ] , " " , "" ) )
 	Return ""
 EndFunc
-Func _LOOKUPFAIL ( $SSTAGE )
+Func _LOOKUPFAIL ( $SSTAGE , $IERR = - 1 )
 	; The dialog says "no response"; this says which stage failed and why.
-	Local $IERR = _WINAPI_GETLASTERROR ( )
+	; The code must be captured at the failing call: anything else clears it.
+	If $IERR = - 1 Then $IERR = _WINAPI_GETLASTERROR ( )
 	Local $SWHY = "unknown"
 	Switch $IERR
 	Case 12007
@@ -4005,10 +4006,19 @@ Func _CFT_GETLATEST ( $HHTTPOPEN , $CHANNEL , $NEED_X86 )
 	EndIf
 	Local $SBODY = _WINHTTPSIMPLESSLREQUEST ( $HCONNECT , "GET" , $SPATH , Default , Default , "User-Agent: MyBrowser" )
 	Local $IERR = @error
+	Local $IWINERR = _WINAPI_GETLASTERROR ( )
 	_WINHTTPCLOSEHANDLE ( $HCONNECT )
 	If $IERR Or $SBODY = "" Then
-		_LOOKUPFAIL ( "feed request" )
-		Return ""
+		; The inlined WinHTTP reader returns an empty body for some responses, chunked
+		; transfer-encoding in particular. WinINet is a different stack and copes - the
+		; same fallback that fixed the Firefox lookup.
+		_LOG ( "cft: winhttp returned nothing (win32 " & $IWINERR & "), retrying with InetRead" )
+		$SBODY = BinaryToString ( InetRead ( "https://" & $SHOST & $SPATH , 1 ) , 4 )
+		If $SBODY = "" Then
+			_LOOKUPFAIL ( "cft request for " & $SPATH , $IWINERR )
+			Return ""
+		EndIf
+		_LOG ( "cft: InetRead returned " & StringLen ( $SBODY ) & " bytes" )
 	EndIf
 	Local $IPOS = StringInStr ( $SBODY , '"' & $SCH & '"' )
 	If Not $IPOS Then Return ""
