@@ -177,6 +177,7 @@ How to read the columns:
 | 3.9.33 | 2026-11-28 | Swap refuses drive roots; closes its own browser first. |
 | 3.9.34 | 2026-11-28 | Partial downloads are tied to a version. |
 | 3.9.35 | 2026-11-28 | Previous build kept; `/rollback` restores it. |
+| 3.9.36 | 2026-11-28 | Failed lookups report the Win32 code. |
 
 
 ### End-to-end launch is tested

@@ -1,8 +1,8 @@
 sha256_x64=36544f294878f95dd612e22485c0acfdc8068a71ae7231a5bf8753992b6e5202
 sha256=f23f65a8e055d68f15eef3547bedc9fa7327350eb14539a31716dab39fa983c7
-latest=3.9.35
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.35/MyBrowser_v3.9.35.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.35/MyBrowser_v3.9.35_x64.7z
-update=1. 保留上一版可用 /rollback 回復；\n2. 下載連線數限制在 1–4；\n3. 3.9.35
-update_zh-TW=1. 保留上一版可用 /rollback 回復；\n2. 下載連線數限制在 1–4；\n3. 3.9.35
-update_en-US=1. The previous build is kept for /rollback;\n2. Download connections are clamped to 1-4;\n3. 3.9.35
+latest=3.9.36
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.36/MyBrowser_v3.9.36.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.36/MyBrowser_v3.9.36_x64.7z
+update=1. 查詢失敗時顯示 Win32 錯誤碼與原因；\n2. 3.9.36
+update_zh-TW=1. 查詢失敗時顯示 Win32 錯誤碼與原因；\n2. 3.9.36
+update_en-US=1. A failed lookup now reports the Win32 code and cause;\n2. 3.9.36

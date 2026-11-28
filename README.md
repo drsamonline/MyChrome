@@ -32,9 +32,9 @@ delete the folder to uninstall.
 
 | Build | File in the release | Notes |
 | --- | --- | --- |
-| **x64** (recommended) | `MyBrowser_v3.9.35_x64.7z` | Windows 10 / 11, 64-bit |
-| x86 | `MyBrowser_v3.9.35.7z` | 32-bit systems |
-| Source | `MyBrowser_v3.9.35_source.7z` | source, resources, build scripts |
+| **x64** (recommended) | `MyBrowser_v3.9.36_x64.7z` | Windows 10 / 11, 64-bit |
+| x86 | `MyBrowser_v3.9.36.7z` | 32-bit systems |
+| Source | `MyBrowser_v3.9.36_source.7z` | source, resources, build scripts |
 | Checksums | `SHA256SUMS.txt` | verify with `certutil -hashfile <file> SHA256` |
 
 File names carry the version, so the release page is the stable link. Unzip, run
@@ -44,7 +44,7 @@ warn on first run.
 Verify a download before running it — one command, both checks:
 
 ```powershell
-./build/verify-release.ps1 -Path .\MyBrowser_v3.9.35_x64.7z
+./build/verify-release.ps1 -Path .\MyBrowser_v3.9.36_x64.7z
 ```
 
 It compares the file's SHA256 with the published manifest and asks the GitHub CLI to
@@ -101,24 +101,26 @@ archives are already confirmed.
 - ~1.5 GB free disk space per browser while updating
 - No runtime, no .NET, no Visual C++ redistributable — the executable is self-contained
 
-## What's new in 3.9.35
+## What's new in 3.9.36
 
-- **The previous build is kept, and `/rollback` puts it back.**
+- **A failed lookup says why.** The dialog said *"Remote server no response"* whatever went
+  wrong. It now appends the stage and the Win32 code, and writes the same to
+  `MyBrowser.log`:
 
-  ```powershell
-  MyBrowser.exe /rollback
+  ```
+  Get Browser update info failed! Remote server no response
+  (cft request for /chrome-for-testing/…json: win32 12029 (cannot connect))
   ```
 
-  The swap already renamed the old folder out of the way; it is now kept as
-  `<browser>.previous` instead of deleted, so undoing a bad update costs a second rather
-  than a 170 MB download. Exit codes: `0` restored, `4` nothing to roll back, `5`/`6` the
-  move failed and the current build is still in place.
+  | Code | Meaning |
+  |---|---|
+  | 12007 | name not resolved — DNS |
+  | 12029 | cannot connect — proxy, firewall, or the host is down |
+  | 12002 | timed out |
+  | 12175 | TLS/SSL handshake failed |
+  | 12169 / 12170 | certificate invalid |
 
-- **Download connections are clamped to 1–4.** `DownloadThreads` came straight from the
-  ini, so an empty or hand-edited value went to the segmenter as-is.
-
-Earlier: **3.9.34** tied partial downloads to a version. **3.9.33** stopped the swap
-reaching a drive root.
+Earlier: **3.9.35** added `/rollback`. **3.9.34** tied partial downloads to a version.
 
 Full history: [releases](https://github.com/drsamonline/MyChrome/releases) ·
 [CHANGELOG.md](CHANGELOG.md)
@@ -208,7 +210,7 @@ A donation buys no feature and no priority support — see [TERMS.md](TERMS.md).
 
 GPL-3.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). The complete corresponding
 source for every release is in this repository and attached to each release as
-`MyBrowser_v3.9.35_source.7z`.
+`MyBrowser_v3.9.36_source.7z`.
 
 ## Lineage
 

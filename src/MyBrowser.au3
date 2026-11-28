@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.35"
+Global Const $APPVERSION = "3.9.36"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 Global $LANGUAGE = IniRead ( $INIFILE , "Settings" , "Language" , "Auto" )
@@ -139,7 +139,7 @@ Opt ( "GUIOnEventMode" , 1 )
 Opt ( "WinTitleMatchMode" , 4 )
 Global $FIRSTRUN = 0 , $CHROMEPATH , $CHROMEDIR , $CHROMEEXE , $USERDATADIR , $PARAMS
 Global $CACHEDIR , $CACHESIZE , $PORTABLEPARAM
-Global $CHROMESOURCE , $GET_LATEST_CHROME_VER = "get_latest_chrome_ver"
+Global $CHROMESOURCE , $GET_LATEST_CHROME_VER = "get_latest_chrome_ver" , $SLOOKUPERR = ""
 Global $LASTCHECKUPDATE , $UPDATEINTERVAL , $CHANNEL , $ISUPDATING = 0 , $X86 = 0
 Global $APPUPDATE , $APPUPDATELASTCHECK , $CLIMODE = 0
 Global $RUNINBACKGROUND , $EXAPP , $EXAPPAUTOEXIT , $EXAPP2 , $APPPID_BROWSER , $EXAPPPID
@@ -3800,6 +3800,29 @@ Func _SHA256FILE ( $SFILE )
 	If Not @error Then Return StringLower ( StringReplace ( $AM2 [ 0 ] , " " , "" ) )
 	Return ""
 EndFunc
+Func _LOOKUPFAIL ( $SSTAGE )
+	; The dialog says "no response"; this says which stage failed and why.
+	Local $IERR = _WINAPI_GETLASTERROR ( )
+	Local $SWHY = "unknown"
+	Switch $IERR
+	Case 12007
+		$SWHY = "name not resolved"
+	Case 12029
+		$SWHY = "cannot connect"
+	Case 12002
+		$SWHY = "timed out"
+	Case 12175
+		$SWHY = "TLS/SSL handshake failed"
+	Case 12037
+		$SWHY = "certificate date invalid"
+	Case 12169 , 12170
+		$SWHY = "certificate invalid"
+	Case 12057
+		$SWHY = "certificate revoked"
+	EndSwitch
+	$SLOOKUPERR = $SSTAGE & ": win32 " & $IERR & " (" & $SWHY & ")"
+	_LOG ( "lookup failed at " & $SLOOKUPERR )
+EndFunc
 Func _PROMPT ( $IFLAGS , $SMSG , $ICLIANSWER )
 	; F1: with /update there is nobody to click, so the documented default applies.
 	If $CLIMODE Then
@@ -3906,7 +3929,10 @@ Func _BRAVE_GITHUB_LATEST ( $HHTTPOPEN , $NEED_X86 )
 	Local $SBODY = _WINHTTPSIMPLESSLREQUEST ( $HCONNECT , "GET" , "/repos/brave/brave-browser/releases/latest" , Default , Default , "User-Agent: MyBrowser" )
 	Local $IERR = @error
 	_WINHTTPCLOSEHANDLE ( $HCONNECT )
-	If $IERR Or $SBODY = "" Then Return ""
+	If $IERR Or $SBODY = "" Then
+		_LOOKUPFAIL ( "feed request" )
+		Return ""
+	EndIf
 	Local $AM = StringRegExp ( $SBODY , '"name"\s*:\s*"(brave-v([\d.]+)-win32-' & $SPLAT & '\.zip)"' , 1 )
 	If @error Then Return ""
 	Local $SRESULT = $AM [ 1 ] & "|https://github.com/brave/brave-browser/releases/download/v" & $AM [ 1 ] & "/" & $AM [ 0 ]
@@ -3948,7 +3974,10 @@ Func _VIVALDI_LATEST ( $HHTTPOPEN , $NEED_X86 )
 	Local $SBODY = _WINHTTPSIMPLESSLREQUEST ( $HCONNECT , "GET" , $SPATH , Default , Default , "User-Agent: MyBrowser" )
 	Local $IERR = @error
 	_WINHTTPCLOSEHANDLE ( $HCONNECT )
-	If $IERR Or $SBODY = "" Then Return ""
+	If $IERR Or $SBODY = "" Then
+		_LOOKUPFAIL ( "feed request" )
+		Return ""
+	EndIf
 	Local $AURL = StringRegExp ( $SBODY , 'url="([^"]+\.exe)"' , 1 )
 	If @error Then Return ""
 	Local $SVER = ""
@@ -3970,11 +3999,17 @@ Func _CFT_GETLATEST ( $HHTTPOPEN , $CHANNEL , $NEED_X86 )
 	Local $SHOST = "googlechromelabs.github.io"
 	Local $SPATH = "/chrome-for-testing/last-known-good-versions-with-downloads.json"
 	Local $HCONNECT = _WINHTTPCONNECT ( $HHTTPOPEN , $SHOST )
-	If @error Then Return ""
+	If @error Then
+		_LOOKUPFAIL ( "cft connect to " & $SHOST )
+		Return ""
+	EndIf
 	Local $SBODY = _WINHTTPSIMPLESSLREQUEST ( $HCONNECT , "GET" , $SPATH , Default , Default , "User-Agent: MyBrowser" )
 	Local $IERR = @error
 	_WINHTTPCLOSEHANDLE ( $HCONNECT )
-	If $IERR Or $SBODY = "" Then Return ""
+	If $IERR Or $SBODY = "" Then
+		_LOOKUPFAIL ( "feed request" )
+		Return ""
+	EndIf
 	Local $IPOS = StringInStr ( $SBODY , '"' & $SCH & '"' )
 	If Not $IPOS Then Return ""
 	Local $SSUB = StringMid ( $SBODY , $IPOS , 8000 )
@@ -4111,6 +4146,7 @@ Func GET_LATEST_CHROME_VER ( $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 = 0 , $I
 		If $LATESTVER Then
 			_SETVAR ( "DLInfo" , $LATESTVER & "|" & $LATESTURLS & "|1|1||" & StringFormat ( $LANGUPDATEGOT , "Chromium" ) )
 		Else
+			If $SLOOKUPERR <> "" Then $ERROR = $ERROR & " (" & $SLOOKUPERR & ")"
 			_SETVAR ( "DLInfo" , "||1||1|" & $ERROR )
 		EndIf
 		Return
@@ -4222,6 +4258,7 @@ Func GET_LATEST_CHROME_VER ( $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 = 0 , $I
 		If $LATESTVER Then
 			_SETVAR ( "DLInfo" , $LATESTVER & "|" & $LATESTURLS & "|1|1||" & StringFormat ( $LANGUPDATEGOT , "Edge" ) )
 		Else
+			If $SLOOKUPERR <> "" Then $ERROR = $ERROR & " (" & $SLOOKUPERR & ")"
 			_SETVAR ( "DLInfo" , "||1||1|" & $ERROR )
 		EndIf
 		Return
@@ -4339,6 +4376,7 @@ Func GET_LATEST_CHROME_VER ( $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 = 0 , $I
 		If $LATESTVER Then
 			_SETVAR ( "DLInfo" , $LATESTVER & "|" & $LATESTURLS & "|1|1||" & StringFormat ( $LANGUPDATEGOT , "Chrome" ) )
 		Else
+			If $SLOOKUPERR <> "" Then $ERROR = $ERROR & " (" & $SLOOKUPERR & ")"
 			_SETVAR ( "DLInfo" , "||1||1|" & $ERROR )
 		EndIf
 	EndIf
@@ -4419,6 +4457,7 @@ Func GET_LATEST_CHROME_VER ( $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 = 0 , $I
 		If $LATESTVER Then
 			_SETVAR ( "DLInfo" , $LATESTVER & "|" & $LATESTURLS & "|1|1||" & StringFormat ( $LANGUPDATEGOT , "Brave" ) )
 		Else
+			If $SLOOKUPERR <> "" Then $ERROR = $ERROR & " (" & $SLOOKUPERR & ")"
 			_SETVAR ( "DLInfo" , "||1||1|" & $ERROR )
 		EndIf
 	EndIf
@@ -4436,6 +4475,7 @@ Func GET_LATEST_CHROME_VER ( $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 = 0 , $I
 		If $LATESTURLS Then
 			_SETVAR ( "DLInfo" , $LATESTVER & "|" & $LATESTURLS & "|1|1||" & StringFormat ( $LANGUPDATEGOT , "Cent" ) )
 		Else
+			If $SLOOKUPERR <> "" Then $ERROR = $ERROR & " (" & $SLOOKUPERR & ")"
 			_SETVAR ( "DLInfo" , "||1||1|" & $ERROR )
 		EndIf
 		Return
@@ -4456,6 +4496,7 @@ Func GET_LATEST_CHROME_VER ( $PLATFORM , $BROWSERTYPE , $CHANNEL , $X86 = 0 , $I
 		If $LATESTURLS Then
 			_SETVAR ( "DLInfo" , $LATESTVER & "|" & $LATESTURLS & "|1|1||" & StringFormat ( $LANGUPDATEGOT , "Vivaldi" ) )
 		Else
+			If $SLOOKUPERR <> "" Then $ERROR = $ERROR & " (" & $SLOOKUPERR & ")"
 			_SETVAR ( "DLInfo" , "||1||1|" & $ERROR )
 		EndIf
 		Return

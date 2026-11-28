@@ -5,6 +5,7 @@ Every release, newest first. Full notes and downloads on the
 
 | Version | Highlights |
 |---|---|
+| [3.9.36](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.36) | A failed lookup reports the Win32 code and stage. |
 | [3.9.35](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.35) | Previous build kept; `/rollback` restores it. |
 | [3.9.34](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.34) | A partial download from another version is discarded. |
 | [3.9.33](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.33) | Swap refuses drive roots; closes its own browser first. |
@@ -41,6 +42,10 @@ Every release, newest first. Full notes and downloads on the
 | [3.9.2](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.2) | Disk-space guard, temp cleanup, apply pre-flight, portable launch flags, HTTPS-only mirrors. |
 | [3.9.1](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.1) | Firefox, Chromium and Brave download sources repaired. |
 | [3.9.0](https://github.com/drsamonline/MyChrome/releases/tag/v3.9.0) | Rebuilt from recovered source; Chrome via Chrome for Testing. |
+
+## 3.9.36
+
+- Every feed failure records the stage and the Win32 error code, in the dialog and in the log.
 
 ## 3.9.35
 
