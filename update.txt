@@ -1,8 +1,8 @@
 sha256_x64=be9bfea163ff3dee4eb162be23d83c099a98aea6ff108df09e0452f3eb14dbd1
 sha256=79f3aac9347fd863b0e44b1db65dd666681e958e0a407cdcfbe73035c177b2c3
-latest=3.9.55
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.55/MyBrowser_v3.9.55.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.55/MyBrowser_v3.9.55_x64.7z
-update=1. 大幅提升下載速度（每次讀取 64KB）；\n2. 3.9.55
-update_zh-TW=1. 大幅提升下載速度（每次讀取 64KB）；\n2. 3.9.55
-update_en-US=1. Much faster downloads (64 KB reads);\n2. 3.9.55
+latest=3.9.56
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.56/MyBrowser_v3.9.56.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.56/MyBrowser_v3.9.56_x64.7z
+update=1. 記錄實際下載速度；\n2. 3.9.56
+update_zh-TW=1. 記錄實際下載速度；\n2. 3.9.56
+update_en-US=1. The download speed is logged;\n2. 3.9.56

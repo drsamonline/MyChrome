@@ -2,7 +2,7 @@
 #include "include\udf.au3"
 
 Global $WINVERSION = _WINAPI_GETVERSION ( )
-Global Const $APPVERSION = "3.9.55"
+Global Const $APPVERSION = "3.9.56"
 Global $APPNAME = StringRegExpReplace ( @ScriptName , "\.[^.]*$" , "" )
 Global $INIFILE = @ScriptDir & "\" & $APPNAME & ".ini"
 ; The interface is English only. The Language key is still written so an older ini
@@ -4977,6 +4977,11 @@ Func __DOWNLOADCHROME ( $URL , $LOCALFILE , $HDLFILE , $DOWNLOADTHREADS , $HHTTP
 			_SETVAR ( "DLInfo" , StringFormat ( "%d|%d||||%s ...  %s" , $SIZE , $REMOTESIZE , $LANGDOWNLOADINGCHROME , $PROGRESS ) )
 		EndIf
 	Until Not $LIVETHREADS
+	; Say what actually happened: a throughput figure turns "it felt slow" into a number
+	; and shows whether the segments overlapped.
+	Local $IELAPSED = Int ( TimerDiff ( $TIMEINIT ) / 1000 )
+	If $IELAPSED < 1 Then $IELAPSED = 1
+	_LOG ( "download: " & FileGetSize ( $LOCALFILE ) & " bytes in " & $IELAPSED & "s (" & Int ( FileGetSize ( $LOCALFILE ) / 1024 / $IELAPSED ) & " KB/s, " & $THREADS & " segments)" )
 	FileClose ( $HDLFILE )
 	FileSetAttrib ( $LOCALFILE , "+A" )
 	If $REMOTESIZE And $REMOTESIZE <> FileGetSize ( $LOCALFILE ) Then

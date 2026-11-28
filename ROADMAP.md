@@ -196,6 +196,7 @@ How to read the columns:
 | 3.9.53 | 2026-11-28 | Install check moved to the deep suite. |
 | 3.9.54 | 2026-11-28 | ZIP installs fixed; install check withdrawn. |
 | 3.9.55 | 2026-11-28 | Download reads 64 KB per call. |
+| 3.9.56 | 2026-11-28 | Download throughput is logged. |
 
 
 ### End-to-end launch is tested
