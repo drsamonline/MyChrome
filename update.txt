@@ -1,8 +1,8 @@
 sha256_x64=4e93a64cf5fe5ff56d803870ecbb11099d3bc6899a2e47368698b3a567f95825
 sha256=79dcda4da96c37b7fb37043bb2426ef136e1dbfeb4b1308147a0e3945de37c8b
-latest=3.9.38
-url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.38/MyBrowser_v3.9.38.7z
-url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.38/MyBrowser_v3.9.38_x64.7z
-update=1. 新增 Supermium（支援 Windows 7 / 8.1）；\n2. 3.9.38
-update_zh-TW=1. 新增 Supermium（支援 Windows 7 / 8.1）；\n2. 3.9.38
-update_en-US=1. Supermium added, for Windows 7 and 8.1;\n2. 3.9.38
+latest=3.9.39
+url=https://github.com/drsamonline/MyChrome/releases/download/v3.9.39/MyBrowser_v3.9.39.7z
+url_x64=https://github.com/drsamonline/MyChrome/releases/download/v3.9.39/MyBrowser_v3.9.39_x64.7z
+update=1. 新增 Cromite；\n2. 3.9.39
+update_zh-TW=1. 新增 Cromite；\n2. 3.9.39
+update_en-US=1. Cromite added;\n2. 3.9.39
