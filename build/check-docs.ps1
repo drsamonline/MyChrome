@@ -86,7 +86,11 @@ foreach ($doc in @('README.md','SUPPORT.md','SECURITY.md','PRIVACY.md','TERMS.md
         if ($link -match '^(https?:|mailto:)' -or $link.StartsWith('#')) { continue }
         $path = ($link -split '#')[0]
         if (-not $path) { continue }
-        if (-not (Test-Path (Join-Path $root $path))) { $broken += "$doc -> $link" }
+        # Resolve relative to the document, not the repository root: docs/CODE-SIGNING.md
+        # links to ../LICENSE, which is a different file from ./LICENSE.
+        $base = Join-Path $root (Split-Path $doc -Parent)
+        $resolved = [IO.Path]::GetFullPath((Join-Path $base $path))
+        if (-not (Test-Path $resolved)) { $broken += "$doc -> $link" }
     }
 }
 if ($broken.Count -gt 0) { Bad "broken relative links: $($broken -join '; ')" }
