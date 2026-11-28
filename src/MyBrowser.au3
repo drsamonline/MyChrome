@@ -278,7 +278,7 @@ Next
 If $SACTIVEPROFILE <> "" Then
 	; A profile name becomes a folder name: refuse anything that could climb out of
 	; App\Profiles, or that Windows cannot use as a folder.
-	If StringRegExp ( $SACTIVEPROFILE , "[\\/:*?\"<>|]" ) Or StringInStr ( $SACTIVEPROFILE , ".." ) Then
+	If StringRegExp ( $SACTIVEPROFILE , '[\\/:*?"<>|]' ) Or StringInStr ( $SACTIVEPROFILE , ".." ) Then
 		_LOG ( "profile name rejected: " & $SACTIVEPROFILE )
 		$SACTIVEPROFILE = ""
 	Else
