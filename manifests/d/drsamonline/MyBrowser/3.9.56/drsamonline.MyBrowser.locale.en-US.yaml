@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.6.0.schema.json
 PackageIdentifier: drsamonline.MyBrowser
-PackageVersion: 3.9.55
+PackageVersion: 3.9.56
 PackageLocale: en-US
 Publisher: Dr Sohil Momin
 PublisherUrl: https://github.com/drsamonline
